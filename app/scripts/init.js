@@ -1,6 +1,8 @@
 /* JavaScript code */
 navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia || navigator.msGetUserMedia;
 
+var videoStream;
+
 //function startCam(){
 //console.log('start cam');
 MediaStreamTrack.getSources(function(sourceInfos) {
@@ -37,6 +39,7 @@ function sourceSelected(videoSource) {
   //console.log("Selected video=", videoSource)
 
   var successCallback = function(stream) {
+    videoStream = stream;
     console.log('succes!!!!');
     var video = document.getElementById("camsource");
     console.log(video);
@@ -44,19 +47,25 @@ function sourceSelected(videoSource) {
   };
 
   var errorCallback = function(e) {
-    console.log('Error connecting to camera ',e);
+    console.log('Error connecting to camera ', e);
   };
 
   navigator.getUserMedia(constraints, successCallback, errorCallback);
 }
 
 
+function stopVideo() {
+  if (videoStream) {
+    videoStream.stop();
+  }
+}
+
 window.setTimeout(function() {
-    if (!navigator.getUserMedia) return;
-    
-    var cam_video_id = "camsource";
-    console.log('camsource',cam_video_id);
-    cam = camera(cam_video_id);
-    cam.start();
-    //startCam();
+  if (!navigator.getUserMedia) return;
+
+  var cam_video_id = "camsource";
+  console.log('camsource', cam_video_id);
+  cam = camera(cam_video_id);
+  cam.start();
+  //startCam();
 }, 2000);

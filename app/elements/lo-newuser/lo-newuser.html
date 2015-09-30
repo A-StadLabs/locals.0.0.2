@@ -1,0 +1,183 @@
+<!--
+@license
+Copyright (c) 2015 The Polymer Project Authors. All rights reserved.
+This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
+The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
+The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
+Code distributed by Google as part of the polymer project is also
+subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
+-->
+
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/neon-animation/neon-animated-pages.html">
+
+<link rel="import" href="../../bower_components/neon-animation/neon-animation.html">
+<link rel="import" href="../../bower_components/neon-animation/animations/slide-from-right-animation.html">
+<link rel="import" href="../../bower_components/neon-animation/animations/slide-left-animation.html">
+
+<link rel="import" href="../../bower_components/neon-animation/neon-animatable.html">
+
+<script src="../../bower_components/node-uuid/uuid.js"></script>
+<script src="../../scripts/crypto-aes.js"></script>
+
+
+<dom-module id="lo-newuser">
+  <template>
+    <style>
+
+      :host {
+        display: block;
+        width: 100%;
+        height: 100%;
+      }
+
+      neon-animated-pages {
+        height: 100%;
+      }
+
+      lo-qrreader {
+        margin: 0px;
+        height: 100vh;
+      }
+
+    </style>
+
+    <iron-localstorage id="localstorage" name="lo-public" value="{{publickey}}">
+    </iron-localstorage>
+
+    <iron-localstorage id="localstorage" name="lo-private" value="{{privatekey}}">
+    </iron-localstorage>
+
+    <iron-localstorage id="localstorage" name="lo-device" value="{{deviceid}}"
+    on-iron-localstorage-load-empty="createDeviceID">
+    </iron-localstorage>
+
+    <lo-mqtt connected="{{mqttconnected}}"
+      auto-connect
+      deviceid="{{deviceid}}"
+      on-receive-message="msgreceived"
+      topic="{{deviceid}}" id="lomqtt"></lo-mqtt>
+
+    <neon-animated-pages id="pages" selected="{{selected}}" entry-animation="{{entryAnimation}}" exit-animation="{{exitAnimation}}">
+
+      <neon-animatable>
+        <div class="canvas layout vertical center-center color">
+        <h2>Locals</h2>
+        <p>We gaan dan nu een nieuwe user aanmaken is dat goed?</p>
+        <button on-tap="createUser">Ga verder</button>
+        <button on-tap="syncUser">Ik heb al een user ergens anders</button>
+      </div>
+      </neon-animatable>
+
+      <neon-animatable>
+        <div class="canvas layout vertical center-center color">
+        <h2>Registratie voltooid.</h2>
+        <p>Je hebt een nieuwe gebruiker aangemaakt op dit toestel.</p>
+        <button on-tap="reload">Ga verder</button>
+      </div>
+      </neon-animatable>
+
+      <neon-animatable>
+        <lo-qrreader on-got-code="transferUser"></lo-qrreader>
+      </neon-animatable>
+
+    </neon-animated-pages>
+  </template>
+  <script>
+  (function() {
+    'use strict';
+
+
+    function importPage(url){
+    return new Promise(function(resolve, reject){
+      Polymer.Base.importHref(url, function(e){
+        resolve(e.target.import);
+      }, reject);
+    });
+  };
+
+    Polymer({
+      is: 'lo-newuser',
+
+      properties: {
+        
+      },
+
+      ready: function(){
+        var that = this;
+        this.addEventListener('back', function(){
+          that.back();
+        });
+      },
+
+      attached: function(){
+        this.selected = 0;
+        this.entryAnimation = 'slide-from-right-animation';
+        this.exitAnimation = 'slide-left-animation';
+      },
+
+      reload: function(){
+        window.location = "/";
+      },
+
+      back: function(){
+        this.selected = 0;
+        body.removeChild('lo-qrreader');
+      },
+
+      createDeviceID: function(){
+        var deviceid = uuid.v4();
+        this.deviceid = deviceid;
+      },
+
+ 
+    createUser: function(){
+      var publickey = uuid.v4();
+      this.publickey = publickey;
+      var privatekey = uuid.v4();
+      this.privatekey = privatekey;
+      console.log('--- Created UUID ---');
+      console.log('--- publickey: ', this.publickey, ' - privatekey: ', this.privatekey, ' - deviceid: ', this.deviceid, ' ---');
+      // Create chatroom for this user
+      //this.$.loxmpp.createRoom(userid, this.openfireuser1, this.openfireuser2);
+      this.selected=1;
+    },
+
+    syncUser: function(){
+      var that = this;
+      importPage("elements/lo-qrreader/lo-qrreader.html").then(function(){
+        //var element = document.createElement("labs002-stage");
+        //body.appendChild(element);
+        that.selected = 2;
+      }, function(err){
+        console.log(err, "error");
+      });
+    },
+
+    transferUser: function(e){
+      console.log("Gonna sync with this user: ", e.detail.partner);
+      //publish topic e.detail.partner body SYNC
+      this.topic = e.detail.partner;
+      var mytopic = this.deviceid;
+      this.$.lomqtt.send(e.detail.partner, "SYNC1|"+mytopic);
+      this.$.lomqtt.subscribe(mytopic);
+      //this.$.loxmpp.sendMessage(partner, "SYNC", null, null, null);
+    },
+
+    msgreceived: function(e){
+      console.log(e.detail.msg);
+      switch(e.detail.msg[0]){
+        case "SYNC1":
+          console.log("Sync request");
+        break;
+        case "SYNC2":
+          console.log("Sync2 request");
+        break;
+      };
+    }
+
+
+    });
+  })();
+  </script>
+</dom-module>

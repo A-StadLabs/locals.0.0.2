@@ -2,15 +2,11 @@
 See authors.md for a list of all members.
  -->
  
-
 <link rel="import" href="../../bower_components/polymer/polymer.html">
 <link rel="import" href="../lo-peers/lo-peers.html">
-
 <link rel="import" href="../../bower_components/neon-animation/neon-animation.html">
 <link rel="import" href="../../bower_components/neon-animation/neon-animations.html">
-
 <link rel="import" href="../../bower_components/neon-animation/neon-animatable.html">
-
 
 <dom-module id="lo-renderer">
   <style>
@@ -59,33 +55,23 @@ See authors.md for a list of all members.
 
 </style>
 <template> 
-<neon-animated-pages selected="{{selected}}">
-    <div id="rendercanvas">
+  <neon-animated-pages selected="{{selected}}">
+    <neon-animatable>
+      <div id="rendercanvas"></div>
+    </neon-animatable>
+    <neon-animatable>
+      <lo-peers peers="{{objectpeers}}"></lo-peers>
+    </neon-animatable>
+  </neon-animated-pages>
 
-    </div>
-
-
-  </neon-animatable>
-  <neon-animatable>
-
-  <section>
-    <lo-peers peers="{{objectpeers}}"></lo-peers>
-    </section>
-  </neon-animatable>
-</neon-animated-pages>
-
-<div class="renderbtns layout horizontal">
-      <button on-tap="open">
-        <img src="visualbtn.svg">
-      </button>
-
-      <button on-tap="toPeerlist">
-        <img src="waardenbtn.svg">
-      </button>
-
-    </div> 
-
-
+  <div class="renderbtns layout horizontal">
+    <button on-tap="open">
+      <img src="visualbtn.svg">
+    </button>
+    <button on-tap="toPeerlist">
+      <img src="waardenbtn.svg">
+    </button>
+  </div> 
 </template>
 </dom-module>
 <script>
@@ -105,11 +91,13 @@ See authors.md for a list of all members.
       objectname: {
         type: String
       },
+
       objectconfig: {
         type: Object,
         notify: true,
         //observer: "_config"
       },
+
       objectdata: {
         type: Object,
         observer: "_dataset",
@@ -124,69 +112,30 @@ See authors.md for a list of all members.
         type: String
       }
 
-      // animationConfig: {
-      //   value: function() {
-      //     return {
-      //       'edit_on': {
-      //         name: 'edit_on-animation',
-      //         node: this,
-      //         transformOrigin: '0px',
-      //         timing: {duration: 230}
-      //       },
-      //       'edit_off': {
-      //         name: 'edit_off-animation',
-      //         node: this,
-      //         timing: {duration: 230}
-      //       }
-      //     }          
-      //   }
-      // }
-
     },
 
     listeners: {
-    // this event is fired when the animation finishes
+      // this event is fired when the animation finishes
       // 'neon-animation-finish': '_onNeonAnimationFinish'
     },
 
     attached: function() {
       this.async(function() {
-        //console.log(this.localName + '#' + this.id + ' was attached');
-        //this.selected = 1;
-        
+      //console.log(this.localName + '#' + this.id + ' was attached');
+      //this.selected = 1;  
       });
     },
 
     ready: function(){
-      //console.log(this.objectdata);
       this.selected = 0;
-      // var that = this;
-      // this.addEventListener('zoom-state', function(e){
-      //   console.log('Zoom state changed ', e.detail.state);
-      //   that.editmode = e.detail.state;
-      //   //that._Scale();
-      // });
 
-
-      var that = this;
       this.addEventListener('new-peer', function(){
         this.validate();
       });
 
-      // this.addEventListener('save', function(e){
-      //   this._save(e);
-      // });
     },
 
-    // _save: function(e){
-    //   //console.log(e);
-    //   this.fire('save-it', { datasetkey: this.objectname, dataset: this.objectdata});
-    //   console.log('dataset zou geupdate moeten zijn');
-    // },
-
-    _dataset: function(){
-      //console.log("changed? ",this.objectname);
-      
+    _dataset: function(){      
       this.importHref("../elements/labs002-components/"+this.objectcomponent+".html", function(e) {
         var rendercanvas = this.$.rendercanvas;
         rendercanvas.innerHTML = '';
@@ -210,7 +159,6 @@ See authors.md for a list of all members.
     _data: function(){
       // Maak eerst het render plaatske leeg
       //console.log('data changed', this.objectdata);
-      
     },
 
     _config: function(){
@@ -222,11 +170,7 @@ See authors.md for a list of all members.
     attached: function(){
       // Maak eerst het render plaatske leeg
       //console.log('data changed', this.objectdata);
-      
-      
-      // De gepaste webcomponent inladen
-
-      
+      // De gepaste webcomponent inladen  
     },
 
     toPeerlist: function(){
@@ -241,9 +185,6 @@ See authors.md for a list of all members.
       //console.log("ask for validation");
       this.fire('add-getuige', { objectname: this.objectname, objectconfig: JSON.stringify(this.objectconfig), objectdata: JSON.stringify(this.objectdata), userid: this.userid, hash: this.hash });
     }
-     
-
-
 
   });
 })();

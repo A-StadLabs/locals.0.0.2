@@ -54,7 +54,6 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
   <button on-tap="back">X</button>
     <video id="camsource" autoplay class="camsource">Put your fallback message here.</video>
     <canvas id="qr-canvas" width="320" height="240" style="display:none"></canvas>
-
   </template>
 </dom-module>
 <script>
@@ -97,6 +96,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
     back: function(){
       this.fire('back');
+      
     }
   });
 })();

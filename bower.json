@@ -8,7 +8,9 @@
     "platinum-elements": "PolymerElements/platinum-elements#^1.1.0",
     "neon-elements": "PolymerElements/neon-elements#^1.0.0",
     "node-uuid": "~1.4.3",
-    "object-hash": "puleos/object-hash#~0.9.1"
+    "object-hash": "puleos/object-hash#~0.9.1",
+    "firebase-element": "GoogleWebcomponents/firebase-element#~1.0.6"
+
   },
   "devDependencies": {}
 }

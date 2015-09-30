@@ -42,7 +42,7 @@ See authors.md for a list of all members.
     height: 100%;
   }
 
-  labs002-objectscollection {
+  lo-objectscollection {
     height: 100%;
   }
 
@@ -124,7 +124,7 @@ See authors.md for a list of all members.
   <!-- Stage 5: Plusmenu om objecten toe te voegen. -->
   <neon-animatable>
     <div class="canvas">
-      <labs002-objectpicker userobjects="{{localapi}}"></labs002-objectpicker>
+      <lo-objectpicker userobjects="{{localapi}}"></lo-objectpicker>
     </div>
   </neon-animatable>
 
@@ -219,7 +219,7 @@ See authors.md for a list of all members.
         });
 
         this.addEventListener('object-picker', function(){
-          importPage("elements/labs002-objectpicker/labs002-objectpicker.html").then(function(){
+          importPage("elements/lo-objectpicker/lo-objectpicker.html").then(function(){
               //that._addDataset();
               that.selected = 5;
             }, function(err){
@@ -255,7 +255,7 @@ See authors.md for a list of all members.
       _qrreader: function(e){
 
 
-        this.importHref("../elements/labs002-qrreader/labs002-qrreader.html", function(g) {
+        this.importHref("../elements/lo-qrreader/lo-qrreader.html", function(g) {
           this.addEventListener("got-code", function(f){
             //Hier doet em shit als em een code terug krijgt. 
             //this.$.objectcoll.callback(e.detail);

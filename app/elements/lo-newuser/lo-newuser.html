@@ -200,7 +200,6 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         this.deviceid = deviceid;
       },
 
- 
     createUser: function(){
       var publickey = uuid.v4();
       this.publickey = publickey;
@@ -215,10 +214,11 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
     syncUser: function(){
       var that = this;
+      that.selected = 2;
       importPage("elements/lo-qrreader/lo-qrreader.html").then(function(){
         //var element = document.createElement("labs002-stage");
         //body.appendChild(element);
-        that.selected = 2;
+        
       }, function(err){
         console.log(err, "error");
       });
@@ -229,8 +229,9 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       //publish topic e.detail.partner body SYNC
       this.topic = e.detail.partner;
       var mytopic = this.deviceid;
-      this.$.lomqtt.send(e.detail.partner, "SYNC1|"+mytopic);
       this.$.lomqtt.subscribe(mytopic);
+      this.$.lomqtt.send(e.detail.partner, "SYNC1|"+mytopic);
+      
       //this.$.loxmpp.sendMessage(partner, "SYNC", null, null, null);
     },
 

@@ -13,6 +13,7 @@
     var client;
     var topic;
     var deviceid;
+    var that;
 
     function connectthis(){
       var ws = new SockJS('http://opantwerpen.be:15674/stomp');
@@ -51,10 +52,9 @@
       },
 
       attached: function(){
+        that = this;
         me = document.querySelector('#mqtt');
-        if(this.autoConnect){
-          connectthis();
-        }
+        
       },
 
       connect: function(){
@@ -63,7 +63,8 @@
 
       _connected: function(){
         if(this.connected){
-          this.subscribe(deviceid);
+          console.log("MQTT: Event _connected changed");
+          this.subscribe(this.deviceid);
         }
       },
 
@@ -72,14 +73,19 @@
       },
 
       _deviceid: function(){
+        console.log("MQTT: Device id has arrived");
         deviceid = this.deviceid;
+        if(this.autoConnect){
+          connectthis();
+        }
+        this.subscribe(deviceid);
       },
 
       onConnect: function(){
         console.log('Connected');
         me.connected = true;
-        me.subscribe(topic);
-        me.subscribe(deviceid);
+        //me.subscribe(topic);
+        me.subscribe(that.deviceid);
       },
 
       onError: function(){
@@ -88,18 +94,24 @@
       },
 
       subscribe: function(topic){
+        console.log('Im subscribing to ', topic);
         client.subscribe(topic, function(d) {
-          console.log('Im subscribing to ', topic);
+          
           //me.send(topic, "ahlo");
           var msg = d.body.split('|');
-          me.fire('message-received', {msg: msg});
-          console.log(msg);
+          that.fireevent(msg);
+          //console.log(msg);
         });
       },
 
       send: function(topic, data){
         console.log('sending msg to ', topic, 'data: ', data);
         client.send(topic, {'content-type':'text/plain'}, data);
+      },
+
+      fireevent: function(e){
+        //console.log("TEsting!", e);
+        that.fire('message-received', {msg: e});
       }
 
 

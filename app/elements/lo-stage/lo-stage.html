@@ -21,29 +21,25 @@ See authors.md for a list of all members.
   :host {
     display: block;
     --page-color:  var(--primary-blue);
-    width: 100%;
-    height: 100%;
+    width: 100vw;
+    height: 100vh;
   }
 
   .canvas {
-    background-color: var(--page-color);
     color: white; 
-    height: 100%;
+    height: 100vh;
     @apply(--layout-vertical);
     @apply(--layout-center-center);
     text-align: center;
   }
 
-  .color {
-    background-color: var(--page-color);
-  }
 
   neon-animated-pages {
-    height: 100%;
+    height: 100vh;
   }
 
   lo-objectscollection {
-    height: 100%;
+    height: 100vh;
   }
 
 </style>

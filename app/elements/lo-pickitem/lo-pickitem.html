@@ -18,10 +18,15 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     }
 
     .item {
-      background-color: var(--enabled-disabled);
       width: 50px;
       height: 50px;
+      margin: 5px;
+      background-color: var(--enabled-disabled);
+      @apply(--layout-horizontal);
+      @apply(--layout-center-center);
     }
+
+    
   </style>
   <template>
     <div class="item">

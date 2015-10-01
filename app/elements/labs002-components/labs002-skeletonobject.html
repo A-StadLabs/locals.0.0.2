@@ -9,6 +9,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 -->
 
 <link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/paper-input/paper-input.html">
+<link rel="import" href="../../bower_components/paper-input/paper-input-container.html">
 
 <dom-module id="labs002-skeletonobject">
   <style>
@@ -16,16 +18,73 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       display: block;
     }
 
-    button {
+    h1 {
+      font-weight: 300;
+      -webkit-font-smoothing: antialiased;
+      color: black;
+      margin: 0px;
+      padding: 0px;
+    }
+
+/*    button {
       width: 200px;
       height: 200px;
+    }*/
+
+
+
+
+
+
+    paper-input-container {
+      --paper-input-container-color:rgba(0,0,0,0.15);
+      --paper-input-container-focus-color: var(--primary-lightgrey);
     }
+
+
+    .paper-input-container-0 label, paper-input-char-counter, .paper-input-container-0 input {
+    font-family: Opensans;
+    }
+
+
+    .paper-input-container-0 input {
+      font-size: 30px;
+      line-height: 10px;
+      color: black;
+      font-weight: 300;
+    }
+
+
+
+
   </style>
 <template>
-<div>Hello from <span>{{objectname}}</span></div>
-<h1>{{username}}</h1>
-<p>HASH: <span>{{objecthash}}</span></p>
-	<input type="text" id="userinput" value="{{objectdata.username}}"/>
+<!-- <div>Hello from <span>{{objectname}}</span></div> -->
+<!-- <p>HASH: <span>{{objecthash}}</span></p> -->
+
+<!-- <h1>{{username}}</h1> -->
+<!-- 	<input type="text" id="userinput" value="{{objectdata.username}}"/>
+ -->
+
+    <paper-input-container>
+    <label>Voornaam</label>
+    <input
+      id="userinput"
+      type="text"
+      is="iron-input"
+      value="{{objectdata.username}}" >
+    </paper-input-container>
+
+<!--     <paper-input-container>
+    <label>Achternaam</label>
+    <input
+      id="userinput"
+      type="text"
+      is="iron-input"
+      bind-value="" >
+    </paper-input-container> -->
+
+
 	<button on-tap="save">Save</button>
 
   </template>

@@ -14,15 +14,23 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
   <style>
     :host {
       display: block;
+      background-color: yellow;
     }
+
+/*    button {
+      width: 200px;
+      height: 200px;
+    }*/
+
+
   </style>
-  <template>
+<template>
+<!-- <div>Hello from <span>{{objectname}}</span></div> -->
+<!-- <p>HASH: <span>{{objecthash}}</span></p> -->
 
-
-<div>Hello from <span>{{objectname}}</span></div>
-<h1>{{objectdata.username}}</h1>
-	<input type="text" id="userinput" value="{{objectdata.username}}"/>
-	<button on-tap="save">Save</button>
+<h1>{{username}}</h1>
+  <input type="text" id="userinput" value="{{objectdata.username}}"/>
+  <button on-tap="save">Save</button>
 
   </template>
   <script>
@@ -30,57 +38,64 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     Polymer({
       is: 'labs002-basisprofiel',
 
-      
       properties: {
-      	objectname: {
-	    	type: String
-	     },
-	      objectconfig: {
-	        type: Object,
-	        notify: true
-	        //observer: "_config"
-	      },
-	      objectdata: {
-	        type: Object,
-	        notify: true,
-	        observer: "_data"
-	      },
-	      objectcomponent: {
-	        type: String
-	      },
-	      opened: {
-	        type: Boolean,
-	        value: false
-	      }
+        objectname: {
+        type: String
+       },
+        objectconfig: {
+          type: Object,
+          notify: true
+          //observer: "_config"
+        },
+        objectdata: {
+          type: Object,
+          notify: true,
+          observer: "_data"
+        },
+        objectcomponent: {
+          type: String
+        },
+        opened: {
+          type: Boolean,
+          value: false
+        },
+        objecthash: {
+          type: String
+        }
 
       },
 
 
       ready: function(){
-        console.log('skeleton is ready'); 
+        //console.log('skeleton is ready'); 
       },
  
       _data: function(){
-      	console.log("Observer?", this.objectdata);
-      	//this.username = this.objectdata.username;
+        //console.log("Observer?", this.objectdata);
+        this.username = this.objectdata.username;
+      },
+
+      refresh: function(){
+        //console.log("REFRESHHHHHMENTS!!");
+        this.username = this.objectdata.username;
       },
 
       save: function(){
         this.username = this.$.userinput.value;
-      	console.log('text unput value: ', this.username);
-        console.log('has value: ', this.objectdata["username"]);
-      	this.objectdata["username"] = this.username; 
-        console.log('new value: ', this.objectdata["username"]);
-      	this.fire('save-it', { datasetkey: this.objectname, dataset: this.objectdata });
+        //console.log('text unput value: ', this.username);
+        //console.log('has value: ', this.objectdata["username"]);
+        this.objectdata["username"] = this.username; 
+        //console.log('new value: ', this.objectdata["username"]);
+        this.fire('save-it', { datasetkey: this.objectname, dataset: this.objectdata, hash: this.objecthash });
       },
 
       created: function() {
-    	 console.log(this.localName + '#' + this.id + ' was created');
-  	 },
+       //console.log(this.localName + '#' + this.id + ' was created');
+     },
 
     attached: function() {
       this.async(function() {
-        console.log(this.localName + '#' + this.id + ' was attached');
+        //console.log(this.localName + '#' + this.id + ' was attached');
         //this.selected = 1;
         //this._configChanged();
         //this._dataChanged();
@@ -89,13 +104,13 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
     detached: function() {
       this.async(function() {
-        console.log(this.localName + '#' + this.id + ' was detached');
+        //console.log(this.localName + '#' + this.id + ' was detached');
      });
     },
 
     attributeChanged: function(name, type) {
-      console.log(this.localName + '#' + this.id + ' attribute ' + name +
-        ' was changed to ' + this.getAttribute(name));
+      //console.log(this.localName + '#' + this.id + ' attribute ' + name +
+        //' was changed to ' + this.getAttribute(name));
     }
 
   });

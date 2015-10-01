@@ -28,7 +28,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         display: block;
         width: 100%;
         height: 100%;
-        --page-color:var(--primary-blue);
+
+          background-image: url("../../images/bg-blue-structure.png");
+  background-size: 100vh;
+  background-repeat: repeat-x;
       }
 
 
@@ -49,10 +52,14 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         width: 100vw;
         margin: 0px;
         padding: 0px;
+        @apply(--layout-horizontal);
+        @apply(--layout-center-center);
       }
 
       .intro img {
-        height: 100%;
+        width: 100%;
+        max-width: 450px;
+        margin: 0 auto;
       }
 
 
@@ -66,7 +73,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       }
 
 
-      button {
+      .normalbutton {
         font-family: 'Open Sans', sans-serif;
         font-weight: 600;
         font-size: 16px;
@@ -83,16 +90,29 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       }
 
 
-      button:hover {
+      .normalbutton:hover {
         box-shadow: 2px 2px 0px rgba(0,0,0,0.2);
       }
 
-      button:active {
+      .normalbutton:active {
         box-shadow: 0px 0px 0px rgba(0,0,0,0.2);
       }
 
 
-
+      .smallbutton {
+        font-family: 'Open Sans', sans-serif;
+        font-weight: 600;
+        font-size: 11px;
+        text-decoration: underline;
+        -webkit-font-smoothing: antialiased;
+        padding: 20px;
+        margin: 0px 0px 10px 0px;
+        background-color: rgba(255,255,255,1);
+        color: var(--primary-darkgray);
+        outline: 0;
+        border: none;
+        text-align: center;
+      }
 
       h2 {
         font-weight: 300;
@@ -134,8 +154,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 <!--        <h2>Locals</h2>
          <p>We gaan dan nu een nieuwe user aanmaken is dat goed?</p> -->
         <div class="intro"><img src="../../images/bg-intro.png"></div> 
-        <button on-tap="createUser">Ik ben nieuw</button>
-        <button on-tap="syncUser">Ik heb al een user ergens anders</button>
+        <button class="normalbutton" on-tap="createUser">Ik ben nieuw</button>
+        <button class="smallbutton" on-tap="syncUser">Ik heb al een user</button>
       </div>
       </neon-animatable>
 
@@ -209,7 +229,9 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       console.log('--- publickey: ', this.publickey, ' - privatekey: ', this.privatekey, ' - deviceid: ', this.deviceid, ' ---');
       // Create chatroom for this user
       //this.$.loxmpp.createRoom(userid, this.openfireuser1, this.openfireuser2);
-      this.selected=1;
+      //this.selected=1;
+      window.location = "/";
+    
     },
 
     syncUser: function(){

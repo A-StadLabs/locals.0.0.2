@@ -21,7 +21,7 @@ See authors.md for a list of all members.
       width: 100vw;
     }
 
-    
+
     .objectscollection {
       @apply(--layout-horizontal);
       @apply(--layout-wrap);
@@ -29,6 +29,7 @@ See authors.md for a list of all members.
 
     #toolbar {
       height: 30vh;
+      min-height: 200px;
       width: 100vw;
       padding: 0px;
       background-color: transparent;
@@ -73,8 +74,8 @@ See authors.md for a list of all members.
 
     <div id="toolbar"> 
       <div class="mainbtns">
-        <button class="mainbtn QR" on-tap="toGod">---</button>
         <button class="mainbtn" on-tap="FireAddData">+</button>
+        <button class="mainbtn QR" on-tap="toGod">---</button>
         <button class="mainbtn QR" on-tap="_toQR"><img src="../../images/QR.svg"></button>
       </div>
     </div>

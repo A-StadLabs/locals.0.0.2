@@ -144,7 +144,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     <lo-mqtt connected="{{mqttconnected}}"
       auto-connect
       deviceid="{{deviceid}}"
-      on-receive-message="msgreceived"
+      on-message-received="msgreceived"
       topic="{{deviceid}}" id="lomqtt"></lo-mqtt>
 
     <neon-animated-pages id="pages" selected="{{selected}}" entry-animation="{{entryAnimation}}" exit-animation="{{exitAnimation}}">
@@ -168,7 +168,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       </neon-animatable>
 
       <neon-animatable>
-        <lo-qrreader on-got-code="transferUser"></lo-qrreader>
+        <lo-qrreader on-got-code="processQRCode"></lo-qrreader>
       </neon-animatable>
 
     </neon-animated-pages>
@@ -190,6 +190,11 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       is: 'lo-newuser',
 
       properties: {
+
+        promise: {
+          type: String,
+          observer: "_promise"
+        }
         
       },
 
@@ -198,6 +203,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         this.addEventListener('back', function(){
           that.back();
         });
+      },
+
+      _promise: function(){
+        console.log("Promise changed: ", this.promise);
       },
 
       attached: function(){
@@ -237,6 +246,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     syncUser: function(){
       var that = this;
       that.selected = 2;
+      this.promise = "SYNC";
       importPage("elements/lo-qrreader/lo-qrreader.html").then(function(){
         //var element = document.createElement("labs002-stage");
         //body.appendChild(element);
@@ -246,25 +256,43 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       });
     },
 
-    transferUser: function(e){
-      console.log("Gonna sync with this user: ", e.detail.partner);
+    processQRCode: function(e){
+      console.log("Processing QR code: ", e.detail.partner, " Promise: ", this.promise);
       //publish topic e.detail.partner body SYNC
-      this.topic = e.detail.partner;
-      var mytopic = this.deviceid;
-      this.$.lomqtt.subscribe(mytopic);
-      this.$.lomqtt.send(e.detail.partner, "SYNC1|"+mytopic);
+      switch(this.promise){
+        case "SYNC":
+          this.topic = e.detail.partner;
+          var mytopic = this.deviceid;
+          this.$.lomqtt.subscribe(mytopic);
+          this.$.lomqtt.send(e.detail.partner, "SYNC1|"+mytopic);
+        break;
+        case "SYNC2":
+          console.log("ready to dispatch OK event");
+        break;
+      }
       
       //this.$.loxmpp.sendMessage(partner, "SYNC", null, null, null);
     },
 
     msgreceived: function(e){
+      var partner = e.detail.partner;
       console.log(e.detail.msg);
       switch(e.detail.msg[0]){
         case "SYNC1":
           console.log("Sync request");
+          partner = e.detail.partner;
+          this.promise = "SYNC2";
         break;
         case "SYNC2":
-          console.log("Sync2 request");
+          console.log("Here's my public key", e.detail.msg[1]);
+          this.publickey = e.detail.msg[1];
+          this.$.lomqtt.send(partner, "SYNC3|"+this.deviceid);
+        break;
+        case "SYNC4":
+          console.log("Sync4 request");
+          console.log("Here's my private key", e.detail.msg[1]);
+          this.privatekey = e.detail.msg[1];
+          this.$.lomqtt.send(partner, "SYNC5|"+this.deviceid);
         break;
       };
     }

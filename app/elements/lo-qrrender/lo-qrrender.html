@@ -20,9 +20,13 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       height: 100%;
       background-color: white;
     }
+    small {
+      font-size: 10px;
+    }
   </style>
   <template>
     <div id="qrplaceholder"></div>
+    <small>{{qrcode}}</small>
   </template>
 </dom-module>
 <script>
@@ -39,6 +43,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     },
 
     ready: function(){
+      
     },
 
     gotCode: function(){

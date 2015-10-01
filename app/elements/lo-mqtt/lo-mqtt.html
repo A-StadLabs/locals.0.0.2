@@ -78,7 +78,7 @@
         if(this.autoConnect){
           connectthis();
         }
-        this.subscribe(deviceid);
+        //this.subscribe(deviceid);
       },
 
       onConnect: function(){
@@ -94,9 +94,8 @@
       },
 
       subscribe: function(topic){
-        console.log('Im subscribing to ', topic);
         client.subscribe(topic, function(d) {
-          
+          console.log('Im subscribing to ', topic);
           //me.send(topic, "ahlo");
           var msg = d.body.split('|');
           that.fireevent(msg);

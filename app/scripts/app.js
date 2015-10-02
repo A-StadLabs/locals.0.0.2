@@ -22,7 +22,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         resolve(e.target.import);
       }, reject);
     });
-  };
+  }
 
   app._nolocaluserFound = function(){
       importPage("elements/lo-newuser/lo-newuser.html").then(function(){

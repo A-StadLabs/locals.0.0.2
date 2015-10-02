@@ -72,32 +72,11 @@ See authors.md for a list of all members.
     deviceid="{{deviceid}}">
   </lo-localstorageapi>
 
-  <!-- <lo-mqtt connected="{{mqttconnected}}"
+  <lo-mqtt connected="{{mqttconnected}}"
   on-message-received="msgreceived"
   deviceid="{{deviceid}}"
-  topic="{{publickey}}" id="lomqtt"></lo-mqtt> -->
-
- <mqtt-connection auto url="ws://opantwerpen.be:15674">
-  <mqtt-subscription
-    topic="{{topic}}"
-    number-of-messages="Infinity"
-    last-message="{{lastMessage}}"
-    messages="{{messages}}"
-    subscribed="{{subscribed}}">
-  </mqtt-subscription>
-
-  <mqtt-publish id="pub" on-mqtt-publication-published="_published" auto>
-  </mqtt-publish>
-
-  </mqtt-connection>
- 
-<!--   <p>{{subscribed}}</p>
-  <p>{{lastMessage.topic}}</p>
-  <template is="dom-repeat" items="{{messages}}" observe="messages.*">
-  <p>*</p>
-    <p>{{item.message.payload}}</p>
-  </template>
-  <p>{{messages}}</p> -->
+  publickey="{{publickey}}"
+  topic="{{publickey}}" id="lomqtt"></lo-mqtt>
 
   <neon-animated-pages id="pages" selected="{{selected}}" class="color" entry-animation="{{entryAnimation}}" exit-animation="{{exitAnimation}}">
 
@@ -202,13 +181,15 @@ See authors.md for a list of all members.
         deviceid: {
           type: String,
           observer: "_deviceid"
-        },  
-        subscriptions: {
-          type: Array,
-          value: [{topic: "foo/bar", qos:0}, {topic: "mqttjs/elements", qos:1}]
         },
-        messages: {
-          observer: "_messages"
+        publickey: {
+          type: String,
+          observer: "_publickey"
+        },
+        mqttconnected: {
+          type: Boolean,
+          value: false,
+          observer: "_mqttconnected"
         }
 
 
@@ -220,13 +201,7 @@ See authors.md for a list of all members.
       this.show = 1;
      },
 
-     _messages: function(){
-      console.log(this.messages); 
-     },
-
-     _sendMessage: function (event) {
-        this.$.pub.publish();
-      },
+     
 
       ready: function(){
 
@@ -247,7 +222,8 @@ See authors.md for a list of all members.
         }); 
 
         this.addEventListener('message-received', function(e){
-          console.log("Stage kent message received, ", e.detail.msg);
+          //console.log("Stage kent message received, ", e.detail.msg.detail.topic);
+          that.msgreceived(e.detail.msg);
         });
         
         this.addEventListener('save', function(){
@@ -273,7 +249,6 @@ See authors.md for a list of all members.
         this.addEventListener('qr-reader', function(e){
           that._qrreader(e);
         });
-      
 
       },
 
@@ -283,8 +258,6 @@ See authors.md for a list of all members.
 
       _deviceid: function(){
         console.log("got device id");
-        this.topic = "user/"+this.deviceid;
-        //this.$.lomqtt.subscribe(this.deviceid);
       },
 
      
@@ -324,9 +297,6 @@ See authors.md for a list of all members.
         changeStage(2);
       },
 
-      _published: function(){
-        console.log("pub");
-      },
     
       // Navigational stuff
       /** * This one shows the qr code associated with this device */
@@ -334,14 +304,10 @@ See authors.md for a list of all members.
         this.selected = 3;
         console.log("To qr");
         this.qrcode = this.deviceid;
-        this.$.pub.topic = "user/"+this.deviceid; 
-        this.$.pub.payload="Ik ben er!";
-        this.$.pub.qos="2";
-        this.$.pub.retained=true;
-        //this.qrcode = uuid.v1();
-        //this.$.lomqtt.subscribe(this.qrcode);
-        //this.$.lomqtt.send(this.qrcode, "hallo ik ben er en wacht op instructies");
-        this.$.pub.publish();
+        this.$.lomqtt.subscribe("sync/"+this.deviceid, 2, function(e, m){
+          console.log(e, m);
+        });
+        //this.$.lomqtt.send("sync/"+this.deviceid, "SYNC1", 0);
       },
 
     _toWhere:function(){
@@ -354,16 +320,24 @@ See authors.md for a list of all members.
       this.selected = 2;
     },
 
-    _ConfirmGetuige: function(e) {
-      //console.log('Yes, bevestigd!', e.target.user);
-      var partner = e.target.user;
-      var dataset = e.target.dataset;
-      this.sendMessage(partner, "confirmgetuige", dataset, data);
+    _mqttconnected: function(){
+      if(this.publickey){
+      this.$.loxmpp.subscribe("userobject/"+this.publickey, 0, function(e, m){
+            console.log(e, m);
+      });
+    };
     },
 
-    _CancelGetuige: function() {
-      //console.log('Neen, annuleren!');
-    },
+    // _ConfirmGetuige: function(e) {
+    //   //console.log('Yes, bevestigd!', e.target.user);
+    //   var partner = e.target.user;
+    //   var dataset = e.target.dataset;
+    //   this.sendMessage(partner, "confirmgetuige", dataset, data);
+    // },
+
+    // _CancelGetuige: function() {
+    //   //console.log('Neen, annuleren!');
+    // },
 
 
       // msgreceived: function(e){
@@ -375,23 +349,19 @@ See authors.md for a list of all members.
       //   this.$.lomqtt.send(msg[1], "SYNC2");
       // },
 
-      _handelMqttMessage: function (event, message) {
-
-        if(message && message.topic) {
-          this.push('messages', {
-            topic: message.topic,
-            message: String.fromCharCode.apply(null, message.message)
-          });
-        }
-      },
+     
 
       msgreceived: function(e){
-        console.log("Stage kent msg? ",e.detail.msg);
+        //console.log("Stage kent msg? ",e.detail.topic, e.detail.message, e.detail.packet);
+        //console.log(String.fromCharCode.apply(null, e.detail.message));
         //console.log(JSON.stringify(e.detail));
         // {"detail":[{"partner":"8dfb9a50-6107-11e5-aa8c-8da569b7f6e2@opantwerpen.be/7782ea43-1baa-9f7f-4a2e-9fa5cb4edb6f"},{"command":"SYNC"},{"objectname":"null"},{"objectconfig":"null"},{"objectdata":"null"}]}
+        console.log(e.detail.msg, e.detail.topic);
 
-        var partner = e.detail.msg[1];
-        var command = e.detail.msg[0];
+        var commandarray = e.detail.msg.split("|");
+
+        var partner = commandarray[1];
+        var command = commandarray[0];
 
         var lomqtt = this.$.lomqtt;
         // var objectname = e.detail.detail[2].objectname;
@@ -417,7 +387,7 @@ See authors.md for a list of all members.
             case "SYNC3":
               console.log("Showing my private key");
               this.qrcode = this.privatekey;
-              lomqtt.send(partner, "SYNC4|"+this.deviceid);
+              lomqtt.send("sync/"+partner, "SYNC4|"+this.deviceid, 2);
             break;
 
             case "SYNCOK":
@@ -429,10 +399,11 @@ See authors.md for a list of all members.
               // I am a sync/peer for this user so I keep myself up to date.
               // Overwrite the local userobject with the one received.
               //if(e.detail.detail.partner!=this.openfire1+"@"+this.domein){
-              //console.log("Ik  krijg iets van ", e.detail.detail[0].partner);
-              //console.log("normaal ga ik dus nu deze shit overschijven: ", e.detail.detail[4].objectdata);
-               this.$.localapielem.encdata = e.detail.detail[4].objectdata;
-                this.localapi.lastupdate = Date.now();
+              
+              //console.log("normaal ga ik dus nu deze shit overschijven: ", partner);
+
+              this.$.localapielem.encdata = partner;
+              this.localapi.lastupdate = Date.now();
                // window.location = "/";
               //};
             break;
@@ -510,17 +481,17 @@ See authors.md for a list of all members.
         switch(command){
           case "SYNC1":
             //console.log("confirmation to ", command, " for ", partner);
-
             this.localapi.peers.push(this.deviceid);
             this.localapi.peers.push(partner);
             this.$.localapielem.writeData();
             var data = this.$.localapielem.encdata;
             var encruserid = this.encruserid;
             //loxmpp.sendMessage(partner, "USERUPDATE", "ALL", encruserid, data);
-            lomqtt.send(partner, "SYNC2|"+this.deviceid);
+            
             this.$.localapielem.readData();
             this.qrcode = this.publickey;
             this.selected = 3;
+            lomqtt.send("sync/"+partner, "SYNC2|"+this.deviceid);
           break;
 
           case "VERIFY":

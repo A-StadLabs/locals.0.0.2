@@ -1,31 +1,27 @@
 <link rel="import" href="../../bower_components/polymer/polymer.html">
-<script src="//cdn.jsdelivr.net/sockjs/1.0.3/sockjs.min.js"></script>
-<script src="../../scripts/stomp.js"></script>
+<link rel="import" href="../../bower_components/mqtt-elements/mqtt-elements.html">
 
 <dom-module id="lo-mqtt">
+<template>
 
+ <mqtt-connection auto url="ws://opantwerpen.be:15674" on-mqtt-message="fireevent" connected="{{connected}}" id="mqtt">
+
+  <mqtt-subscription id="sub" topic="{{topic}}" on-mqtt-subscription-subscribed="_subscribed">
+  </mqtt-subscription>
+
+  <mqtt-subscription id="sub2" topic="{{usertopic}}" on-mqtt-subscription-subscribed="_subscribed">
+  </mqtt-subscription>
+
+  <mqtt-publish id="pub" on-mqtt-publication-published="_published">
+  </mqtt-publish>
+
+  </mqtt-connection>
+ 
+</template>
   <script>
   (function() {
     'use strict';
 
-
-    var me;
-    var client;
-    var topic;
-    var deviceid;
-    var that;
-
-    function connectthis(){
-      var ws = new SockJS('http://opantwerpen.be:15674/stomp');
-      client = Stomp.over(ws);
-
-      // SockJS does not support heart-beat: disable heart-beats
-      client.heartbeat.outgoing = 0;
-      client.heartbeat.incoming = 0;
-
-      client.connect('guest', 'guest', me.onConnect, me.onError, '/');   
-
-    }
 
     Polymer({
       is: 'lo-mqtt',
@@ -41,30 +37,26 @@
           notify: true,
           observer: '_connected'
         },
-        topic: {
-          type: String,
-          observer: '_topic'
-        },
         deviceid: {
           type: String,
           observer: '_deviceid'
+        },
+        publickey: {
+          type: String
         }
       },
 
       attached: function(){
-        that = this;
-        me = document.querySelector('#mqtt');
-        
+        var me = document.querySelector('#mqtt');
       },
 
       connect: function(){
-        connectthis();
       },
 
       _connected: function(){
         if(this.connected){
-          console.log("MQTT: Event _connected changed");
-          this.subscribe(this.deviceid);
+          console.log("MQTT: Event _connected changed: ", this.connected);
+          this.usertopic = "userobject/"+this.publickey;
         }
       },
 
@@ -74,43 +66,37 @@
 
       _deviceid: function(){
         console.log("MQTT: Device id has arrived");
-        deviceid = this.deviceid;
-        if(this.autoConnect){
-          connectthis();
-        }
         //this.subscribe(deviceid);
+        this.topic = "sync/"+this.deviceid;
       },
 
-      onConnect: function(){
-        console.log('Connected');
-        me.connected = true;
-        //me.subscribe(topic);
-        me.subscribe(that.deviceid);
+      _subscribed: function(){
+        console.log("subscribed");
       },
 
-      onError: function(){
-        console.log('Error / Disconnect');
-        me.connected = false;
+
+      subscribe: function(topic, qos, callback){
+        this.$.mqtt.subscribe(topic, qos, callback);
       },
 
-      subscribe: function(topic){
-        client.subscribe(topic, function(d) {
-          console.log('Im subscribing to ', topic);
-          //me.send(topic, "ahlo");
-          var msg = d.body.split('|');
-          that.fireevent(msg);
-          //console.log(msg);
-        });
-      },
-
-      send: function(topic, data){
+      send: function(topic, data, qos){
+        this.$.pub.topic = topic; 
+        this.$.pub.payload=data;
+        this.$.pub.qos=qos;
+        this.$.pub.retained=false;
+        //this.qrcode = uuid.v1();
+        //this.$.lomqtt.subscribe(this.qrcode);
+        //this.$.lomqtt.send(this.qrcode, "hallo ik ben er en wacht op instructies");
+        this.$.pub.publish();
         console.log('sending msg to ', topic, 'data: ', data);
-        client.send(topic, {'content-type':'text/plain'}, data);
+        //client.send(topic, {'content-type':'text/plain'}, data);
       },
 
       fireevent: function(e){
-        //console.log("TEsting!", e);
-        that.fire('message-received', {msg: e});
+        console.log("TEsting!", e.detail.topic);
+        var topic = e.detail.topic;
+        var message = String.fromCharCode.apply(null, e.detail.message);
+        this.fire('message-received', {msg: message, topic: topic});
       }
 
 

@@ -123,11 +123,6 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         padding: 0px;
       }
 
-
-
-
-
-
     </style>
   <template>
 
@@ -177,6 +172,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
   (function() {
     'use strict';
 
+    var syncdevice;
 
     function importPage(url){
     return new Promise(function(resolve, reject){
@@ -261,13 +257,23 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       //publish topic e.detail.partner body SYNC
       switch(this.promise){
         case "SYNC":
+          console.log("Sync scanning");
+          syncdevice = e.detail.partner;
           this.topic = e.detail.partner;
           var mytopic = this.deviceid;
-          this.$.lomqtt.subscribe(mytopic);
-          this.$.lomqtt.send(e.detail.partner, "SYNC1|"+mytopic);
+          //this.$.lomqtt.subscribe(mytopic);
+          this.$.lomqtt.send("sync/"+e.detail.partner, "SYNC1|"+mytopic, 2);
         break;
         case "SYNC2":
           console.log("ready to dispatch OK event");
+          this.publickey = e.detail.partner;
+          this.$.lomqtt.send("sync/"+syncdevice, "SYNC3|"+this.deviceid, 2);
+        break;
+        case "SYNC4":
+          console.log("ready to dispatch OK event");
+          this.privatekey = e.detail.partner;
+          this.$.lomqtt.send("sync/"+syncdevice, "SYNCOK|"+this.deviceid, 2);
+          window.location = "/";
         break;
       }
       
@@ -275,24 +281,22 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     },
 
     msgreceived: function(e){
-      var partner = e.detail.partner;
+      var commandarray = e.detail.msg.split("|");
+
+      var partner = commandarray[1];
+      var command = commandarray[0];
+      //var partner = e.detail.partner;
       console.log(e.detail.msg);
-      switch(e.detail.msg[0]){
-        case "SYNC1":
-          console.log("Sync request");
-          partner = e.detail.partner;
-          this.promise = "SYNC2";
-        break;
+      switch(command){
         case "SYNC2":
-          console.log("Here's my public key", e.detail.msg[1]);
-          this.publickey = e.detail.msg[1];
-          this.$.lomqtt.send(partner, "SYNC3|"+this.deviceid);
+          console.log("Receiving public key");
+          //this.publickey = e.detail.msg[1];
+          this.promise = "SYNC2";
+          //this.$.lomqtt.send("sync/"+partner, "SYNC3|"+this.deviceid);
         break;
         case "SYNC4":
           console.log("Sync4 request");
-          console.log("Here's my private key", e.detail.msg[1]);
-          this.privatekey = e.detail.msg[1];
-          this.$.lomqtt.send(partner, "SYNC5|"+this.deviceid);
+          this.promise = "SYNC4";
         break;
       };
     }

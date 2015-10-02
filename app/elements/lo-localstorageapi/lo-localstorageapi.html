@@ -97,7 +97,7 @@
         var topic = this.publickey+"/userobject";
         console.log(topic);
         //lomqtt.send(this.publickey, this.encdata);
-        lomqtt.send('userobject/'+this.publickey, "USERUPDATE|"+this.encdata);
+        lomqtt.send('userobject/'+this.publickey, "USERUPDATE|"+this.encdata, 0);
         //var peers = this.data.peers;
         //this.$.loxmpp.sendgroupMessage(this.publickey, "SYNCUPDATE", null, null, this.encdata);
         // for (var i = peers.length - 1; i >= 0; i--) {

@@ -8,16 +8,30 @@
 
 <!-- 
 HIER EEN TOPIC ARRAY VAN MAKEN / TEMPLATE REPEAT -->
+<template is="dom-if" if="{{subs}}">
 
-<!--   <mqtt-subscription id="sub" topic="{{topic}}" on-mqtt-subscription-subscribed="_subscribed">
+   <mqtt-subscription id="sub" topic="{{synctopic}}" on-mqtt-subscription-subscribed="_subscribed">
   </mqtt-subscription>
 
   <mqtt-subscription id="sub2" topic="{{usertopic}}" on-mqtt-subscription-subscribed="_subscribed">
-  </mqtt-subscription> -->
+  </mqtt-subscription> 
 
-  <template is="dom-repeat" items="{{subscriptions}}" as="t">
+  <mqtt-subscription id="sub3" topic="{{verifytopic}}" on-mqtt-subscription-subscribed="_subscribed" qos="2">
+  </mqtt-subscription> 
+
+  <mqtt-subscription id="sub4" topic="{{validatetopic}}" on-mqtt-subscription-subscribed="_subscribed" qos="2">
+  </mqtt-subscription> 
+
+  <template is="dom-repeat" items="{{children}}" as="t">
     <mqtt-subscription topic="[[t.topic]]" qos="[[t.qos]]" on-mqtt-subscription-subscribed="_subscribed">
     </mqtt-subscription>
+  </template>
+
+  <template is="dom-repeat" items="{{peers}}" as="t">
+    <mqtt-subscription topic="[[t.topic]]" qos="[[t.qos]]" on-mqtt-subscription-subscribed="_subscribed">
+    </mqtt-subscription>
+  </template>
+
   </template>
 
   <mqtt-publish id="pub" on-mqtt-publication-published="_published">
@@ -52,11 +66,21 @@ HIER EEN TOPIC ARRAY VAN MAKEN / TEMPLATE REPEAT -->
         publickey: {
           type: String
         },
-        subscriptions: {
+        children: {
           type: Array,
-          observer: "_subscriptions",
+          observer: "_children",
           notify: true,
           value: []
+        },
+        peers: {
+          type: Array,
+          observer: "_peers",
+          notify: true,
+          value: []
+        },
+        subs: {
+          type: Boolean,
+          value: false
         }
       },
 
@@ -68,19 +92,22 @@ HIER EEN TOPIC ARRAY VAN MAKEN / TEMPLATE REPEAT -->
       },
 
       _connected: function(){
-        if(this.connected){
+        if(this.connected&&this.publickey){
           console.log("MQTT: Event _connected changed: ", this.connected);
           this.fire('mqtt-connected');
           this.usertopic = "userobject/"+this.publickey;
+          this.synctopic = "sync/"+this.deviceid;
+          this.verifytopic = "verify/"+this.deviceid;
+          this.validatetopic = "validate/"+this.publickey;
         }
       },
 
-      _subscriptions: function(){
-        console.log("SUBSCRIPTIONS: ",JSON.stringify(this.subscriptions));
+      _children: function(){
+        console.log("CHILDREN: ",JSON.stringify(this.children));
       },
 
-      _topic: function(){
-        topic = this.topic;
+      _peers: function(){
+        console.log("PEERS: ",JSON.stringify(this.peers));
       },
 
       _deviceid: function(){
@@ -96,10 +123,9 @@ HIER EEN TOPIC ARRAY VAN MAKEN / TEMPLATE REPEAT -->
       subscribe: function(topic, qos){
         if (topic.length > 0){
           console.log("[][][][] Subscribing to ", topic, " qos: ", qos);
-          //this.$.mqtt.subscribe(topic, qos, callback);
-          console.log("BEFORE: ",this.subscriptions);
-          this.subscriptions.push({topic: topic, qos: qos});
-          console.log("AFTER: ",this.subscriptions);
+          console.log("BEFORE: ",this.children);
+          //this..push({topic: topic, qos: qos});
+          console.log("AFTER: ",this.children);
         };
       },
 
@@ -108,12 +134,8 @@ HIER EEN TOPIC ARRAY VAN MAKEN / TEMPLATE REPEAT -->
         this.$.pub.payload=data;
         this.$.pub.qos=qos;
         this.$.pub.retained=false;
-        //this.qrcode = uuid.v1();
-        //this.$.lomqtt.subscribe(this.qrcode);
-        //this.$.lomqtt.send(this.qrcode, "hallo ik ben er en wacht op instructies");
         this.$.pub.publish();
-        //console.log('sending msg to ', topic, 'data: ', data);
-        //client.send(topic, {'content-type':'text/plain'}, data);
+        console.log('sending msg to ', topic, 'data: ', data);
       },
 
       fireevent: function(e){

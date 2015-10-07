@@ -66,10 +66,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         var children = this.children;
 
         for (var i = children.length - 1; i >= 0; i--) {
-          console.log("LOMQTT SUBSCRIBE TO: ", "userhash/"+this.children[i].child);
+          //console.log("LOMQTT SUBSCRIBE TO: ", "userhash/"+this.children[i].child);
           var topic = "userhash/"+this.children[i].child;
-          console.log("GODFATHER: ", topic);
-          lomqtt.push("subscriptions", {topic: topic, qos: 0});
+          //console.log("GODFATHER: ", topic);
+          lomqtt.push("children", {topic: topic, qos: 0});
         };
 
     

@@ -19,6 +19,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
 <link rel="import" href="../lo-localstorageapi/lo-localstorageapi.html">
 
+<link rel="import" href="../../bower_components/mqtt-elements/mqtt-elements.html">
+
 <script src="../../bower_components/node-uuid/uuid.js"></script>
 <script src="../../scripts/crypto-aes.js"></script>
 
@@ -138,11 +140,18 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     on-iron-localstorage-load-empty="createDeviceID">
     </iron-localstorage>
 
-    <lo-mqtt connected="{{mqttconnected}}"
-      auto-connect
+    <!-- <lo-mqtt connected="{{mqttconnected}}"
       deviceid="{{deviceid}}"
       on-message-received="msgreceived"
-      topic="{{deviceid}}" id="lomqtt"></lo-mqtt>
+      on-mqtt-connected="mqttconnectedfire"
+      id="lomqtt" subs="false"></lo-mqtt> -->
+
+      <mqtt-connection auto url="ws://opantwerpen.be:15674" on-mqtt-message="msgreceived" connected="{{connected}}" id="mqtt">
+
+      <mqtt-publish id="pub" on-mqtt-publication-published="_published">
+  </mqtt-publish>
+
+  </mqtt-connection>
 
        <lo-localstorageapi 
     id="localapielem" 
@@ -201,6 +210,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         promise: {
           type: String,
           observer: "_promise"
+        },
+        connected: {
+          type: Boolean,
+          observer: "_connected"
         }
         
       },
@@ -210,6 +223,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         this.addEventListener('back', function(){
           that.back();
         });
+      },
+
+      _connected: function(){
+        console.log("NEW USER: MQTT CONNECTED");
       },
 
       _promise: function(){
@@ -255,6 +272,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
     syncUser: function(){
       var that = this;
+       this.$.mqtt.subscribe("sync/"+this.deviceid, 2);
       this.selected = 2;
       this.promise = "SYNC";
       importPage("elements/lo-qrreader/lo-qrreader.html").then(function(){
@@ -266,8 +284,18 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       });
     },
 
+    send: function(topic, data, qos){
+        this.$.pub.topic = topic; 
+        this.$.pub.payload=data;
+        this.$.pub.qos=qos;
+        this.$.pub.retained=false;
+        this.$.pub.publish();
+        console.log('sending msg to ', topic, 'data: ', data);
+      },
+
     processQRCode: function(e){
       console.log("Processing QR code: ", e.detail.partner, " Promise: ", this.promise);
+
       //publish topic e.detail.partner body SYNC
       switch(this.promise){
         case "SYNC":
@@ -275,18 +303,24 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           syncdevice = e.detail.partner;
           this.topic = e.detail.partner;
           var mytopic = this.deviceid;
+          // this.$.pub.topic = "sync/"+e.detail.partner; 
+          // this.$.pub.payload="SYNC1|"+mytopic;
+          // this.$.pub.qos=2;
+          // this.$.pub.retained=false;
+          // this.$.pub.publish();
           //this.$.lomqtt.subscribe(mytopic);
-          this.$.lomqtt.send("sync/"+e.detail.partner, "SYNC1|"+mytopic, 2);
+          this.send("sync/"+e.detail.partner, "SYNC1|"+mytopic, 2);
         break;
         case "SYNC2":
           console.log("ready to dispatch OK event");
           this.publickey = e.detail.partner;
-          this.$.lomqtt.send("sync/"+syncdevice, "SYNC3|"+this.deviceid, 2);
+          this.send("sync/"+syncdevice, "SYNC3|"+this.deviceid, 2);
         break;
         case "SYNC4":
           console.log("ready to dispatch OK event");
           this.privatekey = e.detail.partner;
-          this.$.lomqtt.send("sync/"+syncdevice, "SYNCOK|"+this.deviceid, 2);
+          
+          this.send("sync/"+syncdevice, "SYNCOK|"+this.deviceid, 2);
           window.location = "/";
         break;
       }
@@ -295,7 +329,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     },
 
     msgreceived: function(e){
-      var commandarray = e.detail.msg.split("|");
+      var topic = e.detail.topic;
+        var message = String.fromCharCode.apply(null, e.detail.message);
+
+      var commandarray = message.split("|");
 
       var partner = commandarray[1];
       var command = commandarray[0];

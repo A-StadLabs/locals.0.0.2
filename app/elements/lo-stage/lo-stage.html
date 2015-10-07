@@ -104,7 +104,7 @@ See authors.md for a list of all members.
 
   <!-- Stage 3: QR code / Identificatie weergeven -->
   <neon-animatable style="background-color: white">
-    <div>
+    <div class="canvas">
       <button on-tap="_toWhere">back</button>
       <lo-qrrender qrcode="{{qrcode}}"></lo-qrrender>
       <lo-godfather id="godf" children="{{localapi.godfather}}"></lo-godfather>
@@ -425,7 +425,7 @@ See authors.md for a list of all members.
               //console.log('peers id: ', e.detail.detail[5].userid);
               var objectname = commandarray[2];
               var userid = commandarray[5];
-              this.localapi.collection[objectname].peers.push(userid);
+              this.localapi.collection[objectname].peers.push({peer:userid});
               this.localapi.lastupdate = Date.now();
               this.$.localapielem.writeData();
             break;

@@ -74,6 +74,7 @@ See authors.md for a list of all members.
 
   <lo-mqtt connected="{{mqttconnected}}"
   on-message-received="msgreceived"
+  on-mqtt-connected="mqttconnectedfire"
   deviceid="{{deviceid}}"
   publickey="{{publickey}}"
   topic="{{publickey}}" id="lomqtt"></lo-mqtt>
@@ -117,7 +118,7 @@ See authors.md for a list of all members.
     on-dialog-confirm="processCommand" 
     on-dialog-cancel="cancel">
   </lo-dialog>
-  
+   
   <!-- Stage 5: Plusmenu om objecten toe te voegen. -->
   <neon-animatable>
     <div class="canvas">
@@ -201,6 +202,10 @@ See authors.md for a list of all members.
       this.show = 1;
      },
 
+     _publickey: function(){
+
+     },
+
      
 
       ready: function(){
@@ -266,6 +271,9 @@ See authors.md for a list of all members.
 
       _qrreader: function(e){
 
+        changeStage(2);
+
+        console.log(e);
 
         this.importHref("../elements/lo-qrreader/lo-qrreader.html", function(g) {
           this.addEventListener("got-code", function(f){
@@ -279,14 +287,18 @@ See authors.md for a list of all members.
             // console.log('Data: ', e.detail.objectdata);
             // console.log('Userid: ', e.detail.userid);
             // console.log('HASH: ', e.detail.hash);
-            var partner = f.detail.partner+"@"+this.domein;
+            var partner = f.detail.partner;
             var command = e.detail.command;
             var objectname = e.detail.objectname;
             var objectdata = e.detail.objectdata;
             var objectconfig = e.detail.objectconfig;
             var userid = e.detail.userid;
             var hash = e.detail.hash;
-            loxmpp.sendMessage(partner, command, objectname, objectconfig, objectdata, userid, hash);
+            //console.log("Nieuwe getuige: ", partner, command, objectname, objectconfig, objectdata, userid, hash);
+            console.log("sending verification req");
+            lomqtt.subscribe("validate/"+this.publickey, 2);
+            lomqtt.send("verify/"+partner, "VERIFY|"+this.publickey+"|"+objectname+"|"+objectconfig+"|"+objectdata+"|"+userid+"|"+hash, 2);
+            //this.$.lomqtt.send("sync/"+e.detail.partner, "SYNC1|"+mytopic, 2);
           });
         // e.target.import is the import document.
         //console.log('import',e);
@@ -294,7 +306,7 @@ See authors.md for a list of all members.
         //console.log('import',e);
         // loading error
       });
-        changeStage(2);
+        
       },
 
     
@@ -304,9 +316,8 @@ See authors.md for a list of all members.
         this.selected = 3;
         console.log("To qr");
         this.qrcode = this.deviceid;
-        this.$.lomqtt.subscribe("sync/"+this.deviceid, 0, function(e, m){
-          console.log(e, m);
-        });
+        this.$.lomqtt.subscribe("sync/"+this.deviceid, 0);
+        this.$.lomqtt.subscribe("verify/"+this.deviceid, 2);
         //this.$.lomqtt.send("sync/"+this.deviceid, "SYNC1", 0);
       },
 
@@ -321,12 +332,20 @@ See authors.md for a list of all members.
     },
 
     _mqttconnected: function(){
+      var that = this;
       if(this.publickey){
-      this.$.lomqtt.subscribe("userobject/"+this.publickey, 0, function(e, m){
-            console.log(e, m);
-      });
-    };
+        var topic = "userobject/"+this.publickey;
+        this.$.lomqtt.push("subscriptions", {topic: topic, qos: 0});
+      };
+      
     },
+
+    mqttconnectedfire: function(){
+    },
+
+  
+
+
 
     // _ConfirmGetuige: function(e) {
     //   //console.log('Yes, bevestigd!', e.target.user);
@@ -352,11 +371,7 @@ See authors.md for a list of all members.
      
 
       msgreceived: function(e){
-        //console.log("Stage kent msg? ",e.detail.topic, e.detail.message, e.detail.packet);
-        //console.log(String.fromCharCode.apply(null, e.detail.message));
-        //console.log(JSON.stringify(e.detail));
-        // {"detail":[{"partner":"8dfb9a50-6107-11e5-aa8c-8da569b7f6e2@opantwerpen.be/7782ea43-1baa-9f7f-4a2e-9fa5cb4edb6f"},{"command":"SYNC"},{"objectname":"null"},{"objectconfig":"null"},{"objectdata":"null"}]}
-        console.log(e.detail.msg, e.detail.topic);
+        console.log("MSGRECEIVED: ", e.detail.topic, e.detail.msg);
 
         var commandarray = e.detail.msg.split("|");
 
@@ -395,12 +410,21 @@ See authors.md for a list of all members.
               this.selected = 1;
             break;
 
+            case "HASHUPDATE":
+              //console.log("Sync OK!");
+              //this.selected = 1;
+              console.log("Oops, I should be checking this hash.", commandarray[2], " for user ", commandarray[3]);
+                this.$.godf.checkSum(commandarray[3], commandarray[1], commandarray[2], function(){
+                  console.log("HashCheck done");
+                })
+            break;
+
             case "USERUPDATE":
               // I am a sync/peer for this user so I keep myself up to date.
               // Overwrite the local userobject with the one received.
               //if(e.detail.detail.partner!=this.openfire1+"@"+this.domein){
               
-              //console.log("normaal ga ik dus nu deze shit overschijven: ", partner);
+              //console.log("normaal ga ik dus nu deze shit overschijven: ", e.detail.msg);
 
               this.$.localapielem.encdata = partner;
               this.localapi.lastupdate = Date.now();
@@ -423,24 +447,27 @@ See authors.md for a list of all members.
               //console.log('objectname: ', objectname);
               //console.log('localapi item: ', this.localapi.collection[objectname]);
               //console.log('peers id: ', e.detail.detail[5].userid);
-              this.localapi.collection[objectname].peers.push(e.detail.detail[5].userid);
+              var objectname = commandarray[2];
+              var userid = commandarray[5];
+              this.localapi.collection[objectname].peers.push(userid);
               this.localapi.lastupdate = Date.now();
               this.$.localapielem.writeData();
             break;
 
             case "VERIFY":
+
               // Another user wants a dataset verified by this user
-              //console.log("sync request");
+              console.log("sync request", commandarray);
               dialog.title = "VERIFY";
               dialog.body = "Wil je getuige zijn van deze dataset?";
               dialog.command = command;
-              dialog.partner = e.detail.detail[0].partner;
-              dialog.objectname = e.detail.detail[2].objectname;
-              dialog.objectdata = e.detail.detail[4].objectdata;
-              dialog.userid = e.detail.detail[5].userid;
-              dialog.objectconfig = e.detail.detail[3].objectconfig;
-              dialog.hash = e.detail.detail[6].hash;
-              this.selected = 5;
+              dialog.partner = partner;
+              dialog.objectname = commandarray[2];
+              dialog.objectdata = commandarray[4];
+              dialog.userid = commandarray[5];
+              dialog.objectconfig = commandarray[3];
+              dialog.hash = commandarray[6];
+              this.selected = 4;
               //app.openDialog("Wil je deze dataset van Kristien valideren?");
             break;
 
@@ -497,11 +524,11 @@ See authors.md for a list of all members.
           case "VERIFY":
             //console.log("Ik word getuige van ", userid2);
             //(user1, user2, objectname, objecthash)
-            loxmpp.sendMessage(partner, "VALIDATE", objectname, null, null, this.userid, null);
+            lomqtt.send("validate/"+partner, "VALIDATE"+"|"+this.publickey+"|"+objectname+"|"+null+"|"+null+"|"+this.publickey+"|"+hash, 2);
             //loxmpp.sendgroupMessage(this.userid, userid2, objectname, hash);
-            //console.log("dus ik push naar godfather array: ", userid2, objectname, hash);
-            this.localapi.godfather.push({ "child": userid2, "object": objectname, "hash": hash, "valid": true });
-            //this.$.localapielem.readData();
+            console.log("dus ik push naar godfather array: ", partner, objectname, hash);
+            this.localapi.godfather.push({ "child": partner, "object": objectname, "hash": hash, "valid": true });
+            this.$.localapielem.writeData();
           break;
           
         };

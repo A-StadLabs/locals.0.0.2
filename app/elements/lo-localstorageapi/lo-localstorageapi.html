@@ -75,10 +75,15 @@
     },
 
     initEmpty: function(){
-      var data = { collection: {}, peers: [], godfather: [], lastupdate: Date.now() };
-      this.data = data;
+      lomqtt = document.querySelector("lo-mqtt");
+      console.log("Init activated");
+      //lomqtt.subscribe(topic, 2, function(e){
+      //  console.log("Init data: ",e);
+      //});
+      //var data = { collection: {}, peers: [], godfather: [], lastupdate: Date.now() };
+      //this.data = data;
       //this.fire('init-data');
-      this.writeData();
+      //this.writeData();
       //data written
     },
 
@@ -94,8 +99,6 @@
         var encrypted = CryptoJS.AES.encrypt(stringifiedobject, pin);
         //console.log('Localstorage API encrypted: ',encrypted.toString());
         this.encdata = encrypted.toString();
-        var topic = this.publickey+"/userobject";
-        console.log(topic);
         //lomqtt.send(this.publickey, this.encdata);
         lomqtt.send('userobject/'+this.publickey, "USERUPDATE|"+this.encdata, 0);
         //var peers = this.data.peers;
@@ -125,7 +128,7 @@
         //console.log(data);
         this.data = data;
         console.log(data);
-        app.render();
+        //app.render();
       };
     },
 
@@ -137,6 +140,7 @@
     _dataChanged: function(){
       //console.log('data changed');
       //this.writeData();
+      console.log("DATA CHANGED: ",this.data);
       this.fire("data-changed");
     },
 

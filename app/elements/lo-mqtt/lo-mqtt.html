@@ -6,11 +6,19 @@
 
  <mqtt-connection auto url="ws://opantwerpen.be:15674" on-mqtt-message="fireevent" connected="{{connected}}" id="mqtt">
 
-  <mqtt-subscription id="sub" topic="{{topic}}" on-mqtt-subscription-subscribed="_subscribed">
+<!-- 
+HIER EEN TOPIC ARRAY VAN MAKEN / TEMPLATE REPEAT -->
+
+<!--   <mqtt-subscription id="sub" topic="{{topic}}" on-mqtt-subscription-subscribed="_subscribed">
   </mqtt-subscription>
 
   <mqtt-subscription id="sub2" topic="{{usertopic}}" on-mqtt-subscription-subscribed="_subscribed">
-  </mqtt-subscription>
+  </mqtt-subscription> -->
+
+  <template is="dom-repeat" items="{{subscriptions}}" as="t">
+    <mqtt-subscription topic="[[t.topic]]" qos="[[t.qos]]" on-mqtt-subscription-subscribed="_subscribed">
+    </mqtt-subscription>
+  </template>
 
   <mqtt-publish id="pub" on-mqtt-publication-published="_published">
   </mqtt-publish>
@@ -43,6 +51,12 @@
         },
         publickey: {
           type: String
+        },
+        subscriptions: {
+          type: Array,
+          observer: "_subscriptions",
+          notify: true,
+          value: []
         }
       },
 
@@ -56,8 +70,13 @@
       _connected: function(){
         if(this.connected){
           console.log("MQTT: Event _connected changed: ", this.connected);
+          this.fire('mqtt-connected');
           this.usertopic = "userobject/"+this.publickey;
         }
+      },
+
+      _subscriptions: function(){
+        console.log("SUBSCRIPTIONS: ",JSON.stringify(this.subscriptions));
       },
 
       _topic: function(){
@@ -70,13 +89,18 @@
         this.topic = "sync/"+this.deviceid;
       },
 
-      _subscribed: function(){
-        console.log("subscribed");
+      _subscribed: function(e){
+        console.log("subscribed", e.detail);
       },
 
-
-      subscribe: function(topic, qos, callback){
-        this.$.mqtt.subscribe(topic, qos, callback);
+      subscribe: function(topic, qos){
+        if (topic.length > 0){
+          console.log("[][][][] Subscribing to ", topic, " qos: ", qos);
+          //this.$.mqtt.subscribe(topic, qos, callback);
+          console.log("BEFORE: ",this.subscriptions);
+          this.subscriptions.push({topic: topic, qos: qos});
+          console.log("AFTER: ",this.subscriptions);
+        };
       },
 
       send: function(topic, data, qos){
@@ -88,14 +112,15 @@
         //this.$.lomqtt.subscribe(this.qrcode);
         //this.$.lomqtt.send(this.qrcode, "hallo ik ben er en wacht op instructies");
         this.$.pub.publish();
-        console.log('sending msg to ', topic, 'data: ', data);
+        //console.log('sending msg to ', topic, 'data: ', data);
         //client.send(topic, {'content-type':'text/plain'}, data);
       },
 
       fireevent: function(e){
-        console.log("TEsting!", e.detail.topic);
+        
         var topic = e.detail.topic;
         var message = String.fromCharCode.apply(null, e.detail.message);
+        console.log("MQTT: incoming: ", topic, message);
         this.fire('message-received', {msg: message, topic: topic});
       }
 

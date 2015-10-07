@@ -15,6 +15,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     <style>
       :host {
         display: block;
+        color: black;
       }
     </style>
     <button on-tap="back">Back</button>
@@ -30,8 +31,13 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
   (function() {
     'use strict';
 
+    var clog = function(){
+      console.log("IETS KOMT BINNEN");
+    };
+
 
     var lomqtt;
+     var stage;
 
     Polymer({
       is: 'lo-godfather',
@@ -45,8 +51,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       },
 
       attached: function(){
-        lomqtt = document.querySelector("lo-mqtt");
-        //console.log("Godfather kent loxmpp: ", loxmpp);
+        
+        stage = document.querySelector("lo-stage");
       },
       
       back: function(){
@@ -54,12 +60,19 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       },
 
       _children: function(){
-        for (var i = this.children.length - 1; i >= 0; i--) {
-          //let's check in on my chilren.
-          //console.log("Joining room: ",this.children[i].child, " i am ", loxmpp.username);
-          //loxmpp.joinRoom("godfather", loxmpp.password, this.children[i].child);
-          loxmpp.subscribe(this.children[i].child);
+        lomqtt = document.querySelector("lo-mqtt");
+        console.log("HEY! NIE OP MIJN GEZICHT!!!", this.children);
+        //this.checkSum();
+        var children = this.children;
+
+        for (var i = children.length - 1; i >= 0; i--) {
+          console.log("LOMQTT SUBSCRIBE TO: ", "userhash/"+this.children[i].child);
+          var topic = "userhash/"+this.children[i].child;
+          console.log("GODFATHER: ", topic);
+          lomqtt.push("subscriptions", {topic: topic, qos: 0});
         };
+
+    
       },
 
       checkSum: function(user, object, hash, fn){

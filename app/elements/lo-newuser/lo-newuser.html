@@ -17,6 +17,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
 <link rel="import" href="../../bower_components/neon-animation/neon-animatable.html">
 
+<link rel="import" href="../lo-localstorageapi/lo-localstorageapi.html">
+
 <script src="../../bower_components/node-uuid/uuid.js"></script>
 <script src="../../scripts/crypto-aes.js"></script>
 
@@ -126,13 +128,13 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     </style>
   <template>
 
-    <iron-localstorage id="localstorage" name="lo-public" value="{{publickey}}">
+    <iron-localstorage id="localpub" name="lo-public" value="{{publickey}}">
     </iron-localstorage>
 
-    <iron-localstorage id="localstorage" name="lo-private" value="{{privatekey}}">
+    <iron-localstorage id="localpriv" name="lo-private" value="{{privatekey}}">
     </iron-localstorage>
 
-    <iron-localstorage id="localstorage" name="lo-device" value="{{deviceid}}"
+    <iron-localstorage id="localdevid" name="lo-device" value="{{deviceid}}"
     on-iron-localstorage-load-empty="createDeviceID">
     </iron-localstorage>
 
@@ -141,6 +143,15 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       deviceid="{{deviceid}}"
       on-message-received="msgreceived"
       topic="{{deviceid}}" id="lomqtt"></lo-mqtt>
+
+       <lo-localstorageapi 
+    id="localapielem" 
+    publickey="{{publickey}}" 
+    privatekey="{{privatekey}}" 
+    data="{{localapi}}" 
+    encdata="{{localenc}}"
+    deviceid="{{deviceid}}">
+  </lo-localstorageapi>
 
     <neon-animated-pages id="pages" selected="{{selected}}" entry-animation="{{entryAnimation}}" exit-animation="{{exitAnimation}}">
 
@@ -226,17 +237,20 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       },
 
     createUser: function(){
+      var localapi = this.$.localapielem;
       var publickey = uuid.v4();
       this.publickey = publickey;
       var privatekey = uuid.v4();
       this.privatekey = privatekey;
       console.log('--- Created UUID ---');
       console.log('--- publickey: ', this.publickey, ' - privatekey: ', this.privatekey, ' - deviceid: ', this.deviceid, ' ---');
-      // Create chatroom for this user
-      //this.$.loxmpp.createRoom(userid, this.openfireuser1, this.openfireuser2);
-      //this.selected=1;
+
+      var data = { collection: {}, peers: [], godfather: [], lastupdate: Date.now() };
+      localapi.data = data;
+      this.fire('init-data');
+      localapi.writeData();
+      //data written
       window.location = "/";
-    
     },
 
     syncUser: function(){

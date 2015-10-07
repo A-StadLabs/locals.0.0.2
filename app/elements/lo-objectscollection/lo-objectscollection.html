@@ -89,7 +89,7 @@ See authors.md for a list of all members.
           objectconfig="{{item.array.objectconfig}}" 
           objectcomponent="{{item.array.objectcomponent}}" 
           objectpeers="{{item.array.objectpeers}}"
-          userid="{{publickey}}"
+          publickey="{{publickey}}"
           hash="{{item.array.objecthash}}"
           on-scroll="_Scroll">
         </lo-renderer>        
@@ -110,7 +110,7 @@ See authors.md for a list of all members.
     return hash.toString(CryptoJS.enc.Hex); 
   };
 
-  var loxmpp;
+  var lomqtt;
 
  
 
@@ -122,7 +122,7 @@ See authors.md for a list of all members.
     ],
 
     properties: {
-      userid: {
+      publickey: {
         type: String,
         notify: true
       },
@@ -156,7 +156,7 @@ See authors.md for a list of all members.
           objectname: e.detail.objectname, 
           objectconfig: e.detail.objectconfig, 
           objectdata: e.detail.objectdata,
-          userid: e.detail.userid,
+          publickey: e.detail.publickey,
           hash: e.detail.hash
         });
       });
@@ -170,7 +170,8 @@ See authors.md for a list of all members.
         //this.objectsdata[e.detail.datasetname].data
         //console.log("Is it added? ", this.objectsdata);
 
-        //loxmpp.sendmygroupMessage(this.userid, e.detail.datasetkey, hash);
+        //loxmpp.sendmygroupMessage(this.publickey, e.detail.datasetkey, hash);
+        lomqtt.send('userhash/'+this.publickey, "HASHUPDATE|"+e.detail.datasetkey+"|"+hash+"|"+this.publickey, 0);
 
         this.fire('save');
         //that._objectChanged();
@@ -180,8 +181,8 @@ See authors.md for a list of all members.
     },
 
     attached: function(){
-      loxmpp = document.querySelector("lo-xmpp");
-  //console.log("Objectscollection kent loxmpp: ", loxmpp);
+      lomqtt = document.querySelector("lo-mqtt");
+      console.log("Objectscollection kent lomqtt: ", lomqtt);
     },
 
     toGod: function(){

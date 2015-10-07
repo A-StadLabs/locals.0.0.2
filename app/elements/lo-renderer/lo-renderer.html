@@ -65,10 +65,9 @@ See authors.md for a list of all members.
 <!--         <button on-tap="open">
           <img src="visualbtn.svg">
         </button> -->
-        
-        <button on-tap="toPeerlist">
-          <img src="waardenbtn.svg">
-        </button>
+          <button on-tap="toPeerlist">
+            <img src="waardenbtn.svg">
+          </button>
       </div> 
 
 
@@ -194,7 +193,7 @@ See authors.md for a list of all members.
 
     validate: function(){
       //console.log("ask for validation");
-      this.fire('add-getuige', { objectname: this.objectname, objectconfig: JSON.stringify(this.objectconfig), objectdata: JSON.stringify(this.objectdata), userid: this.userid, hash: this.hash });
+      this.fire('add-getuige', { objectname: this.objectname, objectconfig: JSON.stringify(this.objectconfig), objectdata: JSON.stringify(this.objectdata), userid: this.publickey, hash: this.hash });
     }
 
   });

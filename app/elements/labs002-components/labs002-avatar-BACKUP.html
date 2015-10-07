@@ -77,7 +77,7 @@ See authors.md for a list of all members.
 
      .avatarparts {
       width: 200px;
-      height: 350px;
+      height: 360px;
       margin: 0px;
 /*      border: 1px solid red;      */
     }
@@ -292,12 +292,16 @@ See authors.md for a list of all members.
 
 
 
+.yeye {
+  background-color: yellow;
+}
+
   </style>
   <template>
 
 
 <!-- Hier begint ALLES -->
-<!-- <h1>AVATAR</h1> -->
+<h1>AVATAR</h1>
 <neon-animated-pages id="pages" selected="{{selected}}" entry-animation="{{entryAnimation}}" exit-animation="{{exitAnimation}}">
 
 <!-- sectie 0 //   HIER BEGINT DE  FIXEDPEUP(NIET-EDIT)-SECTIE -->
@@ -598,9 +602,8 @@ See authors.md for a list of all members.
         <labs002-colorpicker itemtocolor="{{itemtocolor}}" colorselected="{{avatarSnitColor}}"></labs-colorpicker>
         </template>
 
-<!--         <labs002-colorpicker itemtocolor="body"></labs-colorpicker> -->
-              <button on-tap="save">Hier dan valideren</button>
-
+        <labs002-colorpicker itemtocolor="body"></labs-colorpicker>
+      
       </div>
     </div>  
 
@@ -674,17 +677,6 @@ See authors.md for a list of all members.
       properties: {
       config: {
           type: Object,
-          value: {
-            snit: [3,"red"],
-            glasses: [0,"red"],
-            beard: [1,"red"],
-            face: [0,"red"],
-            head: [0,"red"],
-            top: [1,"black"],
-            bottom: [0,"red"],
-            shoes: [1,"black"],
-            body: [0,"var(--primary-lightblue)"]
-          },
           observer: "_configChanged"
       },
 
@@ -693,6 +685,16 @@ See authors.md for a list of all members.
           observer: "_dataChanged"
         },
 
+      editmode: {
+        type: Boolean,
+        value: false,
+        observer: "editListener"
+      },
+
+      // editvisual: {
+      //   type: Boolean,
+      //   value: false
+      // },
 
       editvalues: {
         type: Boolean,
@@ -766,14 +768,13 @@ See authors.md for a list of all members.
       },
 
       save: function(){
-        // this.data.locked = true;
-        // this.locked = true;
-        // this.data.firstname = this.firstname;
-        // this.data.name = this.lastname;
-        // this.data.birthplace = this.birthplace;
-        // this.data.birthdate = this.birthdate;
-        // this.fire('save', {objectname: this.name, objectconfig: this.config, objectdata: this.data });
-        this.fire('save-it', { datasetkey: this.objectname, dataset: this.objectdata, hash: this.objecthash });
+        this.data.locked = true;
+        this.locked = true;
+        this.data.firstname = this.firstname;
+        this.data.name = this.lastname;
+        this.data.birthplace = this.birthplace;
+        this.data.birthdate = this.birthdate;
+        this.fire('save', {objectname: this.name, objectconfig: this.config, objectdata: this.data });
       },
 
       _test: function(e){
@@ -880,13 +881,17 @@ See authors.md for a list of all members.
       },
 
       editListener: function(){
-          console.log("Opened !!!!");
-          if(this.opened){
-          this.selected = 1;
-          } else {
-            this.selected = 0;
 
-          }; 
+        // Dit is dus "opened" geworden
+
+          // console.log("LISTEN editmode!", this.editmode);
+
+          // if (this.editmode) {
+          //   this.fire('edit-state', {state: this.editmode});
+             
+          // } else {
+          //   this.fire('edit-state', {state: this.editmode});
+          // };
       },
 
 

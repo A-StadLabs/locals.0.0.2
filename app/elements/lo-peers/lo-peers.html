@@ -9,24 +9,125 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 -->
 
 <link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/paper-toolbar/paper-toolbar.html">
 
 <dom-module id="lo-peers">
   <style>
     :host {
       display: block;
+          background-color: white;
     }
 
-    button {
-      width: 100px;
-      height: 50px;
+/*    .peers {
+      background-color: white;
+      height: 100%;
+      width: 100%;
+    }*/
+
+    .addpeerbar {
+      width: 100%;
+      padding: 15px 0px 15px 0px;
+      height: 90px;
+      background-color: transparent;
+      @apply(--layout-horizontal);
+      @apply(--layout-end-justified);
+/*      border-bottom: 1px solid rgba(0,0,0,0.05);
+*/    }
+
+    .peerlist {
+      overflow-y: scroll;
+      height: 350px;
+      width: 100%;
+      @apply(--layout-vertical);
+/*      background-color: rgba(120,180,122,0.05);*/
     }
+
+    .peerlistitem {
+      @apply(--layout-horizontal);
+      @apply(--layout-start);
+      padding: 20px;
+      border-bottom: 1px solid rgba(0,0,0,0.05);
+    }
+
+    .peerlistitem h3 {
+      color: var(--primary-darkgrey);
+      font-family: OpensansLight;
+      font-size: 14px;
+      margin: 0px;
+      padding: 0px;
+    }
+
+
+    .mainbtn {
+      @apply(--layout-horizontal);
+      @apply(--layout-center);
+      height: 50px;
+      border-radius: 5px;
+      background-color: transparent;
+      border: 1px solid rgba(0,0,0,0.1);
+      outline: 0;
+      padding: 0px 15px 0px 15px;
+
+    }
+
+
   </style>
   <template>
-    <button on-tap="newpeer">+</button>
-    <p>{{peers.length}}</p>
-    <tempate is="dom-repeat" items="{{peers}}">
-      <h3>Peer<span>{{item.peer}}</span></h3>
-    </tempate>
+
+    <div class="peers">
+
+      <paper-toolbar class="addpeerbar">
+        <button class="mainbtn" on-tap="newpeer">
+          <img src="../../images/plus.svg">
+          <img src="../../images/accept.svg">
+        </button>
+      </paper-toolbar>
+    <!--     <p>{{peers.length}}</p> -->
+
+      <div class="peerlist">
+<!--         <tempate is="dom-repeat" items="{{peers}}"> -->
+          <div class="peerlistitem">
+            <h3 class="flex">Bennisan<span>{{item.peer}}</span></h3>
+            <img src="../../images/accept-green.svg">
+          </div>
+
+          <div class="peerlistitem">
+            <h3 class="flex">Lorem ipsum<span>{{item.peer}}</span></h3>
+            <img src="../../images/accept-green.svg">
+          </div> 
+
+          <div class="peerlistitem">
+            <h3 class="flex">Suspendisse gravida<span>{{item.peer}}</span></h3>
+            <img src="../../images/accept-green.svg">
+          </div> 
+
+          <div class="peerlistitem">
+            <h3 class="flex">Cras vel nisl porta pretium lacus<span>{{item.peer}}</span></h3>
+            <img src="../../images/accept-green.svg">
+          </div> 
+
+
+
+          <div class="peerlistitem">
+            <h3 class="flex">Aenean molestie<span>{{item.peer}}</span></h3>
+            <img src="../../images/accept-green.svg">
+          </div>           
+
+
+          <div class="peerlistitem">
+            <h3 class="flex">Curabitur rhoncus<span>{{item.peer}}</span></h3>
+            <img src="../../images/accept-green.svg">
+          </div> 
+
+          <div class="peerlistitem">
+            <h3 class="flex">Ut a dapibus ante<span>{{item.peer}}</span></h3>
+            <img src="../../images/accept-green.svg">
+          </div> 
+<!--         </tempate> -->
+      </div>
+    
+    </div>
+
   </template>
 </dom-module>
 <script>

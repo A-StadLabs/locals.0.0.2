@@ -672,23 +672,12 @@ See authors.md for a list of all members.
       ],
 
       properties: {
-      config: {
+      objectconfig: {
           type: Object,
-          value: {
-            snit: [3,"red"],
-            glasses: [0,"red"],
-            beard: [1,"red"],
-            face: [0,"red"],
-            head: [0,"red"],
-            top: [1,"black"],
-            bottom: [0,"red"],
-            shoes: [1,"black"],
-            body: [0,"var(--primary-lightblue)"]
-          },
           observer: "_configChanged"
       },
 
-      data: {
+      objectdata: {
           type: Object,
           observer: "_dataChanged"
         },
@@ -773,7 +762,7 @@ See authors.md for a list of all members.
         // this.data.birthplace = this.birthplace;
         // this.data.birthdate = this.birthdate;
         // this.fire('save', {objectname: this.name, objectconfig: this.config, objectdata: this.data });
-        this.fire('save-it', { datasetkey: this.objectname, dataset: this.objectdata, hash: this.objecthash });
+        this.fire('save-it', { datasetkey: this.objectname, dataset: this.objectdata, hash: this.objecthash, config: this.objectconfig });
       },
 
       _test: function(e){
@@ -782,35 +771,35 @@ See authors.md for a list of all members.
       },
 
       _configChanged: function(){
-        console.log('avatar conf changed: ', this.config);
-        this.avatarSnit = this.config.snit[0];
-        this.avatarSnitColor = this.config.snit[1];
+        console.log('avatar conf changed: ', this.objectconfig);
+        this.avatarSnit = this.objectconfig.snit[0];
+        this.avatarSnitColor = this.objectconfig.snit[1];
 
-        this.avatarGlasses = this.config.glasses[0];
-        this.avatarGlassesColor = this.config.glasses[1];
+        this.avatarGlasses = this.objectconfig.glasses[0];
+        this.avatarGlassesColor = this.objectconfig.glasses[1];
 
-        this.avatarBeard = this.config.beard[0];
-        this.avatarBeardColor = this.config.beard[1];
+        this.avatarBeard = this.objectconfig.beard[0];
+        this.avatarBeardColor = this.objectconfig.beard[1];
 
-        this.avatarFace = this.config.face[0];
-        this.avatarFaceColor = this.config.face[1];
+        this.avatarFace = this.objectconfig.face[0];
+        this.avatarFaceColor = this.objectconfig.face[1];
         this.entryAnimation = 'fade-in-animation';
         this.exitAnimation = 'fade-out-animation';
 
-        this.avatarHead = this.config.head[0];
-        this.avatarHeadColor = this.config.head[1];
+        this.avatarHead = this.objectconfig.head[0];
+        this.avatarHeadColor = this.objectconfig.head[1];
 
-        this.avatarTop = this.config.top[0];
-        this.avatarTopColor = this.config.top[1];
+        this.avatarTop = this.objectconfig.top[0];
+        this.avatarTopColor = this.objectconfig.top[1];
 
-        this.avatarBottom = this.config.bottom[0];
-        this.avatarBottomColor = this.config.bottom[1];
+        this.avatarBottom = this.objectconfig.bottom[0];
+        this.avatarBottomColor = this.objectconfig.bottom[1];
 
-        this.avatarShoes = this.config.shoes[0];
-        this.avatarShoesColor = this.config.shoes[1];
+        this.avatarShoes = this.objectconfig.shoes[0];
+        this.avatarShoesColor = this.objectconfig.shoes[1];
 
-        this.avatarBody = this.config.body[0];
-        this.avatarBodyColor = this.config.body[1];
+        this.avatarBody = this.objectconfig.body[0];
+        this.avatarBodyColor = this.objectconfig.body[1];
 
         //this.data.locked = false;
         
@@ -844,13 +833,13 @@ See authors.md for a list of all members.
       },
 
       _dataChanged: function(){
-        console.log('Avatar data changed: ', this.data);
-        this.firstname = this.data.firstname;
-        this.lastname = this.data.name;
-        this.birthdate = this.data.birthdate;
-        this.birthplace = this.data.birthplace;
+        console.log('Avatar data changed: ', this.objectdata);
+        this.firstname = this.objectdata.firstname;
+        this.lastname = this.objectdata.name;
+        this.birthdate = this.objectdata.birthdate;
+        this.birthplace = this.objectdata.birthplace;
 
-        this.locked = this.data.locked;
+        this.locked = this.objectdata.locked;
       },
 
 
@@ -919,7 +908,7 @@ See authors.md for a list of all members.
         // this.SnitExit = 'slide-left-animation';
 
         this.avatarSnit++;
-        this.config.snit[0] = this.avatarSnit;
+        this.objectconfig.snit[0] = this.avatarSnit;
 
         },
 
@@ -927,7 +916,7 @@ See authors.md for a list of all members.
                   console.log('TETTE');
         if (this.avatarSnit >= 1) {
               this.avatarSnit--;
-             this.config.snit[0] = this.avatarSnit;
+             this.objectconfig.snit[0] = this.avatarSnit;
         };
       },
 
@@ -939,14 +928,14 @@ See authors.md for a list of all members.
       _NextGlasses: function(){
                   console.log('TETTE');
           // this.avatarGlasses++;
-          // this.config[1].avatar[1].avatarGlasses[0] = this.avatarGlasses;
+          // this.objectconfig[1].avatar[1].avatarGlasses[0] = this.avatarGlasses;
         },
 
       _PrevGlasses: function(){
                   console.log('TETTE');
         // if (this.avatarGlasses >= 1) {
         //       this.avatarGlasses--;
-        //       this.config[1].avatar[1].avatarGlasses[0] = this.avatarGlasses;
+        //       this.objectconfig[1].avatar[1].avatarGlasses[0] = this.avatarGlasses;
         // };
 
       },
@@ -959,14 +948,14 @@ See authors.md for a list of all members.
       _NextBeard: function(){
           this.avatarBeard++;
           //console.log(this.avatarBeard);
-          this.config[1].avatar[2].avatarBeard[0] = this.avatarBeard;
-          //console.log(this.config[1].avatar[2].avatarBeard[0]);
+          this.objectconfig.beard[0] = this.avatarBeard;
+          //console.log(this.objectconfig[1].avatar[2].avatarBeard[0]);
         },
 
       _PrevBeard: function(){
         if (this.avatarBeard >= 1) {
               this.avatarBeard--;
-              this.config[1].avatar[2].avatarBeard[0] = this.avatarBeard;
+              this.objectconfig.beard[0] = this.avatarBeard;
         };
 
       },
@@ -979,14 +968,14 @@ See authors.md for a list of all members.
       _NextHead: function(){
           this.avatarHead++;
           //console.log(this.avatarHead);
-          this.config[1].avatar[4].avatarHead[0] = this.avatarHead;
-          //console.log(this.config[1].avatar[4].avatarHead[0]);
+          this.objectconfig.head[0] = this.avatarHead;
+          //console.log(this.objectconfig[1].avatar[4].avatarHead[0]);
         },
 
       _PrevHead: function(){
         if (this.avatarHead >= 1) {
               this.avatarHead--;
-              this.config[1].avatar[4].avatarHead[0] = this.avatarHead;
+              this.objectconfig.head[0] = this.avatarHead;
         };
 
       },
@@ -999,14 +988,14 @@ See authors.md for a list of all members.
       _NextTop: function(){
           this.avatarTop++;
           //console.log(this.avatarTop);
-          this.config[1].avatar[5].avatarTop[0] = this.avatarTop;
-          //console.log(this.config[1].avatar[5].avatarTop[0]);
+          this.objectconfig.top[0] = this.avatarTop;
+          //console.log(this.objectconfig[1].avatar[5].avatarTop[0]);
         },
 
       _PrevTop: function(){
         if (this.avatarTop >= 1) {
               this.avatarTop--;
-              this.config[1].avatar[5].avatarTop[0] = this.avatarTop;
+              this.objectconfig.top[0] = this.avatarTop;
         };
 
       },
@@ -1019,14 +1008,14 @@ See authors.md for a list of all members.
       _NextBottom: function(){
           this.avatarBottom++;
           //console.log(this.avatarBottom);
-          this.config[1].avatar[6].avatarBottom[0] = this.avatarBottom;
-          //console.log(this.config[1].avatar[6].avatarBottom[0]);
+          this.objectconfig.bottom[0] = this.avatarBottom;
+          //console.log(this.objectconfig[1].avatar[6].avatarBottom[0]);
         },
 
       _PrevBottom: function(){
         if (this.avatarBottom >= 1) {
               this.avatarBottom--;
-              this.config[1].avatar[6].avatarBottom[0] = this.avatarBottom;
+              this.objectconfig.bottom[0] = this.avatarBottom;
         };
 
       },
@@ -1039,17 +1028,18 @@ See authors.md for a list of all members.
       _NextShoes: function(){
           this.avatarShoes++;
           //console.log(this.avatarShoes);
-          this.config[1].avatar[7].avatarShoes[0] = this.avatarShoes;
-          //console.log(this.config[1].avatar[7].avatarShoes[0]);
+          this.objectconfig.shoes[0] = this.avatarShoes;
+          //console.log(this.objectconfig[1].avatar[7].avatarShoes[0]);
         },
 
       _PrevShoes: function(){
         if (this.avatarShoes >= 1) {
               this.avatarShoes--;
-              this.config[1].avatar[7].avatarShoes[0] = this.avatarShoes;
+              this.objectconfig.shoes[0] = this.avatarShoes;
         };
 
       },
+
 
 
 
@@ -1061,14 +1051,14 @@ See authors.md for a list of all members.
 
 
           //console.log(this.avatarBody);
-          this.config[1].avatar[8].avatarBody[0] = this.avatarBody;
-          //console.log(this.config[1].avatar[8].avatarBody[0]);
+          this.objectconfig.body[0] = this.avatarBody;
+          //console.log(this.objectconfig[1].avatar[8].avatarBody[0]);
         },
 
       _PrevBody: function(){
         if (this.avatarBody >= 1) {
               this.avatarBody--;
-              this.config[1].avatar[8].avatarBody[0] = this.avatarBody;
+              this.objectconfig.body[0] = this.avatarBody;
         };
 
       }

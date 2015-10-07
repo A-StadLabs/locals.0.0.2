@@ -78,11 +78,8 @@ See authors.md for a list of all members.
     <div id="toolbar"> 
       <div class="mainbtns">
         <button class="mainbtn" on-tap="FireAddData"><img src="../../images/plus.svg"></button>
-<<<<<<< HEAD
         <button class="mainbtn QR" on-tap="_toQR"><img src="../../images/godfather2.svg"></button>
-=======
-        <button class="mainbtn QR" on-tap="toQR"><img src="../../images/QR.svg"></button>
->>>>>>> origin/master
+
 <!--         <button class="mainbtn QR" on-tap="_toQR"><img src="../../images/QR.svg"></button> -->
       </div>
     </div>
@@ -170,6 +167,8 @@ See authors.md for a list of all members.
       this.addEventListener('save-it', function(e){
         //console.log("Save it from objectscollection: ",e.detail.datasetkey);
         this.objectsdata.collection[e.detail.datasetkey].data = e.detail.dataset;
+
+        this.objectsdata.collection[e.detail.datasetkey].config = e.detail.config;
 
         var hash = hasher(this.objectsdata.collection[e.detail.datasetkey].data);
 

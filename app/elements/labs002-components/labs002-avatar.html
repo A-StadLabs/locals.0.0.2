@@ -599,7 +599,6 @@ See authors.md for a list of all members.
         </template>
 
 <!--         <labs002-colorpicker itemtocolor="body"></labs-colorpicker> -->
-              <button on-tap="save">Hier dan valideren</button>
 
       </div>
     </div>  
@@ -674,7 +673,8 @@ See authors.md for a list of all members.
       properties: {
       objectconfig: {
           type: Object,
-          observer: "_configChanged"
+          observer: "_configChanged",
+          notify: true
       },
 
       objectdata: {
@@ -754,16 +754,6 @@ See authors.md for a list of all members.
         this.locked = false;
       },
 
-      save: function(){
-        // this.data.locked = true;
-        // this.locked = true;
-        // this.data.firstname = this.firstname;
-        // this.data.name = this.lastname;
-        // this.data.birthplace = this.birthplace;
-        // this.data.birthdate = this.birthdate;
-        // this.fire('save', {objectname: this.name, objectconfig: this.config, objectdata: this.data });
-        this.fire('save-it', { datasetkey: this.objectname, dataset: this.objectdata, hash: this.objecthash, config: this.objectconfig });
-      },
 
       _test: function(e){
         console.log('hallo ',e);

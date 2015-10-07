@@ -85,9 +85,9 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         <p>{{peers.length}}</p>
 
       <div class="peerlist">
-        <tempate is="dom-repeat" items="{{peers}}">
+        <tempate is="dom-repeat" items="{{peers}}" as="t" observer="{{peers.*}}">
           <div class="peerlistitem">
-            <h3 class="flex">{{item.peer}}</h3>
+            <h3 class="flex">??<span>{{t.peer}}</span></h3>
             <img src="../../images/accept-green.svg">
           </div>
 
@@ -106,13 +106,19 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     properties: {
       peers: {
         type: Array,
-        notify: true
+        notify: true,
+        observer: "_peersLog"
       }
     },
 
     newpeer: function(){
       this.fire("new-peer");
+    },
+
+    _peersLog:function(){
+      console.log(JSON.stringify(this.peers));
     }
+
   });
 })();
 </script>

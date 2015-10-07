@@ -87,6 +87,21 @@ See authors.md for a list of all members.
       </template>
 
 
+      <template is="dom-if" if="{{opened}}">
+        <div class="renderbtns layout horizontal">
+          
+          <button on-tap="cancel">
+<!--             <img src="visualbtn.svg">
+ --> x          </button>
+
+          <button on-tap="confirm">
+<!--             <img src="../../images/godfather.svg"> -->
+V
+          </button>
+
+        </div>
+      </template>
+
 
     </neon-animatable>
     <neon-animatable>
@@ -141,6 +156,11 @@ See authors.md for a list of all members.
         notify: true
       },
 
+      opened: {
+        type: Boolean,
+        value: false
+      }
+
     },
 
     listeners: {
@@ -151,12 +171,15 @@ See authors.md for a list of all members.
     attached: function() {
       this.async(function() {
       //console.log(this.localName + '#' + this.id + ' was attached');
-      //this.selected = 1;  
+      //this.selected = 1;
       });
     },
 
     ready: function(){
       this.selected = 0;
+
+      this.oldconfig = this.objectconfig;
+      this.newconfig = this.objectconfig;
 
       this.entryAnimation = 'slide-from-right-animation';
       this.exitAnimation = 'slide-left-animation';
@@ -176,7 +199,7 @@ See authors.md for a list of all members.
         // e.target.import is the import document.
         //console.log(elem, "config: ", this.objectconfig);
         //console.log(elem, "data: ", this.objectdata);
-        elem.objectconfig = this.objectconfig;
+        elem.objectconfig = this.newconfig;
         elem.objectdata = this.objectdata;
         elem.objectname = this.objectname;
         elem.objecthash = this.hash;
@@ -196,6 +219,7 @@ See authors.md for a list of all members.
     _config: function(){
       // Maak eerst het render plaatske leeg
       //console.log('config changed', this.objectconfig);
+      this.newconfig = this.objectconfig;
     },
 
     //_dataset: function(){
@@ -206,7 +230,9 @@ See authors.md for a list of all members.
     },
 
     toPeerlist: function(){
-      this.selected = 1;
+      var object = document.getElementById(this.objectname);
+      object.selected = 2;
+      // this.selected = 1;
     },
 
     toObject: function(){
@@ -219,13 +245,41 @@ See authors.md for a list of all members.
     },
 
     activate: function(){
+      if(!this.opened){
       this.activ =! this.activ;
       console.log(this.activ);
+      };
     },
 
     open: function(){
       var object = document.getElementById(this.objectname);
       object.opened = true;
+      this.opened = true;
+      this.activ = false;
+    },
+
+
+
+    cancel: function(){
+      var object = document.getElementById(this.objectname);
+      object.objectconfig = this.oldconfig;
+      object.opened = false;
+      this.opened = false;
+      this.activ = true;
+
+      this._dataset();
+
+    },
+
+    confirm: function(){
+      var object = document.getElementById(this.objectname);
+
+        this.fire('save-it', { datasetkey: this.objectname, dataset: this.objectdata, hash: this.objecthash, config: this.newconfig });
+
+      object.opened = false;
+      this.opened = false;
+          this.activ = true;
+
     }
 
 

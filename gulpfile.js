@@ -103,7 +103,7 @@ gulp.task('copy', function () {
 
   var scripts = gulp.src(['app/scripts/*.js'])
     .pipe(gulp.dest('dist/scripts'));
-    
+
 
   var swBootstrap = gulp.src(['bower_components/platinum-sw/bootstrap/*.js'])
     .pipe(gulp.dest('dist/elements/bootstrap'));
@@ -272,7 +272,7 @@ gulp.task('default', ['clean'], function (cb) {
     ['copy', 'styles'],
     'elements',
     ['jshint', 'images', 'fonts', 'html'],
-    'vulcanize','rename-index', // 'cache-config',
+//    'rename-index', // 'cache-config',
     cb);
 });
 

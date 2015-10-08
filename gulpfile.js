@@ -101,11 +101,8 @@ gulp.task('copy', function () {
   var elements = gulp.src(['app/elements/**/*.html'])
     .pipe(gulp.dest('dist/elements'));
 
-  var scripts = gulp.src(['app/scripts/*.js'])
+  var scripts = gulp.src(['app/scripts/**/*.js'])
     .pipe(gulp.dest('dist/scripts'));
-
-  var scripts = gulp.src(['app/scripts/lib/*.js'])
-    .pipe(gulp.dest('dist/scripts/lib'));
 
   var swBootstrap = gulp.src(['bower_components/platinum-sw/bootstrap/*.js'])
     .pipe(gulp.dest('dist/elements/bootstrap'));

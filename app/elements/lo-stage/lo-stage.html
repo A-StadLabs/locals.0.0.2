@@ -426,8 +426,10 @@ See authors.md for a list of all members.
               var objectname = commandarray[2];
               var userid = commandarray[5];
               this.localapi.collection[objectname].peers.push({ peer: userid });
+              this.localapi.collection[objectname].locked = true;
               this.localapi.lastupdate = Date.now();
               this.$.localapielem.writeData();
+              this.selected = 0;
             break;
 
             case "VERIFY":

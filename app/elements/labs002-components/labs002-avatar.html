@@ -3,6 +3,9 @@ See authors.md for a list of all members.
  -->
 
 <link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/paper-input/paper-input.html">
+<link rel="import" href="../../bower_components/paper-input/paper-input-container.html">
+
 <link rel="import" href="labs002-avatar-snitpages.html">
 <link rel="import" href="labs002-avatar-glassespages.html">
 <link rel="import" href="labs002-avatar-beardpages.html">
@@ -626,17 +629,17 @@ See authors.md for a list of all members.
 
         <paper-input-container>
           <label>Naam</label>
-          <input autofocus type="text" is="iron-input" bind-value="{{lastname}}">
+          <input type="text" is="iron-input" bind-value="{{lastname}}">
         </paper-input-container>
 
         <paper-input-container>
           <label>Geboortedatum</label>
-          <input autofocus type="text" is="iron-input" bind-value="{{birthdate}}" >
+          <input type="text" is="iron-input" bind-value="{{birthdate}}" >
         </paper-input-container>
 
         <paper-input-container>
           <label>Geboorteplaats</label>
-          <input autofocus type="text" is="iron-input" bind-value="{{birthplace}}" >
+          <input type="text" is="iron-input" bind-value="{{birthplace}}" >
         </paper-input-container>
 
         </template>
@@ -649,7 +652,6 @@ See authors.md for a list of all members.
           <button on-tap="unlock">unlock</button>
         </template>
 
-        <button on-tap="save">Hier dan valideren</button>
 <!--         TOT HIER -->
 
       </div>
@@ -679,7 +681,8 @@ See authors.md for a list of all members.
 
       objectdata: {
           type: Object,
-          observer: "_dataChanged"
+          observer: "_dataChanged",
+          notify: true
         },
 
 
@@ -704,8 +707,27 @@ See authors.md for a list of all members.
         type: Boolean,
         value: false,
         observer: "editListener"
-      }
+      },
 
+      firstname: {
+        type: String,
+        observer: "_firstname"
+      },
+
+      lastname: {
+        type: String,
+        observer: "_lastname"
+      },
+
+      birthdate: {
+        type: String,
+        observer: "_birthdate"
+      },
+
+      birthplace: {
+        type: String,
+        observer: "_birthplace"
+      }
 
       },
 
@@ -716,9 +738,26 @@ See authors.md for a list of all members.
         console.log('avatar is ready');
         this.editmode = false;
         //console.log('avatar conf: ', this.config.beard[0]);
+      },
 
-        
+      _firstname: function(){
+        console.log(this.firstname);
+        this.objectdata.firstname = this.firstname;
+      },
 
+      _lastname: function(){
+        console.log(this.lastname);
+        this.objectdata.lastname = this.lastname;
+      },
+
+      _birthdate: function(){
+        console.log(this.birthdate);
+        this.objectdata.birthdate = this.birthdate;
+      },
+
+      _birthplace: function(){
+        console.log(this.birthplace);
+        this.objectdata.birthplace = this.birthplace;
       },
 
       created: function() {
@@ -825,7 +864,7 @@ See authors.md for a list of all members.
       _dataChanged: function(){
         console.log('Avatar data changed: ', this.objectdata);
         this.firstname = this.objectdata.firstname;
-        this.lastname = this.objectdata.name;
+        this.lastname = this.objectdata.lastname;
         this.birthdate = this.objectdata.birthdate;
         this.birthplace = this.objectdata.birthplace;
 

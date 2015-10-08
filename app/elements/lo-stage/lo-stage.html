@@ -505,6 +505,7 @@ See authors.md for a list of all members.
             console.log("dus ik push naar godfather array: ", partner, objectname, hash);
             this.localapi.godfather.push({ "child": partner, "object": objectname, "hash": hash, "valid": true });
             this.$.localapielem.writeData();
+            this.selected = 0;
           break;
           
         };

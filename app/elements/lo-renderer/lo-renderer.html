@@ -252,10 +252,6 @@ See authors.md for a list of all members.
         var rendercanvas = this.$.rendercanvas;
         rendercanvas.innerHTML = '';
         elem = document.createElement(this.objectcomponent);
-        //var newelem = document.querySelector("labs002-avatar");
-        // e.target.import is the import document.
-        //console.log(elem, "config: ", this.objectconfig);
-        //console.log(elem, "data: ", this.objectdata);
         elem.objectconfig = this.newconfig;
         elem.objectdata = this.objectdata;
         elem.objectname = this.objectname;
@@ -322,17 +318,13 @@ See authors.md for a list of all members.
       this.activ = false;
     },
 
-
-
     cancel: function(){
       var object = document.getElementById(this.objectname);
       object.objectconfig = this.oldconfig;
       object.opened = false;
       this.opened = false;
       this.activ = true;
-
       this._dataset();
-
     },
 
     confirm: function(){
@@ -345,6 +337,7 @@ See authors.md for a list of all members.
       object.opened = false;
       this.opened = false;
       this.activ = true;
+<<<<<<< HEAD
 
     },
 
@@ -352,6 +345,8 @@ See authors.md for a list of all members.
       this.locked = false;
       var object = document.getElementById(this.objectname);
       object.locked = false;
+=======
+>>>>>>> origin/master
     }
 
 

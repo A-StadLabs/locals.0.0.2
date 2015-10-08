@@ -258,6 +258,7 @@ See authors.md for a list of all members.
         elem.peers = this.objectpeers;
         elem.objecthash = this.hash;
         elem.id = this.objectname;
+        this.locked = this.objectdata.locked;
         rendercanvas.appendChild(elem);
       }, function(e) {
          //console.log('import',e);
@@ -337,16 +338,11 @@ See authors.md for a list of all members.
       object.opened = false;
       this.opened = false;
       this.activ = true;
-<<<<<<< HEAD
 
     },
 
     unlock: function(){
-      this.locked = false;
-      var object = document.getElementById(this.objectname);
-      object.locked = false;
-=======
->>>>>>> origin/master
+      this.objectdata.locked = false;
     }
 
 

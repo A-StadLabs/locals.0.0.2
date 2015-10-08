@@ -624,22 +624,22 @@ See authors.md for a list of all members.
         
         <paper-input-container>
           <label>Voornaam</label>
-          <input autofocus type="text" is="iron-input" bind-value="{{firstname}}">
+          <input autofocus type="text" is="iron-input" bind-value="{{objectdata.firstname}}">
         </paper-input-container>
 
         <paper-input-container>
           <label>Naam</label>
-          <input type="text" is="iron-input" bind-value="{{lastname}}">
+          <input type="text" is="iron-input" bind-value="{{objectdata.lastname}}">
         </paper-input-container>
 
         <paper-input-container>
           <label>Geboortedatum</label>
-          <input type="text" is="iron-input" bind-value="{{birthdate}}" >
+          <input type="text" is="iron-input" bind-value="{{objectdata.birthdate}}" >
         </paper-input-container>
 
         <paper-input-container>
           <label>Geboorteplaats</label>
-          <input type="text" is="iron-input" bind-value="{{birthplace}}" >
+          <input type="text" is="iron-input" bind-value="{{objectdata.birthplace}}" >
         </paper-input-container>
 
         </template>
@@ -707,26 +707,6 @@ See authors.md for a list of all members.
         type: Boolean,
         value: false,
         observer: "editListener"
-      },
-
-      firstname: {
-        type: String,
-        observer: "_firstname"
-      },
-
-      lastname: {
-        type: String,
-        observer: "_lastname"
-      },
-
-      birthdate: {
-        type: String,
-        observer: "_birthdate"
-      },
-
-      birthplace: {
-        type: String,
-        observer: "_birthplace"
       }
 
       },
@@ -740,25 +720,6 @@ See authors.md for a list of all members.
         //console.log('avatar conf: ', this.config.beard[0]);
       },
 
-      _firstname: function(){
-        console.log(this.firstname);
-        this.objectdata.firstname = this.firstname;
-      },
-
-      _lastname: function(){
-        console.log(this.lastname);
-        this.objectdata.lastname = this.lastname;
-      },
-
-      _birthdate: function(){
-        console.log(this.birthdate);
-        this.objectdata.birthdate = this.birthdate;
-      },
-
-      _birthplace: function(){
-        console.log(this.birthplace);
-        this.objectdata.birthplace = this.birthplace;
-      },
 
       created: function() {
     console.log(this.localName + '#' + this.id + ' was created');

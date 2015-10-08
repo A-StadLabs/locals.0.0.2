@@ -425,7 +425,7 @@ See authors.md for a list of all members.
               //console.log('peers id: ', e.detail.detail[5].userid);
               var objectname = commandarray[2];
               var userid = commandarray[5];
-              this.localapi.collection[objectname].peers.push({peer:userid});
+              this.localapi.collection[objectname].peers.push({ peer: userid });
               this.localapi.lastupdate = Date.now();
               this.$.localapielem.writeData();
             break;

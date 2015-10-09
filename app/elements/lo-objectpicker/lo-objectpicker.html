@@ -42,7 +42,14 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       color: white;
       font-size: 20px;
       font-weight: 100;
+      padding: 10px;
     }
+
+    .backbtn img {
+      height: 100%;
+      width: 100%;
+    }
+
 
     .objectstotal {
       width: 100vw;
@@ -68,7 +75,9 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
 
       <div id="toolbar"> 
-        <button class="backbtn" on-tap="back">X</button>
+        <button class="backbtn" on-tap="back">
+          <img src="../../images/decline-white.svg">
+        </button>
       </div>
 
       <neon-animated-pages selected="0" id="pages">
@@ -152,7 +161,9 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
     back: function(){
       console.log('back');
-            this.$.pages.selected = 0;
+
+
+      // this.$.pages.selected = 0;
 
       this.fire('change-stage', { stage: 0 });
     },

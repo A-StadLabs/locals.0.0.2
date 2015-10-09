@@ -33,6 +33,18 @@ See authors.md for a list of all members.
     text-align: center;
   }
 
+  .godfcanvas {
+    background-color: transparent; 
+    width: 100vw;
+    @apply(--layout-vertical);
+    @apply(--layout-center-center);
+    text-align: center;
+      }
+
+  lo-qrrender {
+    width: 100vw;
+  }
+
 
   neon-animated-pages {
     height: 100vh;
@@ -41,6 +53,39 @@ See authors.md for a list of all members.
   lo-objectscollection {
     height: 100vh;
   }
+
+
+
+    .backbtn {
+      height: 50px;
+      width: 50px;
+      border: none;
+      outline: none;
+      background-color: transparent;
+      color: white;
+      font-size: 20px;
+      font-weight: 100;
+      padding: 10px;
+    }
+
+    .backbtn img {
+      height: 100%;
+      width: 100%;
+    }
+
+
+    #toolbar {
+      height: 10vh;
+      width: 100vw;
+      padding: 0px;
+      background-color: transparent;
+      color: black;
+      @apply(--layout-horizontal);
+      @apply(--layout-end-justified);
+    }
+
+
+
 
 </style>
 <template>
@@ -104,8 +149,15 @@ See authors.md for a list of all members.
 
   <!-- Stage 3: QR code / Identificatie weergeven -->
   <neon-animatable style="background-color: white">
-    <div class="canvas">
-      <button on-tap="_toWhere">back</button>
+    <div class="godfcanvas">
+
+
+      <div id="toolbar"> 
+        <button class="backbtn" on-tap="_toWhere">
+          <img src="../../images/decline.svg">
+        </button>
+      </div>
+
       <lo-qrrender qrcode="{{qrcode}}"></lo-qrrender>
       <lo-godfather id="godf" children="{{localapi.godfather}}"></lo-godfather>
     </div>
@@ -224,6 +276,9 @@ See authors.md for a list of all members.
         var that = this;
         
         this.addEventListener('change-stage', function(e){
+
+                this.entryAnimation = 'slide-from-left-animation';
+                this.exitAnimation = 'slide-right-animation';
           //console.log('Changing stage', e);
           that.selected = e.detail.stage;
         }); 
@@ -242,6 +297,8 @@ See authors.md for a list of all members.
         this.addEventListener('object-picker', function(){
           importPage("elements/lo-objectpicker/lo-objectpicker.html").then(function(){
               //that._addDataset();
+              this.entryAnimation = 'slide-from-right-animation';
+              this.exitAnimation = 'slide-left-animation';
               that.selected = 5;
             }, function(err){
               console.log(err, "error");
@@ -316,6 +373,8 @@ See authors.md for a list of all members.
       // Navigational stuff
       /** * This one shows the qr code associated with this device */
       _toQR:function(){
+        this.entryAnimation = 'slide-from-right-animation';
+        this.exitAnimation = 'slide-left-animation';
         this.selected = 3;
         console.log("To qr");
         this.qrcode = this.deviceid;

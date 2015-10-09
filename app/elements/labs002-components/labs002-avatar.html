@@ -742,6 +742,11 @@ See authors.md for a list of all members.
       this._configChanged();
       this._dataChanged();
    });
+
+        this.entryAnimation = 'slide-from-right-animation';
+        this.exitAnimation = 'slide-left-animation';
+
+
   },
 
   detached: function() {
@@ -783,8 +788,7 @@ See authors.md for a list of all members.
 
         this.avatarFace = this.objectconfig.face[0];
         this.avatarFaceColor = this.objectconfig.face[1];
-        this.entryAnimation = 'fade-in-animation';
-        this.exitAnimation = 'fade-out-animation';
+
 
         this.avatarHead = this.objectconfig.head[0];
         this.avatarHeadColor = this.objectconfig.head[1];

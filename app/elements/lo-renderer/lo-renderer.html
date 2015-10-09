@@ -128,6 +128,7 @@ See authors.md for a list of all members.
 
 
       <template is="dom-if" if="{{opened}}">
+
         <div class="confirmbtns">
           
           <button on-tap="cancel">
@@ -144,7 +145,7 @@ See authors.md for a list of all members.
 
     </neon-animatable>
     <neon-animatable>
-      <lo-peers peers="{{objectpeers}}"></lo-peers>
+      <lo-peers peers="{{objectpeers}}" on-go-back="_toBack"></lo-peers>
     </neon-animatable>
 
   </neon-animated-pages>
@@ -287,6 +288,8 @@ See authors.md for a list of all members.
 
 
     toPeerlist: function(){
+                  this.entryAnimation = 'slide-from-right-animation';
+      this.exitAnimation = 'slide-left-animation';
       this.selected = 1;
     },
 
@@ -337,6 +340,14 @@ See authors.md for a list of all members.
       this.opened = false;
       this.activ = true;
 
+    },
+
+
+    _toBack: function(){
+
+            this.entryAnimation = 'slide-from-left-animation';
+      this.exitAnimation = 'slide-right-animation';
+      this.selected = 0;
     }
 
 

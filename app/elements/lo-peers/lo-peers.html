@@ -27,11 +27,13 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
     .addpeerbar {
       width: 100%;
-      padding: 15px 0px 15px 0px;
+      padding: 15px;
       height: 90px;
       background-color: transparent;
       @apply(--layout-horizontal);
-      @apply(--layout-end-justified);
+      @apply(--layout-center);
+      box-sizing:border-box;
+
 /*      border-bottom: 1px solid rgba(0,0,0,0.05);
 */    }
 
@@ -77,12 +79,14 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
     <div class="peers">
 
-      <paper-toolbar class="addpeerbar">
+      <div class="addpeerbar">
+        <button class="backbtn" on-tap="back">back</button>
+        <span class="flex"></span>
         <button class="mainbtn" on-tap="newpeer">
           <img src="../../images/plus.svg">
           <img src="../../images/accept.svg">
         </button>
-      </paper-toolbar>
+      </div>
 <!--         <p>{{peers.length}}</p> -->
 
       <div class="peerlist">
@@ -118,6 +122,12 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
     _peersLog:function(){
       console.log(JSON.stringify(this.peers));
+    },
+
+    back: function(){
+      console.log('Nou!');
+      this.fire('go-back');
+
     }
 
   });

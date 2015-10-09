@@ -273,9 +273,9 @@ See authors.md for a list of all members.
 
       _qrreader: function(e){
 
-        changeStage(2);
+        
 
-        console.log(e);
+        //console.log(e);
 
         this.importHref("../elements/lo-qrreader/lo-qrreader.html", function(g) {
           this.addEventListener("got-code", function(f){
@@ -303,6 +303,7 @@ See authors.md for a list of all members.
             //this.$.lomqtt.send("sync/"+e.detail.partner, "SYNC1|"+mytopic, 2);
           });
         // e.target.import is the import document.
+        changeStage(2);
         //console.log('import',e);
       }, function(g) {
         //console.log('import',e);
@@ -383,7 +384,7 @@ See authors.md for a list of all members.
 
             case "SYNCOK":
               //console.log("Sync OK!");
-              this.selected = 1;
+              this.selected = 0;
             break;
 
             case "HASHUPDATE":

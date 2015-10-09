@@ -16,7 +16,6 @@ See authors.md for a list of all members.
       width: 280px;
       height: 440px; 
       overflow: hidden;
-
     }
 
     #rendercanvas {
@@ -24,17 +23,8 @@ See authors.md for a list of all members.
       margin: 0px;
     }
 
-/*    #rendercanvas:active {
-      margin: 2px 0px 0px 0px;
-    }*/
-
-    lo-peers {
-      box-shadow: 0px 0px 5px rgba(0,0,0,0.2);
-    }
-
 
     .renderbtns {
-      height: 70px;
       @apply(--layout-horizontal);
       @apply(--layout-center-center);
       padding: 0px;
@@ -46,52 +36,47 @@ See authors.md for a list of all members.
       @apply(--layout-center-center);
       border: none;
       outline: 0;
-      background-color: rgba(0,0,0,0);
-      border-radius: 0px;
-      padding: 0px;
-      margin: 0px 1px 0px 1px;
-    }
-
-
-   .visualbtn {
-      width: 40px;
-      height: 40px;
-      border-radius: 5px; 
-      z-index: 9999999999;
       background-color: rgba(0,0,0,0.05);
-      margin: 0px 20px 0px 0px;
+      border-radius: 25px;
+      padding: 0px;
+      margin: 0px 2px 0px 2px;
+      width: 50px;
+      height: 50px;
       padding: 0px;
     }
 
-   .visualbtn img {
+
+/*   .visualbtn button {
+      width: 50px;
+      height: 50px;
+      border-radius: 25px; 
+      background-color: rgba(0,0,0,0.05);
+      margin: 0px 10px 0px 0px;
+      padding: 0px;
+    }*/
+
+   .renderbtns img {
       width: 100%;
       height: 100%;
     }
 
-   /*  .visualbtn button {
-      outline: 0;
-      border: none; 
-      height: 40px;
-      width: 40px;
-      margin-right: 20px;
-      border-radius: 10px; 
-      background-color: rgba(0,0,0,0.05);
+
+    .accepter img {
+      width: 15px;
+      height: 15px;     
     }
-*/
-
-
 
     p {
       color: black;
-        font-family: OpensansLight;
-        font-size: 16px;
-        margin: 0px 0px 0px 2px;
-        padding: 0px;
+      font-family: Opensans;
+      font-size: 12px;
+      margin: 0px 0px 0px 2px;
+      padding: 0px;
     }
 
     .confirmbtns {
       background-color: white;
-      height: 60px;
+      height: 50px;
       width: 90%;
       @apply(--layout-horizontal);
       @apply(--layout-center-center);
@@ -100,8 +85,6 @@ See authors.md for a list of all members.
     .confirmbtns button {
       width: 50%;
       margin: 0px 1px 0px 1px;
-
-
       height: 50px;
       border-radius: 5px;
       background-color: transparent;
@@ -109,59 +92,52 @@ See authors.md for a list of all members.
       outline: 0;
       padding: 0px 15px 0px 15px;
     }
-    .valuespeers {
+/*    .valuespeers {
+      width: 50px;
+      height: 50px;
+            border-radius: 25px; 
+
+      background-color: transparent;
       @apply(--layout-horizontal);
       @apply(--layout-center-center);
-    }
+      border: 1px solid rgba(0,0,0,0.1);
+
+    }*/
 
 
 </style>
 <template> 
   <neon-animated-pages selected="{{selected}}" entry-animation="{{entryAnimation}}" exit-animation="{{exitAnimation}}">
     <neon-animatable>
-    
-
-
+  
       <div id="rendercanvas" on-tap="activate">
       </div>
       
       <template is="dom-if" if="{{activ}}">
         <div class="renderbtns">
-          
-<!--           <button on-tap="open">
-            <img src="visualbtn.svg">
-          </button>
- -->
-      <template is="dom-if" if="{{!opened}}">
 
-            <div class="visualbtn" on-tap="toEdit">
+        <template is="dom-if" if="{{!opened}}">
+
               <button on-tap="toVisual">
                 <img src="../../images/visualbtn.svg">
               </button>
-            </div>
-
-
-          <div class="valuespeers">
 
             <button on-tap="toValues" class="values">
               <img src="../../images/values.svg">
             </button>
 
-            <button on-tap="toPeerlist">
-              <img src="../../images/accept-green.svg">
+            <button class="accepter"  on-tap="toPeerlist">
+              <img src="../../images/accept.svg">
               <p><span>{{objectpeers.length}}</span></p>
             </button>
 
-          </div>
-
-      </template>
+        </template>
 
         </div>
       </template>
 
 
       <template is="dom-if" if="{{opened}}">
-
         <div class="confirmbtns">
           
           <button on-tap="cancel">

@@ -238,20 +238,25 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           type: String,
           value: '',
           observer: "_Logit"
+        },
+
+        SnitExit: {
+          type: String,
+          value: '',
+          observer: "_Logit"
         }
       },
 
       ready: function(){
-        // this.entryAnimation = 'slide-from-right-animation';
-        // this.exitAnimation = 'slide-left-animation';
-
+        // this.SnitEntry = 'slide-from-right-animation';
+        // this.SnitExit = 'slide-left-animation';
       },
 
-      _Logit: function(){
+      // _Logit: function(){
 
-        console.log('DE SNITENTRY IS =============' , this.SnitEntry);
-        console.log('DE SNITEXIT IS =============' , this.SnitExit);
-      },
+      //   console.log('DE SNITENTRY IS =============' , this.SnitEntry);
+      //   console.log('DE SNITEXIT IS =============' , this.SnitExit);
+      // },
 
 
       _Watchit: function(){

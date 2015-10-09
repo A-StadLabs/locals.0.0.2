@@ -907,8 +907,11 @@ See authors.md for a list of all members.
 
       _NextSnit: function(){
 
-        // this.SnitEntry = 'slide-from-right-animation';
-        // this.SnitExit = 'slide-left-animation';
+        this.SnitEntry = 'slide-from-right-animation';
+        this.SnitExit = 'slide-left-animation';
+
+        console.log('DE SNITENTRY IS =============' , this.SnitEntry);
+        console.log('DE SNITENTRY IS =============' , this.SnitExit);
 
         this.avatarSnit++;
         this.objectconfig.snit[0] = this.avatarSnit;

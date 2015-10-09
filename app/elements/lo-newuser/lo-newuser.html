@@ -322,12 +322,9 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         break;
         case "SYNC4":
           console.log("ready to dispatch OK event");
-          if(this.publickey!=e.detail.partner){
-          this.privatekey = e.detail.partner;
-        };
-          
-          this.send("sync/"+syncdevice, "SYNCOK|"+this.deviceid, 2);
-          window.location = "/";
+            this.privatekey = e.detail.partner;
+            this.send("sync/"+syncdevice, "SYNCOK|"+this.deviceid, 2);
+            window.location = "/";          
         break;
       }
       

@@ -437,8 +437,9 @@ See authors.md for a list of all members.
 
             case "SYNC3":
               console.log("Showing my private key");
-              this.qrcode = this.privatekey;
               lomqtt.send("sync/"+partner, "SYNC4|"+this.deviceid, 2);
+              this.qrcode = this.privatekey;
+              
             break;
 
             case "SYNCOK":

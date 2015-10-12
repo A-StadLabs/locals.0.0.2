@@ -15,6 +15,7 @@ See authors.md for a list of all members.
 <link rel="import" href="../lo-qrrender/lo-qrrender.html">
 <link rel="import" href="../lo-dialog/lo-dialog.html">
 <link rel="import" href="../lo-godfather/lo-godfather.html">
+<link rel="import" href="../lo-renderer/lo-renderer.html">
 
 <dom-module id="lo-stage">
 <style>
@@ -39,7 +40,7 @@ See authors.md for a list of all members.
     @apply(--layout-vertical);
     @apply(--layout-center-center);
     text-align: center;
-      }
+  }
 
   lo-qrrender {
     width: 100vw;
@@ -52,11 +53,10 @@ See authors.md for a list of all members.
 
   lo-objectscollection {
     height: 100vh;
+    width: 100vw;
   }
 
-
-
-    .backbtn {
+  .backbtn {
       height: 50px;
       width: 50px;
       border: none;
@@ -73,7 +73,6 @@ See authors.md for a list of all members.
       width: 100%;
     }
 
-
     #toolbar {
       height: 10vh;
       width: 100vw;
@@ -82,6 +81,10 @@ See authors.md for a list of all members.
       color: black;
       @apply(--layout-horizontal);
       @apply(--layout-end-justified);
+    }
+
+    .workmode {
+      background-image: url("https://s-media-cache-ak0.pinimg.com/originals/28/e9/2c/28e92c4ca494f3e611fd94f95cec4b29.jpg");
     }
 
 
@@ -134,11 +137,26 @@ See authors.md for a list of all members.
     id="objectcoll" 
     publickey="{{publickey}}" 
     objectsdata="{{localapi}}" 
-    class="color">
+    class="color"
+    position="1">
   </lo-objectscollection>
 
   <!-- Stage 1: De geopende state van het object -->
-  <div id="objectplaceholder"></div>
+  <div class="canvas workmode">
+    <button on-tap="_toWhere"><</button>
+    <lo-renderer 
+      objectname="{{activename}}" 
+      objectdata="{{activedata}}" 
+      objectconfig="{{activeconfig}}" 
+      objectcomponent="{{activecomponent}}" 
+      objectpeers="{{activepeers}}"
+      publickey="{{publickey}}"
+      hash="{{activehash}}"
+      id="activeobject"
+      activ
+      preview="false">
+    </lo-renderer>  
+  </div>
 
   <!-- Stage 2: QR code lezer -->
   <neon-animatable>
@@ -201,6 +219,17 @@ See authors.md for a list of all members.
       }, reject);
     });
   };
+
+
+  function hasher(hashobject){
+    var hash = JSON.stringify(hashobject);
+    var hash = CryptoJS.SHA256(hash);
+    //console.log("te hashen: ", hashobject);
+    //console.log("gehashed: ", hash.toString(CryptoJS.enc.Hex));
+    return hash.toString(CryptoJS.enc.Hex); 
+  };
+
+  var lomqtt;
 
 
     var partner;
@@ -282,6 +311,45 @@ See authors.md for a list of all members.
           //console.log('Changing stage', e);
           that.selected = e.detail.stage;
         }); 
+
+
+        this.addEventListener("object-selected", function(e){
+          console.log("Object selected: ", e.detail.object);
+          var object = e.detail.object;
+          that.activename = object;
+          that.activedata = that.localapi.collection[object].data;
+          that.activeconfig = that.localapi.collection[object].config;
+          that.activecomponent = that.localapi.collection[object].component;
+          console.log(that.activecomponent);
+          that.activepeers = that.localapi.collection[object].peers;
+          that.activehash = that.localapi.collection[object].hash;
+          that.$.activeobject._dataset();
+          that.selected = 1;
+        });
+
+        this.addEventListener('save-it', function(e){
+          lomqtt = that.$.lomqtt;
+        //console.log("Save it from objectscollection: ",e.detail.datasetkey);
+        that.localapi.collection[e.detail.datasetkey].data = e.detail.dataset;
+
+        that.localapi.collection[e.detail.datasetkey].config = e.detail.config;
+
+        var hash = hasher(that.localapi.collection[e.detail.datasetkey].data);
+
+        //that.objectsdata[e.detail.datasetname].data
+        //console.log("Is it added? ", that.objectsdata);
+
+        //loxmpp.sendmygroupMessage(that.publickey, e.detail.datasetkey, hash);
+        lomqtt.send('userhash/'+that.publickey, "HASHUPDATE|"+e.detail.datasetkey+"|"+hash+"|"+that.publickey, 0);
+
+        that.$.localapielem.writeData();
+        //this.fire('save');
+        //that.msgreceived(e.detail.msg);
+        //that._objectChanged();
+      });
+
+
+
 
         this.addEventListener('message-received', function(e){
           //console.log("Stage kent message received, ", e.detail.msg.detail.topic);

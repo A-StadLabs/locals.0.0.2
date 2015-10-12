@@ -23,19 +23,41 @@ See authors.md for a list of all members.
       display: block;
       height: 100vh;
 /*      width: 100vw;*/
+      --objectscollection-width: 240px;
+      --objectscollection-left: 0px;
+      overflow: none;
+      margin: 0px;
+      padding: 0px;
     }
 
+    .scrollstage {
+      overflow-x: scroll;
+      overflow-y: none;
+      width: 100vw;
+      margin: 0px;
+      padding: 0px;
+      height: 80vh;
+    }
+
+    .objectscanvas {
+      height: 100vh;
+      margin: 0px;
+      padding: 0px;
+    }
 
     .objectscollection {
       @apply(--layout-horizontal);
       @apply(--layout-center);
-      overflow-x: scroll;
+      width: var(--objectscollection-width);
+      margin-right: var(--objectscollection-left);
+      padding: 0px;
+      margin: 0px;
       height: 80vh;
     }
 
     #toolbar {
-      height: 10vh;
-      min-height: 120px;
+      height: 20vh;
+      /*min-height: 120px;*/
       width: 100vw;
       padding: 0px;
       background-color: transparent;
@@ -44,10 +66,8 @@ See authors.md for a list of all members.
       @apply(--layout-end-justified);
     }
 
-
     .mainbtns {
       @apply(--layout-vertical);
-  /*    @apply(--layout-self-end);*/
       padding: 10px;
     }
 
@@ -73,13 +93,16 @@ See authors.md for a list of all members.
       background-color: white;
     }
 
+    lo-renderer {
+    }
+
 
 
 
 </style>
 <template>
 
-
+<div class="objectscanvas">
     <div id="toolbar"> 
       <div class="mainbtns">
         <button class="mainbtn" on-tap="FireAddData"><img src="../../images/plus.svg"></button>
@@ -88,28 +111,27 @@ See authors.md for a list of all members.
 <!--         <button class="mainbtn QR" on-tap="_toQR"><img src="../../images/QR.svg"></button>-->
       </div>
     </div>
-<div class="objectscollection">
-<swipe-pages selected="0" threshold = "0.5">
-    
-      <template is="dom-repeat" items="{{objectsdata_new}}" id="collrepeat">
-      <swipe-page>
 
-        <lo-renderer 
-          objectname="{{item.array.objectname}}" 
-          objectdata="{{item.array.objectdata}}" 
-          objectconfig="{{item.array.objectconfig}}" 
+    <div class="scrollstage">
+    <div class="objectscollection">
+      <template is="dom-repeat" items="{{objectsdata_new}}" id="collrepeat">
+
+        <lo-preview 
           objectcomponent="{{item.array.objectcomponent}}" 
+          objectname="{{item.array.objectname}}" 
+          objectconfig="{{item.array.objectconfig}}"
+          objectdata="{{item.array.objectdata}}"
           objectpeers="{{item.array.objectpeers}}"
           publickey="{{publickey}}"
-          hash="{{item.array.objecthash}}"
-          on-scroll="_Scroll">
-        </lo-renderer>   
+          hash="{{item.array.objecthash}}">
+        </lo-preview>
 
-        </swipe-page>     
       </template>
+    </div>
     
-</swipe-pages>
+    </div>
 </div>
+
 </template>
 
 </dom-module>
@@ -155,7 +177,13 @@ See authors.md for a list of all members.
       objectsdata_new: {
         type: Array,
         notify: true
+      },
+
+      position: {
+        type: Number,
+        notify: true
       }
+
 
     },
 
@@ -175,27 +203,16 @@ See authors.md for a list of all members.
         });
       });
 
-      this.addEventListener('save-it', function(e){
-        //console.log("Save it from objectscollection: ",e.detail.datasetkey);
-        this.objectsdata.collection[e.detail.datasetkey].data = e.detail.dataset;
-
-        this.objectsdata.collection[e.detail.datasetkey].config = e.detail.config;
-
-        var hash = hasher(this.objectsdata.collection[e.detail.datasetkey].data);
-
-        //this.objectsdata[e.detail.datasetname].data
-        //console.log("Is it added? ", this.objectsdata);
-
-        //loxmpp.sendmygroupMessage(this.publickey, e.detail.datasetkey, hash);
-        lomqtt.send('userhash/'+this.publickey, "HASHUPDATE|"+e.detail.datasetkey+"|"+hash+"|"+this.publickey, 0);
-
-        this.fire('save');
-        //that._objectChanged();
-      });
+      
 
       
 
 
+    },
+
+    _selposchanged: function(){
+      this.customStyle['--objectscollection-left'] = 280*this.position.toString()+"px";
+      this.updateStyles();
     },
 
     attached: function(){
@@ -233,6 +250,8 @@ See authors.md for a list of all members.
           //console.log('New objectsdata: ', objectsdata_new);
         }
       };
+      this.customStyle['--objectscollection-width'] = 280*this.objectsdata_new.length.toString()+"px";
+      this.updateStyles();
       this.objectsdata_new = objectsdata_new;
     },
 

@@ -23,7 +23,6 @@ See authors.md for a list of all members.
       margin: 0px;
     }
 
-
     .renderbtns {
       @apply(--layout-horizontal);
       @apply(--layout-center-center);
@@ -45,21 +44,10 @@ See authors.md for a list of all members.
       padding: 0px;
     }
 
-
-/*   .visualbtn button {
-      width: 50px;
-      height: 50px;
-      border-radius: 25px; 
-      background-color: rgba(0,0,0,0.05);
-      margin: 0px 10px 0px 0px;
-      padding: 0px;
-    }*/
-
-   .renderbtns img {
+    .renderbtns img {
       width: 100%;
       height: 100%;
     }
-
 
     .accepter img {
       width: 15px;
@@ -92,27 +80,14 @@ See authors.md for a list of all members.
       outline: 0;
       padding: 0px 15px 0px 15px;
     }
-/*    .valuespeers {
-      width: 50px;
-      height: 50px;
-            border-radius: 25px; 
-
-      background-color: transparent;
-      @apply(--layout-horizontal);
-      @apply(--layout-center-center);
-      border: 1px solid rgba(0,0,0,0.1);
-
-    }*/
-
 
 </style>
 <template> 
   <neon-animated-pages selected="{{selected}}" entry-animation="{{entryAnimation}}" exit-animation="{{exitAnimation}}">
     <neon-animatable>
   
-      <div id="rendercanvas" on-tap="activate">
-      </div>
-      
+      <div id="rendercanvas"></div>
+
       <template is="dom-if" if="{{activ}}">
         <div class="renderbtns">
 
@@ -136,7 +111,6 @@ See authors.md for a list of all members.
         </div>
       </template>
 
-
       <template is="dom-if" if="{{opened}}">
         <div class="confirmbtns">
           
@@ -150,7 +124,6 @@ See authors.md for a list of all members.
 
         </div>
       </template>
-
 
     </neon-animatable>
     <neon-animatable>
@@ -209,6 +182,12 @@ See authors.md for a list of all members.
       opened: {
         type: Boolean,
         value: false
+      },
+
+      preview: {
+        type: Boolean,
+        value: true,
+        notify: true
       }
 
     },
@@ -254,6 +233,9 @@ See authors.md for a list of all members.
         elem.objectname = this.objectname;
         elem.objecthash = this.hash;
         elem.active = false;
+        elem.opened = false;
+        elem.selected = 0;
+        elem.mode = 0;
         elem.id = this.objectname;
         rendercanvas.appendChild(elem);
       }, function(e) {
@@ -273,13 +255,6 @@ See authors.md for a list of all members.
       this.newconfig = this.objectconfig;
     },
 
-    //_dataset: function(){
-    attached: function(){
-      // Maak eerst het render plaatske leeg
-      //console.log('data changed', this.objectdata);
-      // De gepaste webcomponent inladen  
-    },
-
     toValues: function(){
       var object = document.getElementById(this.objectname);
       object.selected = 2;
@@ -287,18 +262,14 @@ See authors.md for a list of all members.
       // this.selected = 1;
     },
 
-
     toVisual: function(){
       var object = document.getElementById(this.objectname);
       object.selected = 1;
       this.opened = true;
-      // this.selected = 1;
     },
 
-
-
     toPeerlist: function(){
-                  this.entryAnimation = 'slide-from-right-animation';
+      this.entryAnimation = 'slide-from-right-animation';
       this.exitAnimation = 'slide-left-animation';
       this.selected = 1;
     },
@@ -312,25 +283,12 @@ See authors.md for a list of all members.
       this.fire('add-getuige', { objectname: this.objectname, objectconfig: JSON.stringify(this.objectconfig), objectdata: JSON.stringify(this.objectdata), userid: this.publickey, hash: this.hash });
     },
 
-    activate: function(){
-      if(!this.opened){
-      this.activ =! this.activ;
-      console.log(this.activ);
-
-      var object = document.getElementById(this.objectname);
-      object.active = this.activ;
-
-      };
-    },
-
     open: function(){
       var object = document.getElementById(this.objectname);
       object.opened = true;
       this.opened = true;
       this.activ = false;
     },
-
-
 
     cancel: function(){
       var object = document.getElementById(this.objectname);
@@ -353,15 +311,26 @@ See authors.md for a list of all members.
       object.opened = false;
       this.opened = false;
       this.activ = true;
-
+      object.selected = 0;
     },
 
 
     _toBack: function(){
-
-            this.entryAnimation = 'slide-from-left-animation';
+      this.entryAnimation = 'slide-from-left-animation';
       this.exitAnimation = 'slide-right-animation';
       this.selected = 0;
+    },
+
+    _preview: function(){
+      if(this.preview){
+        this.mode = 1;
+        var object = document.getElementById(this.objectname);
+        object.mode = 1;
+      } else {
+        this.mode = 0;
+        var object = document.getElementById(this.objectname);
+        object.mode = 0;
+      }
     }
 
 

@@ -65,7 +65,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       },
 
       open: function(){
-        this.fire("object-selected", { object: this.objectname });
+        this.fire("object-selected", { object: this.objectname, entry: 'slide-down-animation', exit: 'slide-up-animation' });
       }
     });
   })();

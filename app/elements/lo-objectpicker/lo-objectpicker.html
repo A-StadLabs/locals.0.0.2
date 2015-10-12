@@ -160,12 +160,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     },
 
     back: function(){
-      console.log('back');
-
-
-      // this.$.pages.selected = 0;
-
-      this.fire('change-stage', { stage: 0 });
+      this.fire('change-stage', { stage: 0, entry: 'slide-from-left-animation', exit: 'slide-right-animation'});
     },
 
     initFirebase: function(){

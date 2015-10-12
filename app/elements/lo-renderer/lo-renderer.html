@@ -13,17 +13,40 @@ See authors.md for a list of all members.
   <style>
     :host {
       display: block;
-      width: 280px;
-      height: 440px; 
+      width: 100vw;
+      height: 100vh; 
       overflow: hidden;
     }
 
+    .container {
+      width: 100vw;
+      height: 100vh; 
+      @apply(--layout-vertical);
+      @apply(--layout-center-center);
+/*      padding-top: 5vh;
+*/
+    }
+
+
+/*    #toolbar {
+      height: 10vh;
+      width: 100vw;
+      padding: 0px;
+      background-color: transparent;
+      color: black;
+      @apply(--layout-horizontal);
+      @apply(--layout-end-justified);
+    }*/
+
+
     #rendercanvas {
+      width: 280px;
       height: 360px;
       margin: 0px;
     }
 
     .renderbtns {
+      width: 280px;
       @apply(--layout-horizontal);
       @apply(--layout-center-center);
       padding: 0px;
@@ -65,7 +88,7 @@ See authors.md for a list of all members.
     .confirmbtns {
       background-color: white;
       height: 50px;
-      width: 90%;
+      width: 280px;
       @apply(--layout-horizontal);
       @apply(--layout-center-center);
     }
@@ -80,22 +103,47 @@ See authors.md for a list of all members.
       outline: 0;
       padding: 0px 15px 0px 15px;
     }
+    .backbtn {
+      height: 50px;
+      width: 50px;
+      border: none;
+      outline: none;
+      background-color: transparent;
+      color: white;
+      font-size: 20px;
+      font-weight: 100;
+      padding: 10px;
+    }
 
+    .backbtn img {
+      height: 100%;
+      width: 100%;
+    }
 </style>
 <template> 
+
+  
+
+<!--         <div id="toolbar"> 
+        <button class="backbtn" on-tap="back">
+          <img src="../../images/decline-white.svg">
+        </button>
+      </div> -->
+
   <neon-animated-pages selected="{{selected}}" entry-animation="{{entryAnimation}}" exit-animation="{{exitAnimation}}">
     <neon-animatable>
-  
-      <div id="rendercanvas"></div>
+      <div class="container">
 
-      <template is="dom-if" if="{{activ}}">
-        <div class="renderbtns">
+        <div id="rendercanvas"></div>
 
-        <template is="dom-if" if="{{!opened}}">
+        <template is="dom-if" if="{{activ}}">
+          <div class="renderbtns">
 
-              <button on-tap="toVisual">
-                <img src="../../images/visualbtn.svg">
-              </button>
+          <template is="dom-if" if="{{!opened}}">
+
+            <button on-tap="toVisual">
+              <img src="../../images/visualbtn.svg">
+            </button>
 
             <button on-tap="toValues" class="values">
               <img src="../../images/values.svg">
@@ -106,24 +154,26 @@ See authors.md for a list of all members.
               <p><span>{{objectpeers.length}}</span></p>
             </button>
 
+          </template>
+
+          </div>
         </template>
 
-        </div>
-      </template>
+        <template is="dom-if" if="{{opened}}">
+          <div class="confirmbtns">
+            
+            <button on-tap="cancel">
+              <img src="../../images/decline.svg">
+            </button>
 
-      <template is="dom-if" if="{{opened}}">
-        <div class="confirmbtns">
-          
-          <button on-tap="cancel">
-            <img src="../../images/decline.svg">
-          </button>
+            <button on-tap="confirm">
+              <img src="../../images/accept.svg">
+            </button>
 
-          <button on-tap="confirm">
-            <img src="../../images/accept.svg">
-          </button>
+          </div>
+        </template>
 
-        </div>
-      </template>
+      </div>
 
     </neon-animatable>
     <neon-animatable>
@@ -188,13 +238,40 @@ See authors.md for a list of all members.
         type: Boolean,
         value: true,
         notify: true
-      }
+      },
+
+      swiper: {
+        type: Number,
+        value: 0,
+        observer: '_swipy',
+        notify: true
+    }
 
     },
 
     listeners: {
+
+      down: 'mouseDown',
+      up: 'mouseUp',
       // this event is fired when the animation finishes
       // 'neon-animation-finish': '_onNeonAnimationFinish'
+    },
+
+    mouseDown: function(e, detail) {
+      console.log("DOWN:", e.detail.y);
+      this.downmouse = e.detail.y;
+    },
+
+    mouseUp: function(e, detail) {
+      console.log("UP:", e.detail.y);
+      this.upmouse = e.detail.y;
+      this.swiper = this.downmouse - this.upmouse;
+    },
+
+    _swipy: function(){
+      if(this.swiper>0){
+        this.back();
+      };
     },
 
     attached: function() {
@@ -216,6 +293,13 @@ See authors.md for a list of all members.
       this.addEventListener('new-peer', function(){
         this.validate();
       });
+
+    },
+
+    back: function(){
+      this.fire('change-stage', { stage: 0, entry: 'slide-down-animation', exit: 'slide-up-animation'});
+      this.selected = 0;
+      this.opened = false;
 
     },
 

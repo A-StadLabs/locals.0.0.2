@@ -342,7 +342,7 @@ See authors.md for a list of all members.
 
         <!-- VOLLEDIGE PEUP -->
 
-        <div class="avatar" on-tap="toggleAvatarbtns">
+        <div class="avatar" on-tap="back">
 
         <!-- PEUP // parts -->
           <div class="snit fixit avatarparts">
@@ -869,11 +869,6 @@ See authors.md for a list of all members.
         this.locked = this.objectdata.locked;
       },
 
-      // toVisual: function(){
-      //   this.selected = 1;
-      //   this.editmode = !this.editmode;
-      // },
-
 
 
       toEdit: function(){
@@ -881,24 +876,13 @@ See authors.md for a list of all members.
 
       },
 
-      // toWaarden: function(){
-      //   this.selected = 2;
-      //   this.editmode = !this.editmode;
-      //   console.log('Logshit!');
-      // },
 
 
-      toggleAvatarbtns: function(){
 
-        console.log("Visible of the avatarbtns?", this.avatarbtnsvisible);
-        this.avatarbtnsvisible =! this.avatarbtnsvisible;
-
-          if (this.avatarbtnsvisible) {
-            this.customStyle['--zoom-items-visible'] = 'visible';
-          } else {
-            this.customStyle['--zoom-items-visible'] = 'hidden';
-          };
-            this.updateStyles(); 
+      back: function(){
+      this.fire('change-stage', { stage: 0, entry: 'slide-down-animation', exit: 'slide-up-animation'});
+      this.selected = 0;
+      this.opened = false;
       },
 
       editListener: function(){

@@ -16,37 +16,32 @@ See authors.md for a list of all members.
       width: 100vw;
       height: 100vh; 
       overflow: hidden;
+
+/*      --rendercanvas-width: 95px;
+      --rendercanvas-height: 170px;*/
+
     }
 
-    .container {
-      width: 100vw;
-      height: 100vh; 
-      @apply(--layout-vertical);
-      @apply(--layout-center-center);
-/*      padding-top: 5vh;
-*/
-    }
-
-
-/*    #toolbar {
-      height: 10vh;
-      width: 100vw;
-      padding: 0px;
-      background-color: transparent;
-      color: black;
-      @apply(--layout-horizontal);
-      @apply(--layout-end-justified);
-    }*/
 
 
     #rendercanvas {
-      width: 280px;
-      height: 360px;
+      width: 100vw;
+      height: 75vh;
+      @apply(--layout-horizontal);
+      @apply(--layout-center-center);
       margin: 0px;
     }
 
+/*
+    #rendercanvas {
+      width: var(--rendercanvas-width);
+      height: var(--rendercanvas-height);
+      margin: 0px;
+    }
+
+*/
     .renderbtns {
-      width: 280px;
+      width: 100vw;
       @apply(--layout-horizontal);
       @apply(--layout-center-center);
       padding: 0px;
@@ -59,11 +54,18 @@ See authors.md for a list of all members.
       border: none;
       outline: 0;
       background-color: rgba(0,0,0,0.05);
-      border-radius: 25px;
+      border-radius: 50%;
       padding: 0px;
       margin: 0px 2px 0px 2px;
-      width: 50px;
-      height: 50px;
+
+      width: 10vw;
+      min-width: 50px;
+      max-width: 75px;
+
+      height: 10vw;
+      min-height: 50px;
+      max-height: 75px;
+
       padding: 0px;
     }
 
@@ -73,8 +75,8 @@ See authors.md for a list of all members.
     }
 
     .accepter img {
-      width: 15px;
-      height: 15px;     
+      width: 30px;
+      height: 30px;     
     }
 
     p {
@@ -86,23 +88,36 @@ See authors.md for a list of all members.
     }
 
     .confirmbtns {
-      background-color: white;
-      height: 50px;
-      width: 280px;
+      background-color: transparent;
+      width: 100vw;
       @apply(--layout-horizontal);
       @apply(--layout-center-center);
     }
 
     .confirmbtns button {
-      width: 50%;
+
+      width: 12vw;
+      min-width: 60px;
+      max-width: 80px;
+
+      height: 12vw;
+      min-height: 60px;
+      max-height: 80px;
+
+      border-radius: 50%;
+
       margin: 0px 1px 0px 1px;
-      height: 50px;
-      border-radius: 5px;
       background-color: transparent;
-      border: 1px solid rgba(0,0,0,0.1);
+      background-color: rgba(0,0,0,0.05);
+      border: none;
       outline: 0;
       padding: 0px 15px 0px 15px;
     }
+
+    .confirmbtns img {
+      width: 100%;
+    }
+
     .backbtn {
       height: 50px;
       width: 50px;
@@ -130,11 +145,14 @@ See authors.md for a list of all members.
         </button>
       </div> -->
 
+
   <neon-animated-pages selected="{{selected}}" entry-animation="{{entryAnimation}}" exit-animation="{{exitAnimation}}">
     <neon-animatable>
       <div class="container">
 
-        <div id="rendercanvas"></div>
+        <div id="rendercontainer">
+          <div id="rendercanvas"></div>
+        </div>
 
         <template is="dom-if" if="{{activ}}">
           <div class="renderbtns">
@@ -163,11 +181,11 @@ See authors.md for a list of all members.
           <div class="confirmbtns">
             
             <button on-tap="cancel">
-              <img src="../../images/decline.svg">
+              <img src="../../images/decline-white.svg">
             </button>
 
             <button on-tap="confirm">
-              <img src="../../images/accept.svg">
+              <img src="../../images/accept-white.svg">
             </button>
 
           </div>
@@ -181,7 +199,6 @@ See authors.md for a list of all members.
     </neon-animatable>
 
   </neon-animated-pages>
-
 
 </template>
 </dom-module>
@@ -253,6 +270,7 @@ See authors.md for a list of all members.
 
       down: 'mouseDown',
       up: 'mouseUp',
+      track: 'mouseTrack'
       // this event is fired when the animation finishes
       // 'neon-animation-finish': '_onNeonAnimationFinish'
     },
@@ -265,7 +283,11 @@ See authors.md for a list of all members.
     mouseUp: function(e, detail) {
       console.log("UP:", e.detail.y);
       this.upmouse = e.detail.y;
+    },
+
+    mouseTrack: function(){
       this.swiper = this.downmouse - this.upmouse;
+
     },
 
     _swipy: function(){

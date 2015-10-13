@@ -15,16 +15,22 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     <style>
       :host {
         display: block;
-        width: 280px;
-        height: 440px; 
+
+        --preview-width: 190px;
+        --preview-height: 340px;
+
+        width: var(--preview-width);
+        height: var(--preview-height);
         overflow: hidden;
-        
       }
 
+
       #rendercanvas {
-      height: 360px;
-      margin: 0px;
-    }
+        width: var(--preview-width);
+        height: var(--preview-height);
+        margin: 0px;
+      }
+
 
     </style>
     <div id="rendercanvas"></div>
@@ -56,7 +62,6 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         elem.objectname = this.objectname;
         elem.objectdata = this.objectdata;
         elem.hash = this.hash;
-
         rendercanvas.appendChild(elem);
       }, function(e) {
          //console.log('import',e);

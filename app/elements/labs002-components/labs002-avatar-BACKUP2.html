@@ -31,9 +31,6 @@ See authors.md for a list of all members.
       padding: 0px;
       margin: 0px;
 
-      width: 100%;
-      height: 100%;
-
       --this-beardcolor: var(--primary-purple);
       --this-glassescolor: rgba(0,0,0,0.2);
       --this-topcolor: var(--primary-yellow);      
@@ -41,157 +38,90 @@ See authors.md for a list of all members.
       --this-shoescolor: var(--primary-purple);
       --this-bodycolor: var(--primary-lightblue);
 
-
+      --avatar-width: 190px;
+      --avatar-height: 340px;
     }
 
-    /* GENERAL STUFF */
 
     neon-animated-pages {
       height: 100%;
     }
 
 
-/*    .fixit {
+    .fixit {
       position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom:0;
     }
-*/
 
-    .canvas {
+     .avatarparts {
+      width: var(--avatar-width);
+      height: var(--avatar-height);
+
+      margin: 0px;
+    }
+
+    .avatarparts svg {
       width: 100%;
       height: 100%;
-      @apply(--layout-horizontal);
-      @apply(--layout-center-center);
     }
 
 
     .container {
-      width: 100%;
-      height: 100%;
-      @apply(--layout-vertical);
-      @apply(--layout-center-center);
-
-
+      border: 1px solid yellow;
+      width: var(--avatar-width);
+      height: var(--avatar-height);
     }
-/*
-    .avatar {
-      width: 100%;
-      max-width: 190px;
-      height: 100%;
-      max-height: 340px;
-      position: absolute;
-      background-color: rgba(255,255,255,0.2);
-    }*/
 
-    .avatarparts {
-      width: 100%;
-      max-width: 190px;
-      height: 100%;
-      max-height: 340px;
+
+    .valuescontainer {
+      height: 80vh;
+      width: 100vw;
+      background-color: white;
     }
 
 
 
 
 
-    /* ALL MATTERS EDIT VISUAL */
+    /* ALL MATTERS avatarvisual */
 
     .visualcontainer {
-      width: 100vw;
-      max-width: 600px;
-      height: 100%;
-      @apply(--layout-horizontal);
-      @apply(--layout-center-center);
-    }
-
-
-    .visual {
-      width: 60%;
-      height: 100%;
-      @apply(--layout-vertical);
-      @apply(--layout-center-center);
-    }
-
-    .visual svg {
+      border: 1px solid green;
       width: 100%;
+      height: var(--avatar-height);
+      @apply(--layout-horizontal);
+      @apply(--layout-center-center);      
     }
 
     .visualbtns {
-      width: 20%;
-      height: 100%;
-      @apply(--layout-vertical);
+      height: var(--avatar-height);
+      margin: 0px;
+      padding: 0px;
+      width: 40px;
+      border: 1px solid black; 
     }
 
-    .leftbtns {
+    .selector {
       @apply(--layout-horizontal);
       @apply(--layout-center);
-      @apply(--layout-end-justified);
-    }
-
-    .rightbtns {
-      @apply(--layout-horizontal);
-      @apply(--layout-center);
-      @apply(--layout-start-justified);
+      width: 100%;
     }
 
     .selector button {
       outline: 0;
       border: none;
       background-color: rgba(0,0,0,0.05);
-
-      width: 10vw;
-      min-width: 35px;
-      max-width: 60px;
-
-      height: 10vw;
-      min-height: 35px;
-      max-height: 60px;
-
-      border-radius: 50%;
+      width: 26px;
+      height: 26px;
+      border-radius: 13px;
+      @apply(--layout-horizontal);
+      @apply(--layout-center-center);
       padding: 0px;
       margin: 0px;
-    }
-
-
-    .selector img {
-      width: 100%;
+/*      border: 1px solid red;*/
     }
 
 
 
-    /* ALL MATTERS EDIT VALUES */
-
-    .valuescontainer {
-      height: 100%;
-      width: 100%;
-      @apply(--layout-vertical);
-      @apply(--layout-center-center);
-    }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-/*
     #selectsnit {
       height: 35%;
     }
@@ -217,77 +147,40 @@ See authors.md for a list of all members.
     }
 
 
-*/
+
 
 
     labs002-avatar-snitpages {
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom:0;
+      width: 100%;
+    }
+    labs002-avatar-glassespages {
+      width: 100%;
+    }
+    labs002-avatar-beardpages {
+      width: 100%;
+    }
+    labs002-avatar-facepages {
+      width: 100%;
+    }
+    labs002-avatar-headpages {
+      width: 100%;
+    }
+    labs002-avatar-toppages {
       width: 100%;
     }
 
-   labs002-avatar-glassespages {
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom:0;
-      width: 100%;    }
-    labs002-avatar-beardpages {
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom:0;
-      width: 100%;    }
-    labs002-avatar-facepages {
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom:0;
-      width: 100%;    }
-    labs002-avatar-headpages {
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom:0;
-      width: 100%;    }
-    labs002-avatar-toppages {
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom:0;
-      width: 100%;    }
-
     labs002-avatar-bottompages {
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom:0;
-      width: 100%;    }
+      width: 100%;
+    }
     labs002-avatar-shoespages {
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom:0;
-      width: 100%;    }
+      width: 100%;
+    }
     labs002-avatar-bodypages {
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom:0;
-      width: 100%;    }
+      width: 100%;
+    }
 
 
+    /* Colors */
     .beardcolor {
       fill: var(--this-beardcolor);
     }
@@ -362,6 +255,60 @@ See authors.md for a list of all members.
 
 
 
+/*
+    .colorselector {
+      margin-top: 10px; 
+      width: 100%;
+      height: 12%;
+    }
+    .colorselector svg {
+      width: 10px;
+      height: 10px;
+    }
+
+
+    .valuesedit {
+      background-color: black;
+      opacity: 0.95;
+      width: 100%;
+      height: 100%;
+      z-index: 99999999999;
+
+    }
+*/
+
+
+    iron-selector {
+      height: 100%;
+    }
+
+    labs002-colorpicker {
+      height: 50px;
+      width: 200px;
+    }
+
+    .visualedit {
+      width: 100%;
+      height: 100%;
+            @apply(--layout-horizontal);
+      @apply(--layout-center-center);
+/*      background-color: red;
+      opacity: 0.5;*/
+      z-index: 9999999999;
+    }
+
+
+    .visualedit button {
+      outline: 0;
+      border: none; 
+/*      height: 40px;
+      width: 40px;
+      margin-right: 20px;*/
+      border-radius: 10px; 
+      background-color: rgba(0,0,0,0.05);
+    }
+
+
   </style>
   <template>
 
@@ -371,15 +318,15 @@ See authors.md for a list of all members.
 <neon-animated-pages id="pages" selected="{{selected}}" entry-animation="{{entryAnimation}}" exit-animation="{{exitAnimation}}">
 
 
-<!-- sectie 0 //   HIER BEGINT DE PREVIEW-SECTIE -->
+<!-- sectie 0 //   HIER BEGINT DE  FIXEDPEUP(NIET-EDIT)-SECTIE -->
   <neon-animatable>
-    <div class="canvas">
+
       <div class="container">
 
-              <div class="avatar">
+        <!-- VOLLEDIGE PEUP -->
 
-
-        <div class="snit fixit avatarparts">
+        <!-- PEUP // parts -->
+          <div class="snit fixit avatarparts">
             <labs002-avatar-snitpages 
               selected="{{avatarSnit}}" 
               color="{{avatarSnitColor}}" 
@@ -461,14 +408,10 @@ See authors.md for a list of all members.
           </div>
 
           <div class="avatarparts"></div>
-      </div>
-
-      </div>
+      
     </div>
 
   </neon-animatable>
-
-
 
 
 

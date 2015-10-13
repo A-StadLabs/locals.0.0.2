@@ -17,47 +17,116 @@ See authors.md for a list of all members.
 
       width: 100%;
       height: 100%;
+
     }
 
+
+    /* GENERAL STUFF */
 
     neon-animated-pages {
       height: 100%;
     }
 
-    .canvas {
-      height: 100%;
-      width: 100%;
-    }
-
-    .container {
-      height: 100%;
-
-/*      margin-top: 25%;*/
-    }
-
-    .valuescontainer {
-      height: 100%;
-      width: 100%;
-      background-color: white;
-/*      box-shadow: 0px 1px 2px rgba(0,0,0,0.1);*/
-    }
 
     .fixit {
       position: absolute;
     }
 
 
+    .canvas {
+      width: 100%;
+      height: 100%;
+      @apply(--layout-horizontal);
+      @apply(--layout-center-center);
+    }
 
-    /* ALL MATTERS avatarvisual */
+
+    .container {
+      width: 100%;
+      height: 100%;
+      @apply(--layout-vertical);
+      @apply(--layout-center-center);
+    }
+
+
+
+
+    /* ALL MATTERS EDIT VISUAL */
+
+    .visualcontainer {
+      width: 100vw;
+      max-width: 600px;
+      height: 100%;
+      @apply(--layout-horizontal);
+      @apply(--layout-center-center);
+    }
+
+
+    .visual {
+      width: 60%;
+      height: 100%;
+      @apply(--layout-vertical);
+      @apply(--layout-center-center);
+    }
+
+    .visual svg {
+      width: 100%;
+    }
 
     .visualbtns {
-      height: 360px;
-      margin: 0px;
-      padding: 0px;
-/*      border: 1px solid black;*/
-/*      background-color: rgba(0,0,0,0.1);      */
- 
+      width: 20%;
+      height: 100%;
+      @apply(--layout-vertical);
     }
+
+    .leftbtns {
+      @apply(--layout-horizontal);
+      @apply(--layout-center);
+      @apply(--layout-end-justified);
+    }
+
+    .rightbtns {
+      @apply(--layout-horizontal);
+      @apply(--layout-center);
+      @apply(--layout-start-justified);
+    }
+
+    .selector button {
+      outline: 0;
+      border: none;
+      background-color: rgba(0,0,0,0.05);
+
+      width: 10vw;
+      min-width: 35px;
+      max-width: 60px;
+
+      height: 10vw;
+      min-height: 35px;
+      max-height: 60px;
+
+      border-radius: 50%;
+      padding: 0px;
+      margin: 0px;
+    }
+
+
+    .selector img {
+      width: 100%;
+    }
+
+
+
+    /* ALL MATTERS EDIT VALUES */
+
+    .valuescontainer {
+      height: 100%;
+      width: 100%;
+      @apply(--layout-vertical);
+      @apply(--layout-center-center);
+    }
+
+
+
 
    
 
@@ -70,35 +139,34 @@ See authors.md for a list of all members.
 <!-- <h1>AVATAR</h1> -->
 <neon-animated-pages id="pages" selected="{{selected}}" entry-animation="{{entryAnimation}}" exit-animation="{{exitAnimation}}">
 
-<!-- sectie 0 //   HIER BEGINT DE  FIXEDPEUP(NIET-EDIT)-SECTIE -->
+<!-- sectie 0 //   HIER BEGINT DE PREVIEW-SECTIE -->
   <neon-animatable>
     <div class="canvas">
-      <div class="layout horizontal center-center container">
-        
-        <svg version="1.1" id="Laag_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
-           width="190px" height="340px" viewBox="0 0 190 340" enable-background="new 0 0 190 340" xml:space="preserve">
-        <g>
-          <rect x="51.871" y="167.744" fill="#F5F5F5" width="90.437" height="143.767"/>
-          <rect x="114.425" y="269.447" fill="#008AB1" width="18.164" height="42.063"/>
-          <path fill="#78B47A" d="M47.875,311.511h3.996v-4.093c0,0-1.201-0.941-1.601-1.806c-0.134,1.806,0,2.95,0,2.95
-            s0.029-0.116-0.639-0.783c-0.667-0.668-2.752-0.684-2.752-0.684s1.279,0.83,1.547,1.688
-            C48.693,309.64,47.875,311.511,47.875,311.511z"/>
-          <rect x="59.486" y="163.562" fill="#007596" width="82.821" height="4.513"/>
-          <rect x="59.486" y="269.445" fill="#3FBDEE" width="27.164" height="14.529"/>
-          <rect x="91.764" y="269.445" fill="#3FBDEE" width="13.001" height="14.529"/>
-          <rect x="59.486" y="232.848" fill="#3FBDEE" width="27.164" height="14.528"/>
-          <rect x="91.764" y="232.848" fill="#3FBDEE" width="13.001" height="14.528"/>
-          <rect x="59.486" y="196.246" fill="#3FBDEE" width="27.164" height="14.533"/>
-          <rect x="91.764" y="196.246" fill="#3FBDEE" width="13.001" height="14.533"/>
-        </g>
-        <polygon fill="#78B47A" points="49.375,311.511 49.026,311.511 45.254,311.511 48.38,309.968 "/>
-        </svg>
-      </div>
+      <div class="container">
 
+            <svg version="1.1" id="Laag_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+               viewBox="0 0 190 340" enable-background="new 0 0 190 340" xml:space="preserve">
+            <g>
+              <rect x="57.662" y="104.701" fill="#F5F5F5" width="90.437" height="143.766"/>
+              <rect x="120.215" y="206.403" fill="#008AB1" width="18.164" height="42.062"/>
+              <path fill="#78B47A" d="M53.666,248.467h3.996v-4.093c0,0-1.201-0.941-1.601-1.807c-0.134,1.807,0,2.951,0,2.951
+                s0.029-0.117-0.639-0.783c-0.667-0.668-2.752-0.684-2.752-0.684s1.279,0.829,1.547,1.688
+                C54.484,246.597,53.666,248.467,53.666,248.467z"/>
+              <rect x="65.277" y="100.519" fill="#007596" width="82.82" height="4.513"/>
+              <rect x="65.277" y="206.401" fill="#3FBDEE" width="27.164" height="14.529"/>
+              <rect x="97.555" y="206.401" fill="#3FBDEE" width="13.001" height="14.529"/>
+              <rect x="65.277" y="169.804" fill="#3FBDEE" width="27.164" height="14.528"/>
+              <rect x="97.555" y="169.804" fill="#3FBDEE" width="13.001" height="14.528"/>
+              <rect x="65.277" y="133.203" fill="#3FBDEE" width="27.164" height="14.533"/>
+              <rect x="97.555" y="133.203" fill="#3FBDEE" width="13.001" height="14.533"/>
+            </g>
+            <polygon fill="#78B47A" points="55.166,248.467 54.817,248.467 51.045,248.467 54.171,246.924 "/>
+            </svg>
+
+      </div>
     </div>
 
   </neon-animatable>
-
 
 
 
@@ -108,10 +176,55 @@ See authors.md for a list of all members.
 
   <neon-animatable>
     <div class="canvas">
-      <div class="container layout vertical center-center">
+      <div class="visualcontainer">
 
-        <!-- VOLLEDIGE PEUP -->
-        WOONST edit
+        <!-- VOLLEDIGE WOONST -->
+        <div class="visualbtns leftbtns">
+          <iron-selector id="editselected" selected="{{itemtocolor}}" attr-for-selected="name">
+
+            <div id="selectsnit" class="selector"  name="snit">
+              <button on-tap="_PrevSnit">
+                <img src="../../images/arrow_left.svg">
+              </button>
+            </div>
+
+          </iron-selector>
+        </div>
+
+
+        <div class="visual">
+          <svg version="1.1" id="Laag_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+             viewBox="0 0 190 340" enable-background="new 0 0 190 340" xml:space="preserve">
+          <g>
+            <rect x="57.662" y="104.701" fill="#F5F5F5" width="90.437" height="143.766"/>
+            <rect x="120.215" y="206.403" fill="#008AB1" width="18.164" height="42.062"/>
+            <path fill="#78B47A" d="M53.666,248.467h3.996v-4.093c0,0-1.201-0.941-1.601-1.807c-0.134,1.807,0,2.951,0,2.951
+              s0.029-0.117-0.639-0.783c-0.667-0.668-2.752-0.684-2.752-0.684s1.279,0.829,1.547,1.688
+              C54.484,246.597,53.666,248.467,53.666,248.467z"/>
+            <rect x="65.277" y="100.519" fill="#007596" width="82.82" height="4.513"/>
+            <rect x="65.277" y="206.401" fill="#3FBDEE" width="27.164" height="14.529"/>
+            <rect x="97.555" y="206.401" fill="#3FBDEE" width="13.001" height="14.529"/>
+            <rect x="65.277" y="169.804" fill="#3FBDEE" width="27.164" height="14.528"/>
+            <rect x="97.555" y="169.804" fill="#3FBDEE" width="13.001" height="14.528"/>
+            <rect x="65.277" y="133.203" fill="#3FBDEE" width="27.164" height="14.533"/>
+            <rect x="97.555" y="133.203" fill="#3FBDEE" width="13.001" height="14.533"/>
+          </g>
+          <polygon fill="#78B47A" points="55.166,248.467 54.817,248.467 51.045,248.467 54.171,246.924 "/>
+          </svg>
+        </div>
+
+
+        <div class="visualbtns rightbtns">
+          <iron-selector id="editselected" selected="{{itemtocolor}}" attr-for-selected="name">
+
+            <div id="selectsnit" class="selector"  name="snit">
+              <button on-tap="_PrevSnit">
+                <img src="../../images/arrow_right.svg">
+              </button>
+            </div>
+
+          </iron-selector>
+        </div>
 
       </div>
     </div>  
@@ -125,7 +238,7 @@ See authors.md for a list of all members.
   <!-- sectie 2 //   HIER BEGINT DE WAARDEN-SECTIE -->
   <neon-animatable>
     <div class="canvas">
-      <div class="layout vertical center-center valuescontainer">
+      <div class="valuescontainer">
 
 <!--         DO YOUT THING -->
 
@@ -224,33 +337,32 @@ See authors.md for a list of all members.
 
 
       created: function() {
-    console.log(this.localName + '#' + this.id + ' was created');
-  },
+        console.log(this.localName + '#' + this.id + ' was created');
+      },
 
-  attached: function() {
-    this.async(function() {
-      console.log(this.localName + '#' + this.id + ' was attached');
-      //this.selected = 1;
-      this._configChanged();
-      this._dataChanged();
-   });
+      attached: function() {
+        this.async(function() {
+        console.log(this.localName + '#' + this.id + ' was attached');
+        //this.selected = 1;
+        this._configChanged();
+        this._dataChanged();
+      });
 
         this.entryAnimation = 'slide-from-right-animation';
         this.exitAnimation = 'slide-left-animation';
+      },
 
 
-  },
+      detached: function() {
+        this.async(function() {
+          console.log(this.localName + '#' + this.id + ' was detached');
+       });
+      },
 
-  detached: function() {
-    this.async(function() {
-      console.log(this.localName + '#' + this.id + ' was detached');
-   });
-  },
-
-  attributeChanged: function(name, type) {
-    console.log(this.localName + '#' + this.id + ' attribute ' + name +
-      ' was changed to ' + this.getAttribute(name));
-  },
+      attributeChanged: function(name, type) {
+        console.log(this.localName + '#' + this.id + ' attribute ' + name +
+          ' was changed to ' + this.getAttribute(name));
+      },
 
       _showData: function(){
         this.editvalues =! this.editvalues;
@@ -289,18 +401,7 @@ See authors.md for a list of all members.
         this.editmode = !this.editmode;
       },
 
-      toggleAvatarbtns: function(){
 
-        console.log("Visible of the avatarbtns?", this.avatarbtnsvisible);
-        this.avatarbtnsvisible =! this.avatarbtnsvisible;
-
-          if (this.avatarbtnsvisible) {
-            this.customStyle['--zoom-items-visible'] = 'visible';
-          } else {
-            this.customStyle['--zoom-items-visible'] = 'hidden';
-          };
-            this.updateStyles(); 
-      },
 
       editListener: function(){
           console.log("Opened !!!!");

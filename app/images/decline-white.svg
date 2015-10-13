@@ -2,7 +2,7 @@
 <!-- Generator: Adobe Illustrator 16.0.4, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
 <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
 <svg version="1.1" id="Laag_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
-	 width="20px" height="20px" viewBox="0 0 20 20" enable-background="new 0 0 20 20" xml:space="preserve">
-<rect x="8.808" y="4.966" transform="matrix(-0.707 -0.7072 0.7072 -0.707 9.0943 26.3244)" fill="#FFFFFF" width="2.385" height="12.625"/>
-<rect x="8.807" y="4.965" transform="matrix(-0.7072 0.707 -0.707 -0.7072 25.0456 12.1836)" fill="#FFFFFF" width="2.385" height="12.625"/>
+	 width="40px" height="40px" viewBox="0 0 40 40" enable-background="new 0 0 40 40" xml:space="preserve">
+<line fill="none" stroke="#FFFFFF" stroke-width="2" stroke-miterlimit="10" x1="13.549" y1="14.878" x2="26.455" y2="27.679"/>
+<line fill="none" stroke="#FFFFFF" stroke-width="2" stroke-miterlimit="10" x1="13.602" y1="27.731" x2="26.402" y2="14.825"/>
 </svg>

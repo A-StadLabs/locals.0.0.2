@@ -108,32 +108,28 @@ peerd.title = "VERIFY";
       },
 
       _datachanged: function(){
+        console.log("PEERVALIDATION: ", this.objectdata, " LENGTH: ", this.objectdata.length);
+        console.log("PARSED: ", JSON.parse(this.objectdata));
+        this.objectdatajson = JSON.parse(this.objectdata);
+
         this.objectdata_new = [];
-      var objectdata_new = this.objectsdata_new;
-      var p = this.objectdata;
-      for (var key in p) {
+        var objectdata_new = this.objectdata_new;
+        var p = this.objectdatajson;
 
-        console.log(key + " -> " + p[key]);
-        console.log(p[key].name);
-
-        // if (p.hasOwnProperty(key)) {
-        //   //console.log(key + " -> " + p[key]);
-        //   //console.log(p[key].name);
-        //   this.push('objectsdata_new', { 
-        //     array: {objectname: p[key].name, 
-        //     objectconfig: p[key].config,
-        //     objectdata: p[key].data,
-        //     objectpeers: p[key].peers,
-        //     objectcomponent: p[key].component,
-        //     objecthash: hasher(p[key].data) }
-        //   });
-          
-        //   //console.log('New objectsdata: ', objectsdata_new);
-        // }
+        for (var key in p) {
+        if (p.hasOwnProperty(key)) {
+          console.log(key + " -> " + p[key]);
+          //console.log(p[key].name);
+          this.push('objectdata_new', { key: p[key], content: p[key].name });
+          console.log('New objectsdata: ', objectdata_new);
+        }
       };
+
+
+      
       //this.customStyle['--objectscollection-width'] = 280*this.objectsdata_new.length.toString()+"px";
       //this.updateStyles();
-      //this.objectsdata_new = objectdata_new;
+      this.objectdata_new = objectdata_new;
       }
     });
   })();

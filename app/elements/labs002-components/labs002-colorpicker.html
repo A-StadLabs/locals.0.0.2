@@ -15,24 +15,34 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
   <style>
     :host {
       display: block;
-    }
-iron-selector {
-      height: 100%;
-}
-      .colorpicker {
       width: 100%;
       height: 100%;
-      }
+    }
 
 
-      .iron-selected {
+    .colorpicker {
+      background-color: transparent;
+      width: 100%;
+      height: 100%;
+      @apply(--layout-vertical);
+      @apply(--layout-center);
+
+    }
+/*    iron-selector {
+      width: 100%;
+      height: 100%;
+    }*/
+    
+
+
+    .iron-selected {
       border-bottom: 1px solid black;
-      }
+    }
 
-      .coloritem {
+    .coloritem {
       width: 20px;
       height: 20px;
-      }
+    }
 
     .fillgreen {
       fill: var(--primary-green);
@@ -58,10 +68,7 @@ iron-selector {
 
   </style>
   <template>
-
-
-      <div class="colorpicker layout horizontal center-center">
-
+<div class="colorpicker">
        <iron-selector id="colorpicker" selected="{{colorselected}}" attr-for-selected="color">
 
 <!--             <div class="coloritem green" color="green">

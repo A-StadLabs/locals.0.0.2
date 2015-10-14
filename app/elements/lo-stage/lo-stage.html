@@ -23,6 +23,7 @@ See authors.md for a list of all members.
 <link rel="import" href="../lo-dialog/lo-dialog.html">
 <link rel="import" href="../lo-godfather/lo-godfather.html">
 <link rel="import" href="../lo-renderer/lo-renderer.html">
+<link rel="import" href="../lo-peervalidation/lo-peervalidation.html">
 
 <dom-module id="lo-stage">
 <style>
@@ -220,6 +221,13 @@ See authors.md for a list of all members.
     </div>
   </neon-animatable>
 
+  <!-- Stage 7: Bevestigen / declinen van een validatie request van de peer -->
+  <neon-animatable>
+    <div class="canvas">
+      <lo-peervalidation></lo-peervalidation>
+    </div>
+  </neon-animatable>
+
 </neon-animated-pages>
 
 </template>
@@ -303,8 +311,6 @@ See authors.md for a list of all members.
      _publickey: function(){
 
      },
-
-     
 
       ready: function(){
 
@@ -592,7 +598,7 @@ See authors.md for a list of all members.
               dialog.userid = commandarray[5];
               dialog.objectconfig = commandarray[3];
               dialog.hash = commandarray[6];
-              this.selected = 4;
+              this.selected = 7;
               //app.openDialog("Wil je deze dataset van Kristien valideren?");
             break;
 

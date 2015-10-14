@@ -195,16 +195,7 @@ See authors.md for a list of all members.
       var that = this;
 
       
-      this.addEventListener('add-getuige', function(e){
-        this.fire('qr-reader', { 
-          command: "VERIFY", 
-          objectname: e.detail.objectname, 
-          objectconfig: e.detail.objectconfig, 
-          objectdata: e.detail.objectdata,
-          publickey: e.detail.publickey,
-          hash: e.detail.hash
-        });
-      });
+  
 
       
 

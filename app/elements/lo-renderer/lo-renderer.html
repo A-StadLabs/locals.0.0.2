@@ -318,6 +318,7 @@ See authors.md for a list of all members.
       this.exitAnimation = 'slide-left-animation';
 
       this.addEventListener('new-peer', function(){
+
         this.validate();
       });
 
@@ -390,7 +391,6 @@ See authors.md for a list of all members.
     },
 
     validate: function(){
-      //console.log("ask for validation");
       this.fire('add-getuige', { objectname: this.objectname, objectconfig: JSON.stringify(this.objectconfig), objectdata: JSON.stringify(this.objectdata), userid: this.publickey, hash: this.hash });
     },
 

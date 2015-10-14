@@ -226,7 +226,7 @@ See authors.md for a list of all members.
   <!-- Stage 7: Bevestigen / declinen van een validatie request van de peer -->
   <neon-animatable>
     <div class="canvas">
-      <lo-peervalidation></lo-peervalidation>
+      <lo-peervalidation id="peerval"></lo-peervalidation>
     </div>
   </neon-animatable>
 
@@ -408,6 +408,18 @@ See authors.md for a list of all members.
           that._qrreader(e);
         });
 
+        this.addEventListener('add-getuige', function(e){
+          console.log("Peer listener activated in lo-objectscollection");
+          this.fire('qr-reader', { 
+            command: "VERIFY", 
+            objectname: e.detail.objectname, 
+            objectconfig: e.detail.objectconfig, 
+            objectdata: e.detail.objectdata,
+            publickey: e.detail.publickey,
+            hash: e.detail.hash
+          });
+    });
+
       },
 
       attached: function(){
@@ -424,7 +436,7 @@ See authors.md for a list of all members.
 
       _qrreader: function(e){
 
-        
+        var lomqtt = this.$.lomqtt;
 
         //console.log(e);
 
@@ -516,6 +528,7 @@ See authors.md for a list of all members.
         // var hash = e.detail.detail[6].hash;
 
         var dialog = this.$.lodialog;
+        var peerd = this.$.peerval;
 
         if(command){
           switch(command){
@@ -591,15 +604,15 @@ See authors.md for a list of all members.
 
               // Another user wants a dataset verified by this user
               console.log("sync request", commandarray);
-              dialog.title = "VERIFY";
-              dialog.body = "Wil je getuige zijn van deze dataset?";
-              dialog.command = command;
-              dialog.partner = partner;
-              dialog.objectname = commandarray[2];
-              dialog.objectdata = commandarray[4];
-              dialog.userid = commandarray[5];
-              dialog.objectconfig = commandarray[3];
-              dialog.hash = commandarray[6];
+              peerd.title = "VERIFY";
+              peerd.body = "Wil je getuige zijn van deze dataset?";
+              peerd.command = command;
+              peerd.partner = partner;
+              peerd.objectname = commandarray[2];
+              peerd.objectdata = commandarray[4];
+              peerd.userid = commandarray[5];
+              peerd.objectconfig = commandarray[3];
+              peerd.hash = commandarray[6];
               this.selected = 7;
               //app.openDialog("Wil je deze dataset van Kristien valideren?");
             break;

@@ -85,9 +85,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       <div class="addpeerbar">
         <button class="backbtn" on-tap="back">back</button>
         <span class="flex"></span>
-        <button class="mainbtn" on-tap="newpeer">
-          <img src="../../images/plus.svg">
-          <img src="../../images/accept.svg">
+        <button class="backbtn" on-tap="newpeer">
+          <!-- <img src="../../images/plus.svg">
+          <img src="../../images/accept.svg"> -->
+          +++
         </button>
       </div>
 <!--         <p>{{peers.length}}</p> -->
@@ -121,6 +122,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
     newpeer: function(){
       this.fire("new-peer");
+      //this.fire("add-getuige");
     },
 
     _peersLog:function(){

@@ -37,9 +37,8 @@ See authors.md for a list of all members.
       --this-shoescolor: var(--primary-purple);
       --this-bodycolor: var(--primary-lightblue);
 
-      --avatar-width: 190px;
-      --avatar-height: 340px;
-
+      --object-width: 190px;
+      --object-height: 340px;
 
       width: 100%;
       height: 100%;
@@ -56,8 +55,8 @@ See authors.md for a list of all members.
     }
 
      .avatarparts {
-      width: var(--avatar-width);
-      height: var(--avatar-height);
+      width: var(--object-width);
+      height: var(--object-height);
       margin: 0px;
       padding: 0px;
     }
@@ -94,43 +93,55 @@ See authors.md for a list of all members.
     .visualcontainer {
       width: 100%;
       height: 100%;
-      background-color: yellow;
+      background-color: transparent;
       @apply(--layout-horizontal);
       @apply(--layout-center-center);      
     }
 
     .visualbtns {
-      height: var(--avatar-height);
-      margin: 0px;
-      padding: 0px;
-      width: 40px;
-      border: 1px solid black; 
+      width: 20%;
+      height: var(--object-height);
+      @apply(--layout-vertical);
     }
 
-    .selector {
+    .leftbtns {
       @apply(--layout-horizontal);
       @apply(--layout-center);
-      width: 100%;
+      @apply(--layout-end-justified);
+    }
+
+    .rightbtns {
+      @apply(--layout-horizontal);
+      @apply(--layout-center);
+      @apply(--layout-start-justified);
     }
 
     .selector button {
       outline: 0;
       border: none;
       background-color: rgba(0,0,0,0.05);
-      width: 26px;
-      height: 26px;
-      border-radius: 13px;
-      @apply(--layout-horizontal);
-      @apply(--layout-center-center);
+
+      width: 28px;
+
+      height: 28px;
+
+      border-radius: 50%;
       padding: 0px;
       margin: 0px;
-/*      border: 1px solid red;*/
     }
+
+
+    .selector img {
+      width: 100%;
+    }
+
 
 
 
     #selectsnit {
       height: 35%;
+      @apply(--layout-horizontal);
+      @apply(--layout-center);      
     }
 
     #selectglasses {
@@ -435,37 +446,37 @@ See authors.md for a list of all members.
         <!-- VOLLEDIGE PEUP -->
 
           <!-- PEUP // 1e rij knopjes -->
-          <div class="layout vertical visualbtns">
+          <div class="visualbtns leftbtns">
             <iron-selector id="editselected" selected="{{itemtocolor}}" attr-for-selected="name">
 
               <div id="selectsnit" class="selector"  name="snit">
                 <button on-tap="_PrevSnit">
-                  <img src="arrow_left.svg">
+                  <img src="../../images/arrow_left.svg">
                 </button>
               </div>
               <div id="selectglasses" class="selector" name="glasses">
                 <button on-tap="_PrevGlasses">
-                  <img src="arrow_left.svg">
+                  <img src="../../images/arrow_left.svg">
                 </button>
               </div>
               <div id="selectbeard" class="selector" name="beard">
                 <button on-tap="_PrevBeard">
-                  <img src="arrow_left.svg">
+                  <img src="../../images/arrow_left.svg">
                 </button>
               </div>
               <div id="selecttop" class="selector" name="top">
                 <button on-tap="_PrevTop">
-                  <img src="arrow_left.svg">
+                  <img src="../../images/arrow_left.svg">
                 </button>
               </div>
               <div id="selectbottom" class="selector" name="bottom">
                 <button on-tap="_PrevBottom">
-                  <img src="arrow_left.svg">
+                  <img src="../../images/arrow_left.svg">
                 </button>
               </div>
               <div id="selectshoes" class="selector" name="shoes">
                 <button on-tap="_PrevShoes">
-                  <img src="arrow_left.svg">
+                  <img src="../../images/arrow_left.svg">
                 </button>
               </div>
             </iron-selector>
@@ -473,6 +484,8 @@ See authors.md for a list of all members.
 
 
           <!-- PEUP // parts -->
+          <div class="avatarparts">
+
           <div class="snit fixit avatarparts">
             <labs002-avatar-snitpages 
               selected="{{avatarSnit}}" 
@@ -554,7 +567,7 @@ See authors.md for a list of all members.
             </labs002-avatar-bodypages>
           </div>
 
-          <div class="avatarparts"></div>
+          </div>
       
         <!-- FIXED PEUP // btns -->
 <!--         <div class="avatarbtns layout vertical">
@@ -568,37 +581,37 @@ See authors.md for a list of all members.
 
 
           <!-- PEUP // 2e rij knopjes -->
-          <div class="layout vertical visualbtns">
+          <div class="visualbtns rightbtns">
             <iron-selector id="editselected" selected="{{itemtocolor}}" attr-for-selected="name">
 
               <div id="selectsnit" class="selector"  name="snit">
                 <button on-tap="_NextSnit">
-                  <img src="arrow_right.svg">
+                  <img src="../../images/arrow_right.svg">
                 </button>
               </div>
               <div id="selectglasses" class="selector" name="glasses">
                 <button on-tap="_NextGlasses">
-                  <img src="arrow_right.svg">
+                  <img src="../../images/arrow_right.svg">
                 </button>
               </div>
               <div id="selectbeard" class="selector" name="beard">
                 <button on-tap="_NextBeard">
-                  <img src="arrow_right.svg">
+                  <img src="../../images/arrow_right.svg">
                 </button>
               </div>
               <div id="selecttop" class="selector" name="top">
                 <button on-tap="_NextTop">
-                  <img src="arrow_right.svg">
+                  <img src="../../images/arrow_right.svg">
                 </button>
               </div>
               <div id="selectbottom" class="selector" name="bottom">
                 <button on-tap="_NextBottom">
-                  <img src="arrow_right.svg">
+                  <img src="../../images/arrow_right.svg">
                 </button>
               </div>
               <div id="selectshoes" class="selector" name="shoes">
                 <button on-tap="_NextShoes">
-                  <img src="arrow_right.svg">
+                  <img src="../../images/arrow_right.svg">
                 </button>
               </div>
 

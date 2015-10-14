@@ -3,10 +3,10 @@
 <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
 <svg version="1.1" id="Laag_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
 	 width="50px" height="50px" viewBox="0 0 50 50" enable-background="new 0 0 50 50" xml:space="preserve">
-<rect x="34.696" y="18.691" transform="matrix(-0.7072 -0.707 0.707 -0.7072 43.2669 69.6138)" fill="#010202" width="2.704" height="14.313"/>
-<rect x="27.829" y="23.325" transform="matrix(0.7075 -0.7067 0.7067 0.7075 -11.2572 28.8157)" fill="#010202" width="2.703" height="9.362"/>
-<rect x="13.016" y="17.69" width="11.788" height="1.648"/>
-<rect x="13.016" y="18.843" width="1.648" height="12.257"/>
-<rect x="24.366" y="17.691" width="1.648" height="3.504"/>
-<rect x="13.016" y="30.663" width="12.998" height="1.647"/>
+<rect x="32.035" y="20.24" transform="matrix(-0.7069 -0.7073 0.7073 -0.7069 37.6886 70.0095)" fill="#010202" width="2.629" height="13.912"/>
+<rect x="25.363" y="24.743" transform="matrix(0.7071 -0.7071 0.7071 0.7071 -12.9008 27.4436)" fill="#010202" width="2.628" height="9.103"/>
+<rect x="15.28" y="19.396" width="12.465" height="1.583"/>
+<rect x="15.28" y="20.505" width="1.583" height="11.773"/>
+<rect x="27.327" y="19.398" width="1.583" height="5.653"/>
+<rect x="15.28" y="31.861" width="7.748" height="1.581"/>
 </svg>

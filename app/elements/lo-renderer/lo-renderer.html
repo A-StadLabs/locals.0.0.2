@@ -378,15 +378,16 @@ See authors.md for a list of all members.
 
     toValues: function(){
       var object = document.getElementById(this.objectname);
-      object.selected = 2;
+      object.selected = 1;
       this.opened = true;
       // this.selected = 1;
     },
 
     toVisual: function(){
       var object = document.getElementById(this.objectname);
-      object.selected = 1;
+      //object.selected = 1;
       this.opened = true;
+      object.edit = true;
     },
 
     toPeerlist: function(){
@@ -407,6 +408,7 @@ See authors.md for a list of all members.
       var object = document.getElementById(this.objectname);
       object.opened = true;
       this.opened = true;
+
       this.activ = false;
     },
 
@@ -416,7 +418,7 @@ See authors.md for a list of all members.
       object.opened = false;
       this.opened = false;
       this.activ = true;
-
+      object.edit = false;
       this._dataset();
 
     },
@@ -432,6 +434,7 @@ See authors.md for a list of all members.
       this.opened = false;
       this.activ = true;
       object.selected = 0;
+      object.edit = false;
     },
 
 

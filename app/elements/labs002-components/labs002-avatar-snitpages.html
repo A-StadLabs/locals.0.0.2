@@ -9,7 +9,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 -->
 
 <link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/neon-animation/neon-animation.html">
+<link rel="import" href="../../bower_components/neon-animation/neon-animations.html">
 
+<link rel="import" href="../../bower_components/neon-animation/neon-animatable.html">
 
 <dom-module id="labs002-avatar-snitpages">
   <style>
@@ -225,7 +228,9 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
       properties: {
         selected: {
-          type: Number
+          type: Number,
+          notify: true,
+          observer: "_selected"
         },
 
         color: {
@@ -263,6 +268,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
       this.customStyle['--this-snitcolor'] = this.color;
       this.updateStyles(); 
+      },
+
+      _selected: function(){
+        console.log("SNIT CHANGED" ,this.selected);
       }
 
 

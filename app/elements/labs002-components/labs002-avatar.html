@@ -358,6 +358,7 @@ See authors.md for a list of all members.
          <div class="avatarparts">
           <div class="snit fixit avatarparts">
             <labs002-avatar-snitpages 
+              id="snit"
               selected="{{avatarSnit}}" 
               color="{{avatarSnitColor}}" 
               SnitEntry="{{SnitEntry}}" 
@@ -367,6 +368,7 @@ See authors.md for a list of all members.
      
           <div class="glasses fixit avatarparts">
             <labs002-avatar-glassespages 
+              id="glasses"
               selected="{{avatarGlasses}}" 
               color="{{avatarGlassesColor}}" 
               entryAnimation="{{entrySnit}}" 
@@ -376,6 +378,7 @@ See authors.md for a list of all members.
 
           <div class="face fixit avatarparts">
             <labs002-avatar-facepages 
+              id="face"
               selected="{{avatarFace}}" 
               color="{{avatarFaceColor}}" 
               entryAnimation="{{entrySnit}}" 
@@ -385,6 +388,7 @@ See authors.md for a list of all members.
 
           <div class="beard fixit avatarparts">
             <labs002-avatar-beardpages 
+              id="beard"
               selected="{{avatarBeard}}" 
               color="{{avatarBeardColor}}" 
               BeardEntry="{{BeardEntry}}" 
@@ -394,6 +398,7 @@ See authors.md for a list of all members.
 
           <div class="head fixit avatarparts">
             <labs002-avatar-headpages 
+              id="head"
               selected="{{avatarHead}}" 
               color="{{avatarBodyColor}}" 
               entryAnimation="{{entrySnit}}" 
@@ -403,6 +408,7 @@ See authors.md for a list of all members.
 
           <div class="top fixit avatarparts">
             <labs002-avatar-toppages 
+              id="top"
               selected="{{avatarTop}}" 
               color="{{avatarTopColor}}" 
               entryAnimation="{{entrySnit}}" 
@@ -412,6 +418,7 @@ See authors.md for a list of all members.
 
           <div class="bottom fixit avatarparts">
             <labs002-avatar-bottompages 
+              id="bottom"
               selected="{{avatarBottom}}" 
               color="{{avatarBottomColor}}" 
               entryAnimation="{{entrySnit}}" 
@@ -421,6 +428,7 @@ See authors.md for a list of all members.
 
           <div class="shoes fixit avatarparts">
             <labs002-avatar-shoespages 
+              id="shoes"
               selected="{{avatarShoes}}" 
               color="{{avatarShoesColor}}" 
               entryAnimation="{{entrySnit}}" 
@@ -430,6 +438,7 @@ See authors.md for a list of all members.
 
           <div class="body fixit avatarparts">
             <labs002-avatar-bodypages 
+              id="body"
               selected="{{avatarBody}}" 
               color="{{avatarBodyColor}}" 
               entryAnimation="{{entrySnit}}" 
@@ -462,7 +471,7 @@ See authors.md for a list of all members.
         </template> -->
 
           <labs002-colorpicker
-            colorselected="{{avatarBodyColor}}">
+            colorselected="{{selectedcolor}}">
           </labs-colorpicker>
 
         </div>
@@ -471,34 +480,34 @@ See authors.md for a list of all members.
         <div class="visualwithbtns">
           <!-- PEUP // 1e rij knopjes -->
           <div class="visualbtns leftbtns">
-            <iron-selector id="editselected" selected="{{itemtocolor}}" attr-for-selected="name">
+            <iron-selector id="editselected" selected="{{selecteditem}}" attr-for-selected="name">
 
-              <div id="selectsnit" class="selector" name="avatarSnitColor">
+              <div id="selectsnit" class="selector" name="snit">
                 <button on-tap="_PrevSnit">
                   <img src="../../images/arrow_left.svg">
                 </button>
               </div>
-              <div id="selectglasses" class="selector" name="avatarGlassesColor">
+              <div id="selectglasses" class="selector" name="glasses">
                 <button on-tap="_PrevGlasses">
                   <img src="../../images/arrow_left.svg">
                 </button>
               </div>
-              <div id="selectbeard" class="selector" name="avatarBeardColor">
+              <div id="selectbeard" class="selector" name="beard">
                 <button on-tap="_PrevBeard">
                   <img src="../../images/arrow_left.svg">
                 </button>
               </div>
-              <div id="selecttop" class="selector" name="avatarTopColor">
+              <div id="selecttop" class="selector" name="top">
                 <button on-tap="_PrevTop">
                   <img src="../../images/arrow_left.svg">
                 </button>
               </div>
-              <div id="selectbottom" class="selector" name="avatarBottomColor">
+              <div id="selectbottom" class="selector" name="bottom">
                 <button on-tap="_PrevBottom">
                   <img src="../../images/arrow_left.svg">
                 </button>
               </div>
-              <div id="selectshoes" class="selector" name="avatarShoesColor">
+              <div id="selectshoes" class="selector" name="shoes">
                 <button on-tap="_PrevShoes">
                   <img src="../../images/arrow_left.svg">
                 </button>
@@ -512,6 +521,7 @@ See authors.md for a list of all members.
 
           <div class="snit fixit avatarparts">
             <labs002-avatar-snitpages 
+              id="snit"
               selected="{{avatarSnit}}" 
               color="{{avatarSnitColor}}" 
               entryAnimation="{{entrySnit}}" 
@@ -521,6 +531,7 @@ See authors.md for a list of all members.
      
           <div class="glasses fixit avatarparts">
             <labs002-avatar-glassespages 
+              id="glasses"
               selected="{{avatarGlasses}}" 
               color="{{avatarGlassesColor}}" 
               entryAnimation="{{entrySnit}}" 
@@ -530,6 +541,7 @@ See authors.md for a list of all members.
 
           <div class="face fixit avatarparts">
             <labs002-avatar-facepages 
+              id="face"
               selected="{{avatarFace}}" 
               color="{{avatarFaceColor}}" 
               entryAnimation="{{entrySnit}}" 
@@ -539,6 +551,7 @@ See authors.md for a list of all members.
 
           <div class="beard fixit avatarparts">
             <labs002-avatar-beardpages 
+              id="beard"
               selected="{{avatarBeard}}" 
               color="{{avatarBeardColor}}" 
               entryAnimation="{{entrySnit}}" 
@@ -548,6 +561,7 @@ See authors.md for a list of all members.
 
           <div class="head fixit avatarparts">
             <labs002-avatar-headpages 
+              id="head"
               selected="{{avatarHead}}" 
               color="{{avatarBodyColor}}" 
               entryAnimation="{{entrySnit}}" 
@@ -557,6 +571,7 @@ See authors.md for a list of all members.
 
           <div class="top fixit avatarparts">
             <labs002-avatar-toppages 
+              id="top"
               selected="{{avatarTop}}" 
               color="{{avatarTopColor}}" 
               entryAnimation="{{entrySnit}}" 
@@ -566,6 +581,7 @@ See authors.md for a list of all members.
 
           <div class="bottom fixit avatarparts">
             <labs002-avatar-bottompages 
+              id="bottom"
               selected="{{avatarBottom}}" 
               color="{{avatarBottomColor}}" 
               entryAnimation="{{entrySnit}}" 
@@ -575,6 +591,7 @@ See authors.md for a list of all members.
 
           <div class="shoes fixit avatarparts">
             <labs002-avatar-shoespages 
+              id="shoes"
               selected="{{avatarShoes}}" 
               color="{{avatarShoesColor}}" 
               entryAnimation="{{entrySnit}}" 
@@ -584,6 +601,7 @@ See authors.md for a list of all members.
 
           <div class="body fixit avatarparts">
             <labs002-avatar-bodypages 
+              id="body"
               selected="{{avatarBody}}" 
               color="{{avatarBodyColor}}" 
               entryAnimation="{{entrySnit}}" 
@@ -595,34 +613,34 @@ See authors.md for a list of all members.
       
           <!-- PEUP // 2e rij knopjes -->
           <div class="visualbtns rightbtns">
-            <iron-selector id="editselected" selected="{{itemtocolor}}" attr-for-selected="name">
+            <iron-selector id="editselected" selected="{{selecteditem}}" attr-for-selected="name">
 
-              <div id="selectsnit" class="selector"  name="avatarSnitColor">
+              <div id="selectsnit" class="selector"  name="snit">
                 <button on-tap="_NextSnit">
                   <img src="../../images/arrow_right.svg">
                 </button>
               </div>
-              <div id="selectglasses" class="selector" name="avatarGlassesColor">
+              <div id="selectglasses" class="selector" name="glasses">
                 <button on-tap="_NextGlasses">
                   <img src="../../images/arrow_right.svg">
                 </button>
               </div>
-              <div id="selectbeard" class="selector" name="avatarBeardColor">
+              <div id="selectbeard" class="selector" name="beard">
                 <button on-tap="_NextBeard">
                   <img src="../../images/arrow_right.svg">
                 </button>
               </div>
-              <div id="selecttop" class="selector" name="avatarTopColor">
+              <div id="selecttop" class="selector" name="top">
                 <button on-tap="_NextTop">
                   <img src="../../images/arrow_right.svg">
                 </button>
               </div>
-              <div id="selectbottom" class="selector" name="avatarBottomColor">
+              <div id="selectbottom" class="selector" name="bottom">
                 <button on-tap="_NextBottom">
                   <img src="../../images/arrow_right.svg">
                 </button>
               </div>
-              <div id="selectshoes" class="selector" name="avatarShoesColor">
+              <div id="selectshoes" class="selector" name="shoes">
                 <button on-tap="_NextShoes">
                   <img src="../../images/arrow_right.svg">
                 </button>
@@ -630,10 +648,6 @@ See authors.md for a list of all members.
 
             </iron-selector>            
           </div>
-
-
- 
-
 
       </div>
      </div>
@@ -730,8 +744,7 @@ See authors.md for a list of all members.
       itemtocolor: {
         type: String,
         value: '',
-        notify: true,
-        observer: "_kleurChanged"        
+        observer: "_itemChanged"        
       },
 
       opened: {
@@ -745,11 +758,22 @@ See authors.md for a list of all members.
         value: false
       },
 
-      colorselected: {
+      selecteditem: {
         type: String,
-        observer: "_colorselectedChanged",
+        observer: "_selecteditem",
+        value: "body"
+      },
+
+      selectedcolor: {
+        type: String,
+        observer: "_selectedcolor"
       }
 
+
+      },
+
+      listeners: {
+        'tap': '_checkwhattap'
       },
 
 
@@ -758,7 +782,12 @@ See authors.md for a list of all members.
 
         console.log('avatar is ready');
         this.editmode = false;
+        this.itemtocolor = "body";
         //console.log('avatar conf: ', this.config.beard[0]);
+      },
+
+      _checkwhattap: function(e){
+        console.log("You tapped ", e.target);
       },
 
 
@@ -873,21 +902,30 @@ See authors.md for a list of all members.
         this.lastname = this.objectdata.lastname;
         this.birthdate = this.objectdata.birthdate;
         this.birthplace = this.objectdata.birthplace;
-
         //this.locked = this..locked;
       },
 
 
 
       toEdit: function(){
-
-
       },
 
 
 
-      _colorselectedChanged: function(){
-        console.log("DIT IS DE GESELECTEERDE KLEUR" , this.colorselected);
+      _selectedcolor: function(){
+        console.log("DIT IS DE GESELECTEERDE KLEUR" , this.selectedcolor);
+        if(this.objectconfig){
+          var item = this.selecteditem;
+          var color = this.selectedcolor;
+          this.objectconfig[item][1] = color;
+          var avataritem = document.getElementById(item);
+          avataritem.color = color;
+          //console.log("KAN DIT?",this.objectconfig[item][1]);
+        };
+      },
+
+      _selecteditem: function(){
+        console.log("DIT IS HET GESELECTEEERDE ITEM: ", this.selecteditem);
       },
 
 
@@ -926,12 +964,6 @@ See authors.md for a list of all members.
       //   console.log(this.itemtoColor);
       // },
       
-
-      _kleurChanged: function(){
-        console.log('Dit is dus nu het item dan:' , this.itemtocolor);
-      },
-
-
 
 
       /* Snit */

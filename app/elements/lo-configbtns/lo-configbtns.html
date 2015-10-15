@@ -16,7 +16,29 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       :host {
         display: block;
       }
+
+
+    .selector button {
+      outline: 0;
+      border: none;
+      background-color: rgba(0,0,0,0.05);
+
+      width: 28px;
+
+      height: 28px;
+
+      border-radius: 50%;
+      padding: 0px;
+      margin: 0px;
+    }
+
+    .selector img {
+      width: 100%;
+    }
+
+
     </style>
+    <div class="selector">
     <template is="dom-if" if="{{next}}">
       <button on-tap="next">
         <img src="../../images/arrow_right.svg">
@@ -28,7 +50,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       </button>
     </template>
 
-    <div></div>
+    </div>
   </template>
   <script>
   (function() {

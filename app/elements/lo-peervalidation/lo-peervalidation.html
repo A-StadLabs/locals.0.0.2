@@ -33,14 +33,59 @@ peerd.title = "VERIFY";
         padding: 25px;
         background-color: white;
       }
+
+      .confirmbtns {
+      background-color: transparent;
+      width: 100vw;
+      @apply(--layout-horizontal);
+      @apply(--layout-center-center);
+    }
+
+    .confirmbtns button {
+
+      width: 12vw;
+      min-width: 60px;
+      max-width: 80px;
+
+      height: 12vw;
+      min-height: 60px;
+      max-height: 80px;
+
+      border-radius: 50%;
+
+      margin: 0px 1px 0px 1px;
+      background-color: transparent;
+      background-color: rgba(0,0,0,0.05);
+      border: none;
+      outline: 0;
+      padding: 0px 15px 0px 15px;
+    }
+
+    .confirmbtns img {
+      width: 100%;
+    }
     </style>
     <div class="container">
-      <h1>Getuige worden van:</h1>
+      <h1>Klopt dit?</h1>
       <p>{{partner}}</p>
 
+      <h2>{{objectname}}</h2>
+
       <template is="dom-repeat" items="{{objectdata_new}}">
-        <div>kiki</div>
+        <div>{{item.key}}</div>
       </template>
+
+      <div class="confirmbtns">
+            
+        <button on-tap="cancel">
+          <img src="../../images/decline-white.svg">
+        </button>
+
+        <button on-tap="confirm">
+          <img src="../../images/accept-white.svg">
+        </button>
+
+      </div>
     </div>
   </template>
   <script>
@@ -94,14 +139,6 @@ peerd.title = "VERIFY";
         }
       },
 
-      cancel: function(){
-        this.fire('dialog-cancel');
-      },
-
-      confirm: function(){
-        this.fire('dialog-confirm', { command: this.command, partner: this.partner, objectname: this.objectname, userid: this.userid, hash: this.hash, objectdata: this.objectdata, objectconfig: this.objectconfig });
-      },
-
       _hash: function(){
           this.hash2 = hasher(this.objectdata);
           this._datachanged();
@@ -130,7 +167,20 @@ peerd.title = "VERIFY";
       //this.customStyle['--objectscollection-width'] = 280*this.objectsdata_new.length.toString()+"px";
       //this.updateStyles();
       this.objectdata_new = objectdata_new;
+      },
+
+      confirm: function(){
+        var stage = document.querySelector("lo-stage");
+        stage.confirmGodfather(this.partner, this.objectname, hasher(this.objectdata));
+      },
+
+      cancel: function(){
+
       }
+
+
+
+
     });
   })();
   </script>

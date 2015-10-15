@@ -139,6 +139,7 @@ See authors.md for a list of all members.
           hash="{{item.array.objecthash}}"
           width="{{item.array.width}}"
           height="{{item.array.height}}"
+          locked="{{item.array.locked}}"
           >
         </lo-preview>
 
@@ -251,7 +252,8 @@ See authors.md for a list of all members.
             objectdata: p[key].data,
             objectpeers: p[key].peers,
             objectcomponent: p[key].component,
-            objecthash: hasher(p[key].data) }
+            objecthash: hasher(p[key].data),
+            objectlocked: p[key].locked }
           });
           
           //console.log('New objectsdata: ', objectsdata_new);

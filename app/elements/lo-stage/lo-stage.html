@@ -170,7 +170,8 @@ See authors.md for a list of all members.
       hash="{{activehash}}"
       id="activeobject"
       activ
-      preview="false">
+      preview="false"
+      locked="{{activelocked}}">
     </lo-renderer> 
 
      
@@ -345,6 +346,7 @@ See authors.md for a list of all members.
           console.log(that.activecomponent);
           that.activepeers = that.localapi.collection[object].peers;
           that.activehash = that.localapi.collection[object].hash;
+          that.activelocked = that.localapi.collection[object].locked;
           that.$.activeobject._dataset();
 
           that.entryAnimation = e.detail.entry;
@@ -594,7 +596,7 @@ See authors.md for a list of all members.
               var objectname = commandarray[2];
               var userid = commandarray[5];
               this.localapi.collection[objectname].peers.push({ peer: userid });
-              this.localapi.collection[objectname].data.locked = true;
+              this.localapi.collection[objectname].locked = true;
               this.localapi.lastupdate = Date.now();
               this.$.localapielem.writeData();
               this.selected = 0;
@@ -697,6 +699,17 @@ See authors.md for a list of all members.
 
         this.localapi.collection[object.name] = object;
         this.$.localapielem.writeData();
+      },
+
+
+      confirmGodfather: function(partner, objectname, hash){
+        var lomqtt = this.$.lomqtt;
+        lomqtt.send("validate/"+partner, "VALIDATE"+"|"+this.publickey+"|"+objectname+"|"+null+"|"+null+"|"+this.publickey+"|"+hash, 2);
+            //loxmpp.sendgroupMessage(this.userid, userid2, objectname, hash);
+            console.log("dus ik push naar godfather array: ", partner, objectname, hash);
+            this.localapi.godfather.push({ "child": partner, "object": objectname, "hash": hash, "valid": true });
+            this.$.localapielem.writeData();
+            this.selected = 0;
       }
 
 

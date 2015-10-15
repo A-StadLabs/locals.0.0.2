@@ -267,6 +267,12 @@ See authors.md for a list of all members.
         value: 0,
         observer: '_swipy',
         notify: true
+    },
+
+    locked: {
+      type: Boolean,
+      value: false,
+      notify: true
     }
 
     },
@@ -343,6 +349,7 @@ See authors.md for a list of all members.
         elem.objectconfig = this.objectconfig;
         elem.objectdata = this.objectdata;
         elem.objectname = this.objectname;
+        elem.locked = this.locked;
         elem.objecthash = this.hash;
         elem.active = false;
         elem.opened = false;

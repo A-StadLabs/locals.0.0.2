@@ -39,6 +39,7 @@ See authors.md for a list of all members.
 
 <link rel="import" href="../../bower_components/neon-animation/neon-animatable.html"> -->
 <link rel="import" href="labs002-avatar-woonstpages.html">
+<link rel="import" href="../lo-configbtns/lo-configbtns.html">
 
 
 <dom-module id="labs002-woonst">
@@ -178,19 +179,23 @@ See authors.md for a list of all members.
 <!-- <h1>AVATAR</h1> -->
 <neon-animated-pages id="pages" selected="{{selected}}" entry-animation="{{entryAnimation}}" exit-animation="{{exitAnimation}}">
 
+<<<<<<< HEAD
 <!-- sectie 0 //   HIER BEGINT DE PREVIEW-SECTIE -->
 
+=======
+>>>>>>> origin/master
 
-
-<!-- sectie 1 //   HIER BEGINT DE VISUAL EDIT -->
+<!-- sectie 0 //   HIER BEGINT DE VISUAL EDIT -->
 
 
   <neon-animatable>
       <div class="visualcontainer">
 
         <!-- VOLLEDIGE WOONST -->
+        <template is="dom-if" if="{{edit}}">
+
         <div class="visualbtns leftbtns">
-          <iron-selector id="editselected" selected="{{itemtocolor}}" attr-for-selected="name">
+<!--           <iron-selector id="editselected" selected="{{itemtocolor}}" attr-for-selected="name">
 
             <div id="selectsnit" class="selector"  name="snit">
               <button on-tap="_PrevHouse">
@@ -198,20 +203,25 @@ See authors.md for a list of all members.
               </button>
             </div>
 
-          </iron-selector>
+          </iron-selector> -->
+
+          <lo-configbtns context="woonst" on-btn-tapped="previous"></lo-configbtns>
+
         </div>
 
-<!--         <div class="visual"> -->
+        </template>
+
+
           <div class="woonstparts">
               <labs002-avatar-woonstpages 
-              selected="{{woonstselected}}">
+              id="woonst">
               </labs002-avatar-woonstpages>
           </div>
-<!--         </div>
- -->
+
+        <template is="dom-if" if="{{edit}}">
 
         <div class="visualbtns rightbtns">
-          <iron-selector id="editselected" selected="{{itemtocolor}}" attr-for-selected="name">
+<!--           <iron-selector id="editselected" selected="{{itemtocolor}}" attr-for-selected="name">
 
             <div id="selectsnit" class="selector"  name="snit">
               <button on-tap="_NextHouse">
@@ -219,9 +229,10 @@ See authors.md for a list of all members.
               </button>
             </div>
 
-          </iron-selector>
+          </iron-selector> -->
+          <lo-configbtns context="woonst" on-btn-tapped="next" next></lo-configbtns>
         </div>
-
+        </template>
       </div>
 
   </neon-animatable>
@@ -230,7 +241,7 @@ See authors.md for a list of all members.
 
 
 
-  <!-- sectie 2 //   HIER BEGINT DE WAARDEN-SECTIE -->
+  <!-- sectie 1 //   HIER BEGINT DE WAARDEN-SECTIE -->
   <neon-animatable>
     <div class="canvas">
       <div class="valuescontainer">
@@ -302,6 +313,11 @@ See authors.md for a list of all members.
           notify: true
         },
 
+      edit: {
+        type: Boolean,
+        value: false
+      },
+
 
       editvalues: {
         type: Boolean,
@@ -319,10 +335,12 @@ See authors.md for a list of all members.
         observer: "editListener"
       },
 
-      woonstselected: {
-        type: Number,
-        observer: "_woonstselectedChanged"
-      }
+
+      selecteditem: {
+        type: String,
+        observer: "_selecteditem",
+        value: "woonst"
+      },
 
       },
 
@@ -382,7 +400,7 @@ See authors.md for a list of all members.
 
       _configChanged: function(){
         console.log('avatar conf changed: ', JSON.stringify(this.objectconfig));
-        this.woonstselected = this.objectconfig.gebouw[0];
+        this.$.woonst.selected = this.objectconfig.gebouw[0];
         this.straat = this.objectconfig.straat;
         this.nummer = this.objectconfig.nummer;
         this.postcode = this.objectconfig.postcode;
@@ -421,36 +439,80 @@ See authors.md for a list of all members.
           this.ToggleVisual();
       },
 
-      _NextHouse: function(){
-        this.entryWoonst = 'slide-from-right-animation';
-        this.exitWoonst = 'slide-left-animation';
+      // _NextHouse: function(){
+      //   this.entryWoonst = 'slide-from-right-animation';
+      //   this.exitWoonst = 'slide-left-animation';
 
-        console.log('nexxxxthouse');
-        this.woonstselected++;
-        console.log('nexxxxthouse', this.woonstselected);
+      //   console.log('nexxxxthouse');
+      //   this.woonstselected++;
+      //   console.log('nexxxxthouse', this.woonstselected);
 
-        },
+      //   },
 
-      _PrevHouse: function(){
-        console.log('prevvvvvhouse');
+      // _PrevHouse: function(){
+      //   console.log('prevvvvvhouse');
 
-        this.entryWoonst = 'slide-from-left-animation';
-        this.exitWoonst = 'slide-right-animation';
+      //   this.entryWoonst = 'slide-from-left-animation';
+      //   this.exitWoonst = 'slide-right-animation';
 
 
-        if (this.woonstselected >= 1) {
-        this.woonstselected--;
-        console.log('prevvvvvhouse', this.woonstselected);
+      //   if (this.woonstselected >= 1) {
+      //   this.woonstselected--;
+      //   console.log('prevvvvvhouse', this.woonstselected);
 
-        };
+      //   };
 
+      // },
+
+      // _woonstselectedChanged: function(){
+      //   this.objectconfig.gebouw[0] = this.woonstselected;
+      // },
+
+      _selecteditem: function(){
+        console.log("DIT IS HET GESELECTEEERDE ITEM: ", this.selecteditem);
       },
 
-      _woonstselectedChanged: function(){
-        this.objectconfig.gebouw[0] = this.woonstselected;
-      }
 
 
+
+
+
+      // LIEFSTE MICHAEL,
+      // IK HEB GEPROBEERD HIER OOK DIE PIJLTJES TE LATEN WERKEN
+      // ZOALS IN AVATAR. NIET HELEMAAL GELUKT, ZIE HIERONDER.
+      // IK DENK DAT HET ERAAN LIGT DAT HET HUISJE IN ZIJN CONFIG 'gebouw' KENT,
+      // IPV WOONST, ZOALS DE ID.
+      // DUS NU EVEN HARDCODED VERVANGEN.
+
+
+
+      previous: function(e){
+        // this.selecteditem = e.target.context;
+        // console.log("PREVIOUS ", this.selecteditem);
+        // var item = document.getElementById(this.selecteditem);
+        // console.log("current select is ", item.selected);
+        // console.log("Item is ", item);
+        //item.selected--;
+        console.log("CONFIG item is ", this.objectconfig.gebouw[0]);
+        this.objectconfig.gebouw[0]--;
+        // console.log("new select is", item.selected);
+        this._configChanged();
+      },
+
+      next: function(e){
+        // this.selecteditem = e.target.context;
+        // console.log("NEXT ", this.selecteditem);
+        // var item = document.getElementById(this.selecteditem);
+        // console.log("current select is ", item.selected);
+        // console.log("Item is ", item);
+
+        console.log("CONFIG item is ", this.objectconfig.gebouw[0]);
+        //item.selected++;
+        this.objectconfig.gebouw[0]++;
+        // console.log("new select is", item.selected);
+        console.log("NEW CONFIG item is ", this.objectconfig.gebouw[0]);
+        this._configChanged();
+      },
       
 
 
